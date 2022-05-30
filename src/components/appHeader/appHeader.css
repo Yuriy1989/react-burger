@@ -1,0 +1,62 @@
+.header {
+  max-width: 1920px;
+  height: 88px;
+  background-color: #1C1C21;
+  margin: 40px;
+}
+
+.header__nav {
+  padding: 16px 80px;  
+}
+
+.header__menu {
+  display: grid;
+  grid-template-areas:
+  "constructor list logo profile";
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.header-constructor {
+  grid-area: constructor;
+  justify-self: start;
+}
+
+.header-list {
+  grid-area: list;  
+  justify-self: start;
+}
+
+.header-logo {
+  grid-area: logo;  
+}
+
+.header-profile {
+  grid-area: profile;  
+  justify-self: end;
+}  
+
+.header__icon {
+  margin-right: 8px;  
+}
+
+.header__button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  color: #8585AD;  
+  border: 0;
+  padding: 0;  
+  margin: 0;
+  cursor: pointer;
+  min-width: 178px;
+  min-height: 56px;
+}
+
+.header__button_active {
+  color: #F2F2F3;  
+}
