@@ -11,23 +11,19 @@ export default function AppHeader() {
     <header className="header">
       <nav className="header__nav">
         <ul className="header__menu">
-          <li className="header-constructor">
+          <li>
             <button className="header__button text text_type_main-default header__button_active">
               <img src={iconConstructor} className="header__icon"/>Конструктор
             </button>
           </li>
-          <li className="header-list">
+          <li>
             <button className="header__button text text_type_main-default">
               <img src={list} className="header__icon"/>Лента заказов
             </button>
           </li>
-          <li className="header-logo">
-            <img src={logo} className="header-logo" alt="Маленький космический бургер"/>
-          </li>
-          <li className="header-profile">
-            <button className="header__button text text_type_main-default"><img src={profile} className="header__icon"></img>Личный кабинет</button>
-          </li>
         </ul>
+        <img src={logo} className="header__logo" alt="Маленький космический бургер"/>
+        <button className="header__profile header__button text text_type_main-default"><img src={profile} className="header__icon"></img>Личный кабинет</button> 
       </nav>
     </header>
   );

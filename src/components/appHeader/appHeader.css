@@ -6,37 +6,21 @@
 }
 
 .header__nav {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
   padding: 16px 80px;  
 }
 
 .header__menu {
-  display: grid;
-  grid-template-areas:
-  "constructor list logo profile";
-  gap: 8px;
+ display: grid;
+ grid-template-columns: repeat(2, 1fr);
+ gap: 8px;
+ justify-self: start;
   list-style: none;
   margin: 0;
   padding: 0;
 }
-
-.header-constructor {
-  grid-area: constructor;
-  justify-self: start;
-}
-
-.header-list {
-  grid-area: list;  
-  justify-self: start;
-}
-
-.header-logo {
-  grid-area: logo;  
-}
-
-.header-profile {
-  grid-area: profile;  
-  justify-self: end;
-}  
 
 .header__icon {
   margin-right: 8px;  
@@ -59,4 +43,12 @@
 
 .header__button_active {
   color: #F2F2F3;  
+}
+
+.header__logo {
+  justify-self: center;  
+}
+
+.header__profile {
+  justify-self: end;    
 }
