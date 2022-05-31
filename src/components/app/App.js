@@ -1,17 +1,19 @@
-import React, {useState} from 'react';
+import React from 'react';
 import AppHeader from '../appHeader/AppHeader';
+import BurgerIngredients from '../burgerConstructor/BurgerIngredients';
+import app from './app.module.css';
+import {data} from '../../utils/data.js';
 
-import './App.css';
-
-function App() {
-  const [current, setCurrent] = useState('one');
+export default function App() {
   return (
     <>
-      <main className="App">
+      <main className={app.app}>
         <AppHeader />
+          <div className={app.app__section}>
+            <BurgerIngredients data = {data}/>
+						<BurgerIngredients/>
+          </div>
       </main>
     </>
   );
 }
-
-export default App;

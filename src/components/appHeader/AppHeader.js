@@ -4,26 +4,26 @@ import iconConstructor from '../../images/iconConstructor.svg';
 import profile from '../../images/profile.svg';
 import list from '../../images/list.svg';
 import style from '@ya.praktikum/react-developer-burger-ui-components';
-import './appHeader.css';
+import appHeaderStyles from './appHeader.module.css';
 
 export default function AppHeader() {
   return (
-    <header className="header">
-      <nav className="header__nav">
-        <ul className="header__menu">
+    <header className={appHeaderStyles.header}>
+      <nav className={appHeaderStyles.header__nav}>
+        <ul className={appHeaderStyles.header__menu}>
           <li>
-            <button className="header__button text text_type_main-default header__button_active">
-              <img src={iconConstructor} className="header__icon"/>Конструктор
+            <button className={`${appHeaderStyles.header__button} ${appHeaderStyles.header__button_active} text text_type_main-default`}>
+              <img src={iconConstructor} className={appHeaderStyles.header__icon}/>Конструктор
             </button>
           </li>
           <li>
-            <button className="header__button text text_type_main-default">
-              <img src={list} className="header__icon"/>Лента заказов
+            <button className={`${appHeaderStyles.header__button} text text_type_main-default`}>
+              <img src={list} className={appHeaderStyles.header__icon}/>Лента заказов
             </button>
           </li>
         </ul>
-        <img src={logo} className="header__logo" alt="Маленький космический бургер"/>
-        <button className="header__profile header__button text text_type_main-default"><img src={profile} className="header__icon"></img>Личный кабинет</button> 
+        <img src={logo} className={appHeaderStyles.header__logo} alt="Маленький космический бургер"/>
+        <button className={` ${appHeaderStyles.header__profile} ${appHeaderStyles.header__button} text text_type_main-default`}><img src={profile} className={appHeaderStyles.header__icon}></img>Личный кабинет</button> 
       </nav>
     </header>
   );
