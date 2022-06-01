@@ -6,3 +6,11 @@
   margin-bottom: 20px;
 }
 
+.burgerIngredients__ingredient {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+}
+
+.burgerIngredients__item {
+	list-style: none;
+}

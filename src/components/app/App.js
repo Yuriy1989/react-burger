@@ -11,7 +11,7 @@ export default function App() {
         <AppHeader />
           <div className={app.app__section}>
             <BurgerIngredients data = {data}/>
-						<BurgerIngredients/>
+						{/* <BurgerIngredients data = {data}/> */}
           </div>
       </main>
     </>
