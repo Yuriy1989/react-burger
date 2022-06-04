@@ -2,14 +2,14 @@
   max-width: 1920px;
   height: 88px;
   background-color: #1C1C21;
-  margin: 40px;
+  margin-bottom: 40px;
 }
 
 .header__nav {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   align-items: center;
-  padding: 16px 80px;  
+  padding: 16px 80px;
 }
 
 .header__menu {
@@ -23,7 +23,7 @@
 }
 
 .header__icon {
-  margin-right: 8px;  
+  margin-right: 8px;
 }
 
 .header__button {
@@ -32,9 +32,9 @@
   justify-content: center;
   align-items: center;
   background: transparent;
-  color: #8585AD;  
+  color: #8585AD;
   border: 0;
-  padding: 0;  
+  padding: 0;
   margin: 0;
   cursor: pointer;
   min-width: 178px;
@@ -42,13 +42,13 @@
 }
 
 .header__button_active {
-  color: #F2F2F3;  
+  color: #F2F2F3;
 }
 
 .header__logo {
-  justify-self: center;  
+  justify-self: center;
 }
 
 .header__profile {
-  justify-self: end;    
+  justify-self: end;
 }

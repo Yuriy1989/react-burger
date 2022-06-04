@@ -8,7 +8,6 @@ export default function BurgerIngredients({ data }) {
 	console.log(hiddenElement);
 
 	const [current, setCurrent] = useState('bun');
-	// console.log(data);
 	return (
 		<>
 			<section className={burgerIngredients.burgerIngredients}>

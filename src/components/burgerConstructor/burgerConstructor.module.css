@@ -1,0 +1,63 @@
+.burgerConstructor {
+  max-width: 600px;
+  margin-top: 100px;
+  justify-self: start;
+}
+
+.burgerConstructor__ingredients {
+  max-height: calc(100vh - 566px);
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+}
+
+.burgerConstructor__ingredients::-webkit-scrollbar {
+  width: 8px;
+  height: 492px;
+}
+
+.burgerConstructor__ingredients::-webkit-scrollbar-track {
+  background-color: #2F2F37;
+}
+
+.burgerConstructor__ingredients::-webkit-scrollbar-thumb {
+  background-color: #8585AD;
+}
+
+.burgerConstructor__bun {
+  margin: 0 0 0 40px;
+}
+
+.burgerConstructor__list {
+  display: flex;
+  flex-direction: column;
+  padding-left: 2.5px;
+}
+
+.burgerConstructor__ingredient {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin-bottom: 16px;
+  margin-right: 8px;
+}
+
+.burgerConstructor__ingredient:last-child {
+  margin-bottom: 0;
+}
+
+.burgerConstructor__dragIcon {
+  padding-right: 13.5px;
+}
+
+.cellPrice{
+  margin: 0 41px 0 9px;
+}
+
+.buttonOrder {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  align-items: center;
+  margin: 40px 16px 0 0;
+}
