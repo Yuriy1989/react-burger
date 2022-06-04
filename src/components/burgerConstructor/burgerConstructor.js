@@ -5,7 +5,7 @@ import burgerConstructor from './burgerConstructor.module.css';
 export default function BurgerConstructor({ data }) {
   return (
     <section className={burgerConstructor.burgerConstructor} >
-      <div className={burgerConstructor.burgerConstructor__bun}>
+      <div className={burgerConstructor.bun}>
         <ConstructorElement
           type="top"
           isLocked={true}
@@ -14,11 +14,11 @@ export default function BurgerConstructor({ data }) {
           thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
         />
       </div>
-      <ul className={` ${burgerConstructor.burgerConstructor__list} ${burgerConstructor.burgerConstructor__ingredients} `}>
+      <ul className={` ${burgerConstructor.list} ${burgerConstructor.ingredients} `}>
         {
           data.filter(card => card.type == 'sauce' || card.type == 'main').map((item) => (
-            <li className={burgerConstructor.burgerConstructor__ingredient} key={item._id}>
-              <div className={burgerConstructor.burgerConstructor__dragIcon}>
+            <li className={burgerConstructor.ingredient} key={item._id}>
+              <div className={burgerConstructor.dragIcon}>
                 <DragIcon type="primary" />
               </div>
               <ConstructorElement
@@ -30,7 +30,7 @@ export default function BurgerConstructor({ data }) {
           ))
         }
       </ul>
-      <div className={burgerConstructor.burgerConstructor__bun}>
+      <div className={burgerConstructor.bun}>
         <ConstructorElement
           type="bottom"
           isLocked={true}

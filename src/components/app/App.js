@@ -7,14 +7,14 @@ import {data} from '../../utils/data.js';
 
 export default function App() {
   return (
-    <>
-      <main className={app.app}>
+    <main className={app.app}>
+      <div className={app.header}>
         <AppHeader />
-          <div className={app.section}>
-            <BurgerIngredients data = {data}/>
-						<BurgerConstructor data = {data}/>
-          </div>
-      </main>
-    </>
+      </div>
+      <div className={app.section}>
+        <BurgerIngredients data={data} />
+        <BurgerConstructor data={data} />
+      </div>
+    </main>
   );
 }

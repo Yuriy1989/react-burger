@@ -1,18 +1,16 @@
 .header {
-  max-width: 1920px;
-  height: 88px;
-  background-color: #1C1C21;
-  margin-bottom: 40px;
+  width: 1240px;
+  margin: 0 auto;
 }
 
-.header__nav {
+.navigation {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   align-items: center;
-  padding: 16px 80px;
+  padding: 16px 0;
 }
 
-.header__menu {
+.menu {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 8px;
@@ -22,14 +20,9 @@
   padding: 0;
 }
 
-.header__icon {
-  margin-right: 8px;
-}
-
-.header__button {
+.button {
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
   background: transparent;
   color: #8585AD;
@@ -41,14 +34,14 @@
   min-height: 56px;
 }
 
-.header__button_active {
+.button_active {
   color: #F2F2F3;
 }
 
-.header__logo {
+.logo {
   justify-self: center;
 }
 
-.header__profile {
+.profile {
   justify-self: end;
 }
