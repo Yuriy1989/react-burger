@@ -1,11 +1,11 @@
 .burgerConstructor {
   max-width: 600px;
-  margin-top: 100px;
+  margin-top: 60px;
   justify-self: start;
 }
 
 .ingredients {
-  max-height: calc(100vh - 566px);
+  max-height: calc(100vh - 526px);
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
