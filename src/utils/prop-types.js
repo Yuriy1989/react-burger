@@ -1,6 +1,7 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 
-export const ingredientPropType = PropsTypes.shape({
+export const ingredientPropType = PropTypes.shape({
   _id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   type: PropTypes.oneOf(["bun", "main", "sauce"]).isRequired,
@@ -12,18 +13,4 @@ export const ingredientPropType = PropsTypes.shape({
   image: PropTypes.string.isRequired,
   image_mobile: PropTypes.string.isRequired,
   image_large: PropTypes.string.isRequired,
-});
-
-export const defaultIngredientPropType = defaultProps.shape({
-  _id: 1,
-  name: "Хлеб",
-  type: PropTypes.oneOf(["bun"]).isRequired,
-  proteins: 100,
-  fat: 100,
-  carbohydrates: 100,
-  calories: 100,
-  price: 10,
-  image: "https://stella70.ru/wp-content/uploads/2019/09/Kak-bystro-i-vkusno-ispech-hleb-v-duhovke.jpg",
-  image_mobile: "https://stella70.ru/wp-content/uploads/2019/09/Kak-bystro-i-vkusno-ispech-hleb-v-duhovke.jpg",
-  image_large: "https://stella70.ru/wp-content/uploads/2019/09/Kak-bystro-i-vkusno-ispech-hleb-v-duhovke.jpg",
-});
+})
