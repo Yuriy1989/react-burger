@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import AppHeader from '../appHeader/AppHeader';
 import BurgerIngredients from '../burgerIngredients/BurgerIngredients';
-import BurgerConstructor from '../burgerConstructor/burgerConstructor';
+import BurgerConstructor from '../burgerConstructor/BurgerConstructor';
 import app from './app.module.css';
+import OrderDetails from '../orderDetails/OrderDetails';
 // import {data} from '../../utils/data.js';
 
 
@@ -32,8 +33,9 @@ export default function App() {
         <AppHeader />
       </div>
       <div className={app.section}>
-        <BurgerIngredients data={ingredients} />
-        <BurgerConstructor data={ingredients} />
+        <OrderDetails />
+        {/* <BurgerIngredients data={ingredients} /> */}
+        {/* <BurgerConstructor data={ingredients} /> */}
       </div>
     </main>
   );
