@@ -1,18 +1,14 @@
 @keyframes rotation {
   0% {
-    transform: rotate(0deg);
+    transform: scale(1);
+    filter: drop-shadow(0 4px 32px rgba(51, 51, 255, 1));
+  }
+  50% {
+    transform: scale(0.8);
   }
   100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes scale {
-  from {
     transform: scale(1);
-  }
-  to {
-    transform: scale(0.8);
+    filter: drop-shadow(0 4px 32px rgba(104, 104, 192, 0.5));
   }
 }
 
@@ -55,8 +51,7 @@
   margin: 0 100px 32px 100px;
   color:#F2F2F3;
   filter: drop-shadow(0 4px 32px rgba(51, 51, 255, 0.5));
-  /* filter: drop-shadow(0 0 8px rgba(51, 51, 255, 0.25)); */
-  /* filter: drop-shadow(0 0 16px rgba(51, 51, 255, 0.25)); */
+  padding: 0;
 }
 
 .textIdOrder {
@@ -74,7 +69,7 @@
   background-image: url("../../images/Vector_1.svg"), url("../../images/Vector_2.svg"), url("../../images/Vector_3.svg");
   background-repeat: no-repeat;
   background-position: center center;
-  animation: rotation 20s infinite linear alternate, scale 7s infinite linear alternate;
+  animation: rotation 20s infinite linear alternate;
 }
 
 .checkImage {
