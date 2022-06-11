@@ -6,11 +6,11 @@ import vector1 from '../../images/Vector_1.svg';
 import vector2 from '../../images/Vector_2.svg';
 import vector3 from '../../images/Vector_3.svg';
 
-export default function OrderDetails() {
+export default function OrderDetails({ onOverlayClick }) {
   return (
     <div className={orderDetails.modalContainer}>
       <div className={orderDetails.closeButton}>
-        <CloseIcon type="primary" />
+        <CloseIcon type="primary" onClick={onOverlayClick}/>
       </div>
       <p className={` ${orderDetails.numberOrder} text text_type_digits-large `}>034536</p>
       <p className={` ${orderDetails.textIdOrder} text text_type_main-medium `}>идентификатор заказа</p>

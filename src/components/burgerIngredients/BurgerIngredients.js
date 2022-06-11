@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import style, { Tab, Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredients from './burgerIngredients.module.css';
 
-export default function BurgerIngredients({ data }) {
+export default function BurgerIngredients({ data, onOpenModal }) {
 
   useEffect(() => {
     const smoothLinks = document.querySelectorAll('.noselect');
@@ -19,6 +19,8 @@ export default function BurgerIngredients({ data }) {
   }, [])
 
   const [current, setCurrent] = useState('bun');
+  const handleClick = () => onOpenModal(data);
+
   return (
     <section className={burgerIngredients.burgerIngredients}>
       <h2 className={` ${burgerIngredients.title} text text_type_main-large`}>Собери бургер</h2>
@@ -35,7 +37,7 @@ export default function BurgerIngredients({ data }) {
               <ul className={burgerIngredients.card} key={filteredType._id}>
                 <li className={burgerIngredients.item}>
                   <div className={burgerIngredients.counter}>
-                    <img className={burgerIngredients.image} src={filteredType.image}></img>
+                    <img onClick={handleClick} className={burgerIngredients.image} src={filteredType.image}></img>
                     <Counter count={1} size="default" />
                   </div>
                   <div className={burgerIngredients.price}>
@@ -54,7 +56,7 @@ export default function BurgerIngredients({ data }) {
             data.filter(card => card.type == 'sauce').map(filteredType => (
               <ul className={burgerIngredients.card} key={filteredType._id}>
                 <li className={burgerIngredients.item}>
-                  <img className={burgerIngredients.image} src={filteredType.image}></img>
+                  <img onClick={onOpenModal} className={burgerIngredients.image} src={filteredType.image}></img>
                   <div className={burgerIngredients.price}>
                     <p className={` ${burgerIngredients.cost} text text_type_digits-default`}>{filteredType.price}</p>
                     <CurrencyIcon type="primary" />
@@ -71,7 +73,7 @@ export default function BurgerIngredients({ data }) {
             data.filter(card => card.type == 'main').map(filteredType => (
               <ul className={burgerIngredients.card} key={filteredType._id}>
                 <li className={burgerIngredients.item}>
-                  <img className={burgerIngredients.image} src={filteredType.image}></img>
+                  <img onClick={onOpenModal} className={burgerIngredients.image} src={filteredType.image}></img>
                   <div className={burgerIngredients.price}>
                     <p className={` ${burgerIngredients.cost} text text_type_digits-default`}>{filteredType.price}</p>
                     <CurrencyIcon type="primary" />

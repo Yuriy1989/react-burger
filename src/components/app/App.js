@@ -4,17 +4,22 @@ import BurgerIngredients from '../burgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../burgerConstructor/BurgerConstructor';
 import app from './app.module.css';
 import OrderDetails from '../orderDetails/OrderDetails';
+import IngredientDetails from '../ingredientDetails/IngredientDetails';
 import Modal from '../modal/Modal';
 // import {data} from '../../utils/data.js';
 
 export default function App() {
 
-  // Булевый стейт для одной конкретной модалки
+  // Булевый стейт для открытия модалки "Счет на оплату"
   const [isOrderDetailsOpened, setIsOrderDetailsOpened] = useState(false);
+
+  // Булевый стейт для открытия модалки "Информация об ингредиенте"
+  const [isIngredientDetailsOpened, setIsIngredientDetailsOpened] = useState(false);
 
   // Закрытие модалок
   const closeAllModals = () => {
     setIsOrderDetailsOpened(false);
+    setIsIngredientDetailsOpened(false);
   };
 
   // Обработка нажатия Esc
@@ -22,9 +27,17 @@ export default function App() {
     event.key === "Escape" && closeAllModals();
   };
 
-  // Открытие модалок
-  const openModal = () => {
+  // Открытие модалки "Счет на оплату"
+  const handleOrderDetailsOpenModal = () => {
     setIsOrderDetailsOpened(true);
+  };
+
+  const [selectedIngredient, setselectedIngredient] = useState({});
+
+  // Открытие модалки "Информация об ингредиенте"
+  const handleIngredientDetailsOpenModal = (item) => {
+    setIsIngredientDetailsOpened(true);
+    setselectedIngredient(item);
   };
 
   const url = 'https://norma.nomoreparties.space/api/ingredients';
@@ -51,8 +64,8 @@ export default function App() {
           <AppHeader />
         </div>
         <div className={app.section}>
-          <BurgerIngredients data={ingredients} />
-          <BurgerConstructor data={ingredients} onOpenModal={openModal}/>
+          <BurgerIngredients data={ingredients} onOpenModal={handleIngredientDetailsOpenModal}/>
+          <BurgerConstructor data={ingredients} onOpenModal={handleOrderDetailsOpenModal}/>
         </div>
       </main>
 
@@ -61,7 +74,17 @@ export default function App() {
           onOverlayClick={closeAllModals}
           onEscKeydown={handleEscKeydown}
         >
-          <OrderDetails />
+          <OrderDetails onOverlayClick={closeAllModals}/>
+        </Modal>
+      }
+
+      {isIngredientDetailsOpened &&
+        <Modal
+          onOverlayClick={closeAllModals}
+          onEscKeydown={handleEscKeydown}
+          ingredient={selectedIngredient}
+        >
+          <IngredientDetails onOverlayClick={closeAllModals} />
         </Modal>
       }
     </>
