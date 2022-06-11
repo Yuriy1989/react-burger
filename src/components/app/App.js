@@ -84,7 +84,7 @@ export default function App() {
           onEscKeydown={handleEscKeydown}
           ingredient={selectedIngredient}
         >
-          <IngredientDetails onOverlayClick={closeAllModals} />
+          <IngredientDetails onOverlayClick={closeAllModals} ingredient={selectedIngredient} />
         </Modal>
       }
     </>

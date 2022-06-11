@@ -1,4 +1,4 @@
-.modalContainer {
+.ingredientDetails {
   background-color: #1C1C21;
   border-radius: 40px;
   margin: auto 0;
@@ -7,49 +7,59 @@
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  padding: 120px 0;
+  padding: 40px 0 60px 0;
   z-index: 3;
 }
 
-.closeButton {
-  position: absolute;
-  right: 43px;
-  top: 63px;
-  cursor: pointer;
+.headerDetails {
+  display: flex;
+  width: 640px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 0 40px;
 }
 
-.numberOrder {
-  margin: 0 100px 32px 100px;
+.headerText {
+  margin: 0;
   color:#F2F2F3;
-  filter: drop-shadow(0 4px 32px rgba(51, 51, 255, 0.5));
   padding: 0;
 }
 
-.textIdOrder {
-  color:#F2F2F3;
-  margin: 0 0 60px 0;
-}
-
-
-.loadImage {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 120px;
-  height: 120px;
-  background-image: url("../../images/Vector_1.svg"), url("../../images/Vector_2.svg"), url("../../images/Vector_3.svg");
-  background-repeat: no-repeat;
-  background-position: center center;
-}
-
-.checkImage {
-  position: absolute;
-  bottom: 280px;
+.closeButton {
   cursor: pointer;
 }
 
-.statusOrder {
-  color:#F2F2F3;
-  margin: 60px 0 8px 0;
+.image {
+  width: 480px;
+  height: 240px;
+  margin: 0 20px;
 }
 
+.name {
+  color:#F2F2F3;
+  margin: 16px 0 32px 0;
+}
+
+.items {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.item:nth-last-child(n+2) {
+  margin-right: 20px;
+}
+
+.count {
+  margin: 8px 0 0 0;
+}
