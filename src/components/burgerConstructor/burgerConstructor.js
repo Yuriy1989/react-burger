@@ -2,7 +2,7 @@ import React from "react";
 import style, { DragIcon, ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerConstructor from './burgerConstructor.module.css';
 
-export default function BurgerConstructor({ data }) {
+export default function BurgerConstructor({ data, onOpenModal }) {
   return (
     <section className={burgerConstructor.burgerConstructor} >
       <div className={burgerConstructor.bun}>
@@ -44,7 +44,7 @@ export default function BurgerConstructor({ data }) {
         <div className={burgerConstructor.cellPrice}>
           <CurrencyIcon type="primary" className="p-4" />
         </div>
-        <Button type="primary" size="large">
+        <Button onClick={onOpenModal} type="primary" size="large">
           Оформить заказ
         </Button>
       </div>
