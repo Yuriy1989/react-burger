@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
+import app from './app.module.css';
 import { api } from '../../utils/Api';
 import AppHeader from '../appHeader/AppHeader';
 import BurgerIngredients from '../burgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../burgerConstructor/BurgerConstructor';
-import app from './app.module.css';
 import OrderDetails from '../orderDetails/OrderDetails';
 import IngredientDetails from '../ingredientDetails/IngredientDetails';
 import Modal from '../modal/Modal';

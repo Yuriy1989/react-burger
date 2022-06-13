@@ -54,7 +54,7 @@ export default function BurgerConstructor({ data, onOpenModal }) {
 }
 
 BurgerConstructor.propTypes = {
-  data:  PropTypes.arrayOf(
+  data: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
       proteins: PropTypes.number.isRequired,
