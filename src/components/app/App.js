@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { api } from '../../utils/Api';
 import AppHeader from '../appHeader/AppHeader';
 import BurgerIngredients from '../burgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../burgerConstructor/BurgerConstructor';
@@ -6,7 +7,6 @@ import app from './app.module.css';
 import OrderDetails from '../orderDetails/OrderDetails';
 import IngredientDetails from '../ingredientDetails/IngredientDetails';
 import Modal from '../modal/Modal';
-// import {data} from '../../utils/data.js';
 
 export default function App() {
 
@@ -22,16 +22,12 @@ export default function App() {
     setIsIngredientDetailsOpened(false);
   };
 
-  // Обработка нажатия Esc
-  const handleEscKeydown = (event) => {
-    event.key === "Escape" && closeAllModals();
-  };
-
   // Открытие модалки "Счет на оплату"
   const handleOrderDetailsOpenModal = () => {
     setIsOrderDetailsOpened(true);
   };
 
+  // Стейт для открытия модалки с информацией об открытом ингредиенте
   const [selectedIngredient, setselectedIngredient] = useState({});
 
   // Открытие модалки "Информация об ингредиенте"
@@ -40,22 +36,20 @@ export default function App() {
     setselectedIngredient(item);
   };
 
-  const url = 'https://norma.nomoreparties.space/api/ingredients';
-
-  let [ingredients, setIngredients] = useState([]);
-
+  // Получение данных с сервера
   const getIngredients = () => {
-    fetch(` ${url} `)
-    .then(res => {
-      return res.json()
-    })
-    .then(data => setIngredients(data.data))
-    .catch(console.log);
+    api.getIngridients()
+      .then(res => setIngredients(res.data))
+      .catch(console.log);
   }
 
+  // Хук получение данных с сервера только один раз при рендере страницы
   useEffect(() => {
     getIngredients();
   }, []);
+
+  // Стейт для передачи данных в компоненты для отрисовки
+  let [ingredients, setIngredients] = useState([]);
 
   return (
     <>
@@ -72,7 +66,7 @@ export default function App() {
       {isOrderDetailsOpened &&
         <Modal
           onOverlayClick={closeAllModals}
-          onEscKeydown={handleEscKeydown}
+          // onEscKeydown={handleEscKeydown}
         >
           <OrderDetails onOverlayClick={closeAllModals}/>
         </Modal>
@@ -81,7 +75,7 @@ export default function App() {
       {isIngredientDetailsOpened &&
         <Modal
           onOverlayClick={closeAllModals}
-          onEscKeydown={handleEscKeydown}
+          // onEscKeydown={handleEscKeydown}
           ingredient={selectedIngredient}
         >
           <IngredientDetails onOverlayClick={closeAllModals} ingredient={selectedIngredient} />

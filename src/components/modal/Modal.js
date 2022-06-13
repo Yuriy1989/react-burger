@@ -5,13 +5,18 @@ import modal from './modal.module.css';
 
 const modalsContainer = document.querySelector('#modals');
 
-const Modal = ({ onOverlayClick, onEscKeydown, children }) => {
+const Modal = ({ onOverlayClick, children }) => {
+
+  // Обработка нажатия Esc
+  const handleEscKeydown = (event) => {
+    event.key === "Escape" && onOverlayClick();
+  };
 
   useEffect(() => {
-    document.addEventListener('keydown', onEscKeydown);
+    document.addEventListener('keydown', handleEscKeydown);
 
     return () => {
-      document.removeEventListener('keydown', onEscKeydown);
+      document.removeEventListener('keydown', handleEscKeydown);
     };
   }, []);
 

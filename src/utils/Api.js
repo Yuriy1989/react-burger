@@ -1,16 +1,15 @@
 class Api {
   constructor(options) {
     this._url = options.url;
-    this._url = options.headers;
+    this._headers = options.headers;
   }
 
-  _getIngridients() {
-    return fetch(`$this._url`, {
-      method: 'POST',
+  getIngridients() {
+    return fetch(`${this._url}`, {
+      method: 'GET',
       headers: this._headers
     })
       .then(res => res.ok ? res.json() : Promise.reject(res.status))
-      .catch(console.log)
   }
 }
 
