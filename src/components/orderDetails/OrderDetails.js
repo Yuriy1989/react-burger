@@ -2,15 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import style, { CloseIcon, CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import orderDetails from './orderDetails.module.css';
-import vector1 from '../../images/Vector_1.svg';
-import vector2 from '../../images/Vector_2.svg';
-import vector3 from '../../images/Vector_3.svg';
 
-export default function OrderDetails({ onOverlayClick }) {
+export default function OrderDetails({ onClose }) {
   return (
     <div className={orderDetails.modalContainer}>
       <div className={orderDetails.closeButton}>
-        <CloseIcon type="primary" onClick={onOverlayClick}/>
+        <CloseIcon type="primary" onClick={onClose}/>
       </div>
       <p className={` ${orderDetails.numberOrder} text text_type_digits-large `}>034536</p>
       <p className={` ${orderDetails.textIdOrder} text text_type_main-medium `}>идентификатор заказа</p>

@@ -49,7 +49,7 @@ export default function App() {
   }, []);
 
   // Стейт для передачи данных в компоненты для отрисовки
-  let [ingredients, setIngredients] = useState([]);
+  const [ingredients, setIngredients] = useState([]);
 
   return (
     <>
@@ -65,20 +65,18 @@ export default function App() {
 
       {isOrderDetailsOpened &&
         <Modal
-          onOverlayClick={closeAllModals}
-          // onEscKeydown={handleEscKeydown}
+          onClose={closeAllModals}
         >
-          <OrderDetails onOverlayClick={closeAllModals}/>
+          <OrderDetails onClose={closeAllModals}/>
         </Modal>
       }
 
       {isIngredientDetailsOpened &&
         <Modal
-          onOverlayClick={closeAllModals}
-          // onEscKeydown={handleEscKeydown}
+          onClose={closeAllModals}
           ingredient={selectedIngredient}
         >
-          <IngredientDetails onOverlayClick={closeAllModals} ingredient={selectedIngredient} />
+          <IngredientDetails onClose={closeAllModals} ingredient={selectedIngredient} />
         </Modal>
       }
     </>

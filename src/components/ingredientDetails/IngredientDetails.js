@@ -3,14 +3,15 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import style, { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientDetails from './ingredientDetails.module.css';
+import { ingredientTypes } from '../../utils/types';
 
-export default function IngredientDetails({ onOverlayClick, ingredient }) {
+export default function IngredientDetails({ onClose, ingredient }) {
 
   return (
     <div className={ingredientDetails.ingredientDetails}>
       <div className={ingredientDetails.headerDetails}>
         <p className={` ${ingredientDetails.headerText} text text_type_main-large`}>Детали ингредиента</p>
-        <div className={ingredientDetails.closeButton}><CloseIcon type="primary" onClick={onOverlayClick} /></div>
+        <div className={ingredientDetails.closeButton}><CloseIcon type="primary" onClick={onClose} /></div>
       </div>
       <img className={ingredientDetails.image} src={ingredient.image_large} alt={ingredient.name}></img>
       <p className={` ${ingredientDetails.name} text text_type_main-medium `}>{ingredient.name}</p>
@@ -37,12 +38,5 @@ export default function IngredientDetails({ onOverlayClick, ingredient }) {
 }
 
 IngredientDetails.propTypes = {
-  ingredient: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      proteins: PropTypes.number.isRequired,
-      fat: PropTypes.number.isRequired,
-      carbohydrates: PropTypes.number.isRequired,
-      calories: PropTypes.number.isRequired,
-      image_large: PropTypes.string.isRequired
-    })
-  }
+  ingredient: ingredientTypes.isRequired
+}

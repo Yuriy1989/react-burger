@@ -5,11 +5,11 @@ import modal from './modal.module.css';
 
 const modalsContainer = document.querySelector('#modals');
 
-const Modal = ({ onOverlayClick, children }) => {
+const Modal = ({ onClose, children }) => {
 
   // Обработка нажатия Esc
   const handleEscKeydown = (event) => {
-    event.key === "Escape" && onOverlayClick();
+    event.key === "Escape" && onClose();
   };
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const Modal = ({ onOverlayClick, children }) => {
       <div className={modal.modal}>
         {children}
       </div>
-      <ModalOverlay onClick={onOverlayClick} />
+      <ModalOverlay onClick={onClose} />
     </>
     ),
     modalsContainer
