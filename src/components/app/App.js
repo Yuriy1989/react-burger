@@ -4,8 +4,6 @@ import { api } from '../../utils/Api';
 import AppHeader from '../appHeader/AppHeader';
 import BurgerIngredients from '../burgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../burgerConstructor/BurgerConstructor';
-import OrderDetails from '../orderDetails/OrderDetails';
-import IngredientDetails from '../ingredientDetails/IngredientDetails';
 import Modal from '../modal/Modal';
 
 export default function App() {
@@ -49,7 +47,7 @@ export default function App() {
   }, []);
 
   // Стейт для передачи данных в компоненты для отрисовки
-  let [ingredients, setIngredients] = useState([]);
+  const [ingredients, setIngredients] = useState([]);
 
   return (
     <>
@@ -65,20 +63,18 @@ export default function App() {
 
       {isOrderDetailsOpened &&
         <Modal
-          onOverlayClick={closeAllModals}
-          // onEscKeydown={handleEscKeydown}
+          onClose={closeAllModals}
+          isOrderDetailsOpened={isOrderDetailsOpened}
         >
-          <OrderDetails onOverlayClick={closeAllModals}/>
         </Modal>
       }
 
       {isIngredientDetailsOpened &&
         <Modal
-          onOverlayClick={closeAllModals}
-          // onEscKeydown={handleEscKeydown}
+          onClose={closeAllModals}
           ingredient={selectedIngredient}
+          isIngredientDetailsOpened={isIngredientDetailsOpened}
         >
-          <IngredientDetails onOverlayClick={closeAllModals} ingredient={selectedIngredient} />
         </Modal>
       }
     </>

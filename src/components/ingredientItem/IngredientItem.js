@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import style, { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientItem from './ingredientItem.module.css';
+import { ingredientTypes } from '../../utils/types';
 
 export default function IngredientItem ( {item, onOpenModal} ) {
 
@@ -20,9 +21,5 @@ export default function IngredientItem ( {item, onOpenModal} ) {
 }
 
 IngredientItem.propTypes = {
-  item: PropTypes.shape({
-    image: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired
-  })
+  item: ingredientTypes.isRequired
 }

@@ -2,14 +2,16 @@ import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import ModalOverlay from '../modalOverlay/ModalOverlay';
 import modal from './modal.module.css';
+import OrderDetails from '../orderDetails/OrderDetails';
+import IngredientDetails from '../ingredientDetails/IngredientDetails';
 
 const modalsContainer = document.querySelector('#modals');
 
-const Modal = ({ onOverlayClick, children }) => {
+const Modal = ({ onClose, ingredient, isOrderDetailsOpened, isIngredientDetailsOpened }) => {
 
   // Обработка нажатия Esc
   const handleEscKeydown = (event) => {
-    event.key === "Escape" && onOverlayClick();
+    event.key === "Escape" && onClose();
   };
 
   useEffect(() => {
@@ -23,12 +25,12 @@ const Modal = ({ onOverlayClick, children }) => {
   return ReactDOM.createPortal(
     (<>
       <div className={modal.modal}>
-        {children}
+        {isOrderDetailsOpened && <OrderDetails onClose={onClose} />}
+        {isIngredientDetailsOpened && <IngredientDetails onClose={onClose} ingredient={ingredient} />}
       </div>
-      <ModalOverlay onClick={onOverlayClick} />
+      <ModalOverlay onClick={onClose} />
     </>
-    ),
-    modalsContainer
+    ), modalsContainer
   );
 }
 
