@@ -11,3 +11,9 @@ export const ingredientTypes = shape({
     calories: PropTypes.number.isRequired,
     image_large: PropTypes.string.isRequired
 });
+
+export const dataTypes = PropTypes.arrayOf(
+  ingredientTypes.isRequired
+)
+
+export const funcTypes = PropTypes.func

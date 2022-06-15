@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 import style, { DragIcon, ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerConstructor from './burgerConstructor.module.css';
-import { ingredientTypes } from '../../utils/types';
+import { dataTypes, funcTypes } from '../../utils/types';
 
 export default function BurgerConstructor({ data, onOpenModal }) {
   return (
@@ -55,7 +55,6 @@ export default function BurgerConstructor({ data, onOpenModal }) {
 }
 
 BurgerConstructor.propTypes = {
-  data:  PropTypes.arrayOf(
-    ingredientTypes.isRequired
-  )
+  data: dataTypes.isRequired,
+  onOpenModal: funcTypes.isRequired
 }

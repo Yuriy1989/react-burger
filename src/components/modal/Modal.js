@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import style, { CloseIcon, } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modalOverlay/ModalOverlay';
 import modal from './modal.module.css';
-import OrderDetails from '../orderDetails/OrderDetails';
-import IngredientDetails from '../ingredientDetails/IngredientDetails';
+import { funcTypes } from '../../utils/types';
 
 const modalsContainer = document.querySelector('#modals');
 
-const Modal = ({ onClose, ingredient, isOrderDetailsOpened, isIngredientDetailsOpened }) => {
+const Modal = ({ onClose, title, children }) => {
 
   // Обработка нажатия Esc
   const handleEscKeydown = (event) => {
@@ -25,8 +25,13 @@ const Modal = ({ onClose, ingredient, isOrderDetailsOpened, isIngredientDetailsO
   return ReactDOM.createPortal(
     (<>
       <div className={modal.modal}>
-        {isOrderDetailsOpened && <OrderDetails onClose={onClose} />}
-        {isIngredientDetailsOpened && <IngredientDetails onClose={onClose} ingredient={ingredient} />}
+        <div className={modal.modalForm}>
+          <div className={modal.headerDetails}>
+            <p className={` ${modal.headerText} text text_type_main-large`}>{title}</p>
+            <div className={modal.closeButton}><CloseIcon type="primary" onClick={onClose} /></div>
+          </div>
+          {children}
+        </div>
       </div>
       <ModalOverlay onClick={onClose} />
     </>
@@ -35,3 +40,7 @@ const Modal = ({ onClose, ingredient, isOrderDetailsOpened, isIngredientDetailsO
 }
 
 export default Modal;
+
+Modal.propTypes = {
+  onClose: funcTypes.isRequired
+}

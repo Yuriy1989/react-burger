@@ -5,14 +5,10 @@ import style, { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-compon
 import ingredientDetails from './ingredientDetails.module.css';
 import { ingredientTypes } from '../../utils/types';
 
-export default function IngredientDetails({ onClose, ingredient }) {
+export default function IngredientDetails({ ingredient }) {
 
   return (
-    <div className={ingredientDetails.ingredientDetails}>
-      <div className={ingredientDetails.headerDetails}>
-        <p className={` ${ingredientDetails.headerText} text text_type_main-large`}>Детали ингредиента</p>
-        <div className={ingredientDetails.closeButton}><CloseIcon type="primary" onClick={onClose} /></div>
-      </div>
+    <>
       <img className={ingredientDetails.image} src={ingredient.image_large} alt={ingredient.name}></img>
       <p className={` ${ingredientDetails.name} text text_type_main-medium `}>{ingredient.name}</p>
         <ul className={ingredientDetails.items}>
@@ -33,7 +29,7 @@ export default function IngredientDetails({ onClose, ingredient }) {
             <p className={` ${ingredientDetails.count} text text_type_digits-default text_color_inactive `}>{ingredient.carbohydrates}</p>
           </li>
         </ul>
-    </div>
+    </>
   )
 }
 

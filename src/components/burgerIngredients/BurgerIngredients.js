@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import style, { Tab, Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredients from './burgerIngredients.module.css';
 import IngredientItem from '../ingredientItem/IngredientItem';
-import { ingredientTypes } from '../../utils/types';
+import { dataTypes, funcTypes } from '../../utils/types';
 
 export default function BurgerIngredients({ data, onOpenModal }) {
 
@@ -89,7 +89,6 @@ export default function BurgerIngredients({ data, onOpenModal }) {
 }
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(
-    ingredientTypes.isRequired
-  )
+  data: dataTypes.isRequired,
+  onOpenModal: funcTypes.isRequired
 }

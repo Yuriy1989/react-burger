@@ -5,6 +5,8 @@ import AppHeader from '../appHeader/AppHeader';
 import BurgerIngredients from '../burgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../burgerConstructor/BurgerConstructor';
 import Modal from '../modal/Modal';
+import OrderDetails from '../orderDetails/OrderDetails';
+import IngredientDetails from '../ingredientDetails/IngredientDetails';
 
 export default function App() {
 
@@ -63,18 +65,19 @@ export default function App() {
 
       {isOrderDetailsOpened &&
         <Modal
+          title=""
           onClose={closeAllModals}
-          isOrderDetailsOpened={isOrderDetailsOpened}
         >
+          <OrderDetails />
         </Modal>
       }
 
       {isIngredientDetailsOpened &&
         <Modal
+          title="Детали ингредиента"
           onClose={closeAllModals}
-          ingredient={selectedIngredient}
-          isIngredientDetailsOpened={isIngredientDetailsOpened}
         >
+          <IngredientDetails ingredient={selectedIngredient} />
         </Modal>
       }
     </>

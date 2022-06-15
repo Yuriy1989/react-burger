@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import style, { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientItem from './ingredientItem.module.css';
-import { ingredientTypes } from '../../utils/types';
+import { ingredientTypes, funcTypes } from '../../utils/types';
 
 export default function IngredientItem ( {item, onOpenModal} ) {
 
@@ -21,5 +21,6 @@ export default function IngredientItem ( {item, onOpenModal} ) {
 }
 
 IngredientItem.propTypes = {
-  item: ingredientTypes.isRequired
+  item: ingredientTypes.isRequired,
+  onOpenModal: funcTypes.isRequired
 }
