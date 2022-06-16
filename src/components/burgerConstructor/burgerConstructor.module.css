@@ -1,0 +1,63 @@
+.burgerConstructor {
+  max-width: 600px;
+  margin-top: 60px;
+  justify-self: start;
+}
+
+.ingredients {
+  max-height: calc(100vh - 526px);
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+}
+
+.ingredients::-webkit-scrollbar {
+  width: 8px;
+  height: 492px;
+}
+
+.ingredients::-webkit-scrollbar-track {
+  background-color: #2F2F37;
+}
+
+.ingredients::-webkit-scrollbar-thumb {
+  background-color: #8585AD;
+}
+
+.bun {
+  margin: 0 0 0 40px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  padding-left: 2.5px;
+}
+
+.ingredient {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin-bottom: 16px;
+  margin-right: 8px;
+}
+
+.ingredient:last-child {
+  margin-bottom: 0;
+}
+
+.dragIcon {
+  padding-right: 13.5px;
+}
+
+.cellPrice{
+  margin: 0 41px 0 9px;
+}
+
+.buttonOrder {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  align-items: center;
+  margin: 40px 16px 0 0;
+}

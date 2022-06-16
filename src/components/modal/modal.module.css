@@ -1,0 +1,38 @@
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 2;
+  overflow: hidden;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%)
+}
+
+.modalForm {
+  background-color: #1C1C21;
+  border-radius: 40px;
+  padding: 40px 0 60px 0;
+}
+
+.headerDetails {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 0 40px;
+}
+
+.closeButton {
+  cursor: pointer;
+}
+
+.headerText {
+  margin: 0;
+  color:#F2F2F3;
+  padding: 0;
+}
+
+

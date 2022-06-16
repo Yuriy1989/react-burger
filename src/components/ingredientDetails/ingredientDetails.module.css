@@ -1,0 +1,35 @@
+.image {
+  width: 480px;
+  height: 240px;
+  margin: 0 20px;
+}
+
+.name {
+  color:#F2F2F3;
+  margin: 16px 0 32px 0;
+  text-align: center;
+}
+
+.items {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.item:nth-last-child(n+2) {
+  margin-right: 20px;
+}
+
+.count {
+  margin: 8px 0 0 0;
+}

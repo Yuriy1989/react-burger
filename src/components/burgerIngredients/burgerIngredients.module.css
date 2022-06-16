@@ -1,0 +1,79 @@
+.burgerIngredients{
+  max-width: 600px;
+  justify-self: end;
+}
+
+.ingredients {
+  max-height: calc(100vh - 310px);
+  overflow-y: scroll;
+}
+
+.ingredients::-webkit-scrollbar {
+  width: 8px;
+  height: 492px;
+}
+
+.ingredients::-webkit-scrollbar-track {
+  background-color: #2F2F37;
+}
+
+.ingredients::-webkit-scrollbar-thumb {
+  background-color: #8585AD;
+}
+
+.title {
+  margin-bottom: 20px;
+}
+
+.tab {
+  display: flex;
+  margin: 0 0 40px 0;
+}
+
+.ingredient {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 24px;
+  margin-top: 24px;
+  margin-bottom: 40px;
+}
+
+.card {
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+}
+
+.image {
+  width: 240px;
+  height: 120px;
+  margin: 0 16px;
+}
+
+.counter {
+  position: relative;
+}
+
+.price {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 4px 0;
+}
+
+.cost {
+  margin-right: 9px;
+}
+
+.name {
+  text-align: center;
+  vertical-align: top;
+  margin-bottom: 30px;
+}
