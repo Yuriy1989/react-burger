@@ -1,11 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import style, { Tab, Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredients from './burgerIngredients.module.css';
 import IngredientItem from '../ingredientItem/IngredientItem';
 import { dataTypes, funcTypes } from '../../utils/types';
+import { IngredientsContext } from '../../utils/appContext';
 
-export default function BurgerIngredients({ data, onOpenModal }) {
+export default function BurgerIngredients({ onOpenModal }) {
+
+  const data = useContext(IngredientsContext);
 
   const bunRef = useRef(null);
   const sauceRef = useRef(null);
@@ -89,6 +92,6 @@ export default function BurgerIngredients({ data, onOpenModal }) {
 }
 
 BurgerIngredients.propTypes = {
-  data: dataTypes.isRequired,
+  // data: dataTypes.isRequired,
   onOpenModal: funcTypes.isRequired
 }

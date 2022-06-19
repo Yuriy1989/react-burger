@@ -1,20 +1,35 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from 'prop-types';
 import style, { DragIcon, ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerConstructor from './burgerConstructor.module.css';
 import { dataTypes, funcTypes } from '../../utils/types';
+import { IngredientsContext } from '../../utils/appContext';
 
-export default function BurgerConstructor({ data, onOpenModal }) {
+export default function BurgerConstructor({ onOpenModal }) {
+  const data = useContext(IngredientsContext);
+  const resultWithFind = data.find(item => item.type == 'bun');
+  console.log(data);
+  console.log("resultWithFind", resultWithFind);
+
   return (
     <section className={burgerConstructor.burgerConstructor} >
       <div className={burgerConstructor.bun}>
-        <ConstructorElement
+        {
+          // <ConstructorElement
+          //   type="top"
+          //   isLocked={true}
+          //   text={resultWithFind.name}
+          //   price={resultWithFind.price}
+          //   thumbnail={resultWithFind.image_mobile}
+          // />
+        }
+        {/* <ConstructorElement
           type="top"
           isLocked={true}
           text="Краторная булка N-200i (верх)"
           price={200}
           thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
-        />
+        /> */}
       </div>
       <ul className={` ${burgerConstructor.list} ${burgerConstructor.ingredients} `}>
         {
@@ -55,6 +70,6 @@ export default function BurgerConstructor({ data, onOpenModal }) {
 }
 
 BurgerConstructor.propTypes = {
-  data: dataTypes.isRequired,
+  // data: dataTypes.isRequired,
   onOpenModal: funcTypes.isRequired
 }

@@ -7,6 +7,7 @@ import BurgerConstructor from '../burgerConstructor/BurgerConstructor';
 import Modal from '../modal/Modal';
 import OrderDetails from '../orderDetails/OrderDetails';
 import IngredientDetails from '../ingredientDetails/IngredientDetails';
+import { IngredientsContext } from '../../utils/appContext';
 
 export default function App() {
 
@@ -53,33 +54,35 @@ export default function App() {
 
   return (
     <>
-      <main className={app.app}>
-        <div className={app.header}>
-          <AppHeader />
-        </div>
-        <div className={app.section}>
-          <BurgerIngredients data={ingredients} onOpenModal={handleIngredientDetailsOpenModal}/>
-          <BurgerConstructor data={ingredients} onOpenModal={handleOrderDetailsOpenModal}/>
-        </div>
-      </main>
+      <IngredientsContext.Provider value={ingredients}>
+        <main className={app.app}>
+          <div className={app.header}>
+            <AppHeader />
+          </div>
+          <div className={app.section}>
+            <BurgerIngredients onOpenModal={handleIngredientDetailsOpenModal} />
+            <BurgerConstructor onOpenModal={handleOrderDetailsOpenModal} />
+          </div>
+        </main>
 
-      {isOrderDetailsOpened &&
-        <Modal
-          title=""
-          onClose={closeAllModals}
-        >
-          <OrderDetails />
-        </Modal>
-      }
+        {isOrderDetailsOpened &&
+          <Modal
+            title=""
+            onClose={closeAllModals}
+          >
+            <OrderDetails />
+          </Modal>
+        }
 
-      {isIngredientDetailsOpened &&
-        <Modal
-          title="Детали ингредиента"
-          onClose={closeAllModals}
-        >
-          <IngredientDetails ingredient={selectedIngredient} />
-        </Modal>
-      }
+        {isIngredientDetailsOpened &&
+          <Modal
+            title="Детали ингредиента"
+            onClose={closeAllModals}
+          >
+            <IngredientDetails ingredient={selectedIngredient} />
+          </Modal>
+        }
+      </IngredientsContext.Provider>
     </>
   );
 }
