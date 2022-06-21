@@ -44,6 +44,13 @@ export default function App() {
       .catch(console.log);
   }
 
+  const setOrderDetails = () => {
+    
+    api.setOrderDetails(data)
+      .then(res => console.log(res))
+      .catch(console.log);
+  }
+
   // Хук получение данных с сервера только один раз при рендере страницы
   useEffect(() => {
     getIngredients();

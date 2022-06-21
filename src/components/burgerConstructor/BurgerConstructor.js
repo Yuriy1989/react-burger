@@ -7,20 +7,37 @@ import { IngredientsContext } from '../../utils/appContext';
 
 export default function BurgerConstructor({ onOpenModal }) {
   const data = useContext(IngredientsContext);
-  const resultWithFind = data.find(item => item.type == 'bun');
-  console.log(data);
-  console.log("resultWithFind", resultWithFind);
+  // const resultWithFind = data.find(item => item.type == 'bun');
+  console.log('data', data);
+  // console.log("resultWithFind", resultWithFind);
+  const test = {test: 1234};
+  const testFind = data.indexOf(obj => obj.type === "bun");
+  // console.log("testFind", testFind);
+  // const findArr = data.map(item => item.type == 'bun').type;
+  // const findArr = data.find(item => item.type == 'bun');
+  const findArr = [];
+  findArr.push = (data.filter(item => item.type == 'bun')).find(item => item.type == 'bun');
+  findArr.map((item) => (
+    console.log(item)
+  ));
+  // console.log("findArr", findArr);
 
   return (
     <section className={burgerConstructor.burgerConstructor} >
       <div className={burgerConstructor.bun}>
         {
+          <>
+            <h2>{test.test}</h2>
+            {/* {data.find(item => item.type == 'bun')} */}
+            {/* <h2>{findArr}</h2> */}
+          </>
+
           // <ConstructorElement
           //   type="top"
           //   isLocked={true}
-          //   text={resultWithFind.name}
-          //   price={resultWithFind.price}
-          //   thumbnail={resultWithFind.image_mobile}
+          //   // text={resultWithFind.name}
+          //   // price={data}
+          //   // thumbnail={resultWithFind.image_mobile}
           // />
         }
         {/* <ConstructorElement
