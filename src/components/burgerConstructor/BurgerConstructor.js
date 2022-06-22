@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 import style, { DragIcon, ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerConstructor from './burgerConstructor.module.css';
@@ -6,20 +6,38 @@ import { dataTypes, funcTypes } from '../../utils/types';
 import { IngredientsContext } from '../../utils/appContext';
 
 export default function BurgerConstructor({ onOpenModal }) {
+
   const data = useContext(IngredientsContext);
   // const resultWithFind = data.find(item => item.type == 'bun');
   console.log('data', data);
+
+  const [priceItem, priceState] = useState();
+
+  let price = [];
+
+  const textResult = () => {
+    const newData = data;
+    // const newData = 100;
+    priceState(newData);
+  };
+
+  useEffect (() => {
+    textResult();
+  }, []);
+
+  console.log("priceItem", priceItem);
+
   // console.log("resultWithFind", resultWithFind);
   const test = {test: 1234};
-  const testFind = data.indexOf(obj => obj.type === "bun");
+
   // console.log("testFind", testFind);
   // const findArr = data.map(item => item.type == 'bun').type;
   // const findArr = data.find(item => item.type == 'bun');
-  const findArr = [];
-  findArr.push = (data.filter(item => item.type == 'bun')).find(item => item.type == 'bun');
-  findArr.map((item) => (
-    console.log(item)
-  ));
+  // const findArr = [];
+  // findArr.push = (data.filter(item => item.type == 'bun')).find(item => item.type == 'bun');
+  // findArr.map((item) => (
+  //   console.log(item)
+  // ));
   // console.log("findArr", findArr);
 
   return (
