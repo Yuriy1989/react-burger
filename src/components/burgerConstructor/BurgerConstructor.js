@@ -7,27 +7,23 @@ import { IngredientsContext } from '../../utils/appContext';
 
 export default function BurgerConstructor({ onOpenModal }) {
 
-  const data = useContext(IngredientsContext);
-  // const resultWithFind = data.find(item => item.type == 'bun');
-  console.log('data', data);
-
+  const {ingredients, selectedBun} = useContext(IngredientsContext);
   const [priceItem, priceState] = useState();
 
-  let price = [];
+  console.log('data', ingredients);
+  console.log('selectedBun', selectedBun);
+  // let price = [];
 
   const textResult = () => {
-    const newData = data;
-    // const newData = 100;
+    const newData = ingredients.reduce((s, i) => s += i.price, 0);
     priceState(newData);
   };
 
   useEffect (() => {
     textResult();
-  }, []);
+  }, [ingredients]);
 
-  console.log("priceItem", priceItem);
-
-  // console.log("resultWithFind", resultWithFind);
+  // console.log("priceItem", priceItem);
   const test = {test: 1234};
 
   // console.log("testFind", testFind);
@@ -47,7 +43,8 @@ export default function BurgerConstructor({ onOpenModal }) {
           <>
             <h2>{test.test}</h2>
             {/* {data.find(item => item.type == 'bun')} */}
-            {/* <h2>{findArr}</h2> */}
+            <h2>{priceItem}</h2>
+            <h2>{selectedBun.name}</h2>
           </>
 
           // <ConstructorElement
@@ -68,7 +65,7 @@ export default function BurgerConstructor({ onOpenModal }) {
       </div>
       <ul className={` ${burgerConstructor.list} ${burgerConstructor.ingredients} `}>
         {
-          data.filter(card => card.type == 'sauce' || card.type == 'main').map((item) => (
+          ingredients.filter(card => card.type == 'sauce' || card.type == 'main').map((item) => (
             <li className={burgerConstructor.ingredient} key={item._id}>
               <div className={burgerConstructor.dragIcon}>
                 <DragIcon type="primary" />

@@ -44,8 +44,8 @@ export default function App() {
       .catch(console.log);
   }
 
+  // Отправка данных на сервер для получения номера заказа
   const setOrderDetails = () => {
-    
     api.setOrderDetails(data)
       .then(res => console.log(res))
       .catch(console.log);
@@ -59,15 +59,30 @@ export default function App() {
   // Стейт для передачи данных в компоненты для отрисовки
   const [ingredients, setIngredients] = useState([]);
 
+  // Стейт для передачи данных в компонент для отрисовки булочки
+  const [selectedBun, setSelectedBun] = useState([]);
+
+  console.log("ingredients", ingredients);
+  const selectBun = () => {
+    const bun = ingredients.find(item => item.type == 'bun');
+    setSelectedBun(bun);
+  }
+
+  useEffect(() => {
+    selectBun();
+  }, [ingredients]);
+
+  console.log('selectedBun', selectedBun);
+
   return (
     <>
-      <IngredientsContext.Provider value={ingredients}>
+      <IngredientsContext.Provider value={{ingredients, selectedBun}} >
         <main className={app.app}>
           <div className={app.header}>
             <AppHeader />
           </div>
           <div className={app.section}>
-            <BurgerIngredients onOpenModal={handleIngredientDetailsOpenModal} />
+            {/* <BurgerIngredients onOpenModal={handleIngredientDetailsOpenModal} /> */}
             <BurgerConstructor onOpenModal={handleOrderDetailsOpenModal} />
           </div>
         </main>
