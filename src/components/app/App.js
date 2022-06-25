@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import app from './app.module.css';
 import { api } from '../../utils/Api';
 import AppHeader from '../appHeader/AppHeader';
@@ -7,15 +7,26 @@ import BurgerConstructor from '../burgerConstructor/BurgerConstructor';
 import Modal from '../modal/Modal';
 import OrderDetails from '../orderDetails/OrderDetails';
 import IngredientDetails from '../ingredientDetails/IngredientDetails';
-import { IngredientsContext } from '../../utils/appContext';
+import { BurgerContext, IngredientsContext } from '../../utils/appContext';
 
 export default function App() {
 
   // Булевый стейт для открытия модалки "Счет на оплату"
   const [isOrderDetailsOpened, setIsOrderDetailsOpened] = useState(false);
-
   // Булевый стейт для открытия модалки "Информация об ингредиенте"
   const [isIngredientDetailsOpened, setIsIngredientDetailsOpened] = useState(false);
+  // Стейт для открытия модалки с информацией об открытом ингредиенте
+  const [selectedIngredient, setselectedIngredient] = useState({});
+  // Стейт для передачи данных в компоненты для отрисовки всех ингредиентов
+  const [ingredients, setIngredients] = useState([]);
+  // Стейт для передачи данных в компоненты для отрисовки выбранных булочек
+  const [selectedBun, setSelectedBun] = useState([]);
+  // Стейт для передачи данных в компоненты для отрисовки выбранной начинки
+  const [selectedFilling, setSelectedFilling] = useState([]);
+  // Стейт для передаче модалке номер ордера
+  const [order, setOrdert] = useState();
+  // Стейт для передачи _id на сервер для формирования заказа
+  const [selectedId, setSelectedId] = useState([]);
 
   // Закрытие модалок
   const closeAllModals = () => {
@@ -25,11 +36,9 @@ export default function App() {
 
   // Открытие модалки "Счет на оплату"
   const handleOrderDetailsOpenModal = () => {
+    setOrderDetails(selectedId);
     setIsOrderDetailsOpened(true);
   };
-
-  // Стейт для открытия модалки с информацией об открытом ингредиенте
-  const [selectedIngredient, setselectedIngredient] = useState({});
 
   // Открытие модалки "Информация об ингредиенте"
   const handleIngredientDetailsOpenModal = (item) => {
@@ -40,14 +49,33 @@ export default function App() {
   // Получение данных с сервера
   const getIngredients = () => {
     api.getIngridients()
-      .then(res => setIngredients(res.data))
+      .then(res => {
+        const ingredients = res.data.map((item) => {
+          return {
+            id: item._id,
+            name: item.name,
+            price: item.price,
+            type: item.type,
+            image: item.image,
+            image_mobile: item.image_mobile,
+            image_large: item.image_large,
+            proteins: item.proteins,
+            fat: item.fat,
+            carbohydrates: item.carbohydrates,
+            calories: item.calories
+          }
+        })
+        setIngredients(ingredients)
+      })
       .catch(console.log);
   }
 
   // Отправка данных на сервер для получения номера заказа
-  const setOrderDetails = () => {
+  const setOrderDetails = (data) => {
     api.setOrderDetails(data)
-      .then(res => console.log(res))
+      .then(res => {
+        setOrdert(res.order.number)
+      })
       .catch(console.log);
   }
 
@@ -56,55 +84,56 @@ export default function App() {
     getIngredients();
   }, []);
 
-  // Стейт для передачи данных в компоненты для отрисовки
-  const [ingredients, setIngredients] = useState([]);
-
-  // Стейт для передачи данных в компонент для отрисовки булочки
-  const [selectedBun, setSelectedBun] = useState([]);
-
-  console.log("ingredients", ingredients);
+  // Фильтруем по булке
   const selectBun = () => {
-    const bun = ingredients.find(item => item.type == 'bun');
+    const bun = ingredients.filter(item => item.type == 'bun' && item.name == 'Краторная булка N-200i');
     setSelectedBun(bun);
+  }
+
+  // Фильтруем по начинке
+  const selectIngredients = () => {
+    const filling = ingredients.filter(item => item.type == 'main');
+    setSelectedFilling(filling);
   }
 
   useEffect(() => {
     selectBun();
+    selectIngredients();
   }, [ingredients]);
-
-  console.log('selectedBun', selectedBun);
 
   return (
     <>
-      <IngredientsContext.Provider value={{ingredients, selectedBun}} >
-        <main className={app.app}>
-          <div className={app.header}>
-            <AppHeader />
-          </div>
-          <div className={app.section}>
-            {/* <BurgerIngredients onOpenModal={handleIngredientDetailsOpenModal} /> */}
-            <BurgerConstructor onOpenModal={handleOrderDetailsOpenModal} />
-          </div>
-        </main>
+      <BurgerContext.Provider value={{ ingredients }} >
+        <IngredientsContext.Provider value={{ selectedBun, selectedFilling, selectedId, setSelectedId }} >
+          <main className={app.app}>
+            <div className={app.header}>
+              <AppHeader />
+            </div>
+            <div className={app.section}>
+              <BurgerIngredients onOpenModal={handleIngredientDetailsOpenModal} />
+              <BurgerConstructor onOpenModal={handleOrderDetailsOpenModal} />
+            </div>
+          </main>
 
-        {isOrderDetailsOpened &&
-          <Modal
-            title=""
-            onClose={closeAllModals}
-          >
-            <OrderDetails />
-          </Modal>
-        }
+          {isOrderDetailsOpened &&
+            <Modal
+              title=""
+              onClose={closeAllModals}
+            >
+              <OrderDetails order={order} />
+            </Modal>
+          }
 
-        {isIngredientDetailsOpened &&
-          <Modal
-            title="Детали ингредиента"
-            onClose={closeAllModals}
-          >
-            <IngredientDetails ingredient={selectedIngredient} />
-          </Modal>
-        }
-      </IngredientsContext.Provider>
+          {isIngredientDetailsOpened &&
+            <Modal
+              title="Детали ингредиента"
+              onClose={closeAllModals}
+            >
+              <IngredientDetails ingredient={selectedIngredient} />
+            </Modal>
+          }
+        </IngredientsContext.Provider>
+      </BurgerContext.Provider>
     </>
   );
 }

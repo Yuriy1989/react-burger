@@ -7,66 +7,48 @@ import { IngredientsContext } from '../../utils/appContext';
 
 export default function BurgerConstructor({ onOpenModal }) {
 
-  const {ingredients, selectedBun} = useContext(IngredientsContext);
-  const [priceItem, priceState] = useState();
+  const {selectedBun, selectedFilling , selectedId, setSelectedId} = useContext(IngredientsContext);
+  const [price, priceState] = useState();
 
-  console.log('data', ingredients);
-  console.log('selectedBun', selectedBun);
-  // let price = [];
+  //Высчитываем общую цену бургера
+  const calculatePrice = () => {
+    const priceBun = (selectedBun.reduce((s, i) => s += i.price, 0) * 2); //цена двух булочек
+    const priceFilling = selectedFilling.reduce((s, i) => s += i.price, 0); //цена начинки
+    const newPrice = priceBun + priceFilling;
+    priceState(newPrice);
+  };
 
-  const textResult = () => {
-    const newData = ingredients.reduce((s, i) => s += i.price, 0);
-    priceState(newData);
+  //Собираем все _id ингредиентов для отправки запроса на сервер
+    const createOrder = () => {
+    const createOrderId = (selectedBun.concat(selectedFilling)).concat(selectedBun).map((key) => { return key.id; }); //цена двух булочек
+    setSelectedId(createOrderId);
   };
 
   useEffect (() => {
-    textResult();
-  }, [ingredients]);
-
-  // console.log("priceItem", priceItem);
-  const test = {test: 1234};
-
-  // console.log("testFind", testFind);
-  // const findArr = data.map(item => item.type == 'bun').type;
-  // const findArr = data.find(item => item.type == 'bun');
-  // const findArr = [];
-  // findArr.push = (data.filter(item => item.type == 'bun')).find(item => item.type == 'bun');
-  // findArr.map((item) => (
-  //   console.log(item)
-  // ));
-  // console.log("findArr", findArr);
+    calculatePrice();
+    createOrder();
+  }, [selectedFilling, selectedBun]);
 
   return (
     <section className={burgerConstructor.burgerConstructor} >
       <div className={burgerConstructor.bun}>
         {
-          <>
-            <h2>{test.test}</h2>
-            {/* {data.find(item => item.type == 'bun')} */}
-            <h2>{priceItem}</h2>
-            <h2>{selectedBun.name}</h2>
-          </>
-
-          // <ConstructorElement
-          //   type="top"
-          //   isLocked={true}
-          //   // text={resultWithFind.name}
-          //   // price={data}
-          //   // thumbnail={resultWithFind.image_mobile}
-          // />
+          selectedBun.map((item) => (
+            <ConstructorElement
+              key={item.id}
+              type="top"
+              isLocked={true}
+              text={item.name}
+              price={item.price}
+              thumbnail={item.image_mobile}
+            />
+          ))
         }
-        {/* <ConstructorElement
-          type="top"
-          isLocked={true}
-          text="Краторная булка N-200i (верх)"
-          price={200}
-          thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
-        /> */}
       </div>
       <ul className={` ${burgerConstructor.list} ${burgerConstructor.ingredients} `}>
         {
-          ingredients.filter(card => card.type == 'sauce' || card.type == 'main').map((item) => (
-            <li className={burgerConstructor.ingredient} key={item._id}>
+          selectedFilling.map((item) => (
+            <li className={burgerConstructor.ingredient} key={item.id}>
               <div className={burgerConstructor.dragIcon}>
                 <DragIcon type="primary" />
               </div>
@@ -80,16 +62,21 @@ export default function BurgerConstructor({ onOpenModal }) {
         }
       </ul>
       <div className={burgerConstructor.bun}>
-        <ConstructorElement
-          type="bottom"
-          isLocked={true}
-          text="Краторная булка N-200i (низ)"
-          price={200}
-          thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
-        />
+        {
+          selectedBun.map((item) => (
+            <ConstructorElement
+              key={item.id}
+              type="bottom"
+              isLocked={true}
+              text={item.name}
+              price={item.price}
+              thumbnail={item.image_mobile}
+            />
+          ))
+        }
       </div>
       <div className={burgerConstructor.buttonOrder}>
-        <p className="text text_type_digits-medium">610</p>
+        <p className="text text_type_digits-medium">{price}</p>
         <div className={burgerConstructor.cellPrice}>
           <CurrencyIcon type="primary" className="p-4" />
         </div>
@@ -102,6 +89,5 @@ export default function BurgerConstructor({ onOpenModal }) {
 }
 
 BurgerConstructor.propTypes = {
-  // data: dataTypes.isRequired,
   onOpenModal: funcTypes.isRequired
 }
