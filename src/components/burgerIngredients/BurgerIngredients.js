@@ -4,7 +4,7 @@ import style, { Tab, Counter, CurrencyIcon } from '@ya.praktikum/react-developer
 import burgerIngredients from './burgerIngredients.module.css';
 import IngredientItem from '../ingredientItem/IngredientItem';
 import { funcTypes } from '../../utils/types';
-import { BurgerContext } from '../../utils/appContext';
+import { BurgerContext } from '../../services/appContext';
 
 export default function BurgerIngredients({ onOpenModal }) {
 

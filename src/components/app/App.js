@@ -7,7 +7,7 @@ import BurgerConstructor from '../burgerConstructor/BurgerConstructor';
 import Modal from '../modal/Modal';
 import OrderDetails from '../orderDetails/OrderDetails';
 import IngredientDetails from '../ingredientDetails/IngredientDetails';
-import { BurgerContext, IngredientsContext } from '../../utils/appContext';
+import { BurgerContext, IngredientsContext } from '../../services/appContext';
 
 export default function App() {
 
@@ -20,7 +20,7 @@ export default function App() {
   // Стейт для передачи данных в компоненты для отрисовки всех ингредиентов
   const [ingredients, setIngredients] = useState([]);
   // Стейт для передачи данных в компоненты для отрисовки выбранных булочек
-  const [selectedBun, setSelectedBun] = useState([]);
+  const [selectedBun, setSelectedBun] = useState({});
   // Стейт для передачи данных в компоненты для отрисовки выбранной начинки
   const [selectedFilling, setSelectedFilling] = useState([]);
   // Стейт для передаче модалке номер ордера
@@ -86,8 +86,16 @@ export default function App() {
 
   // Фильтруем по булке
   const selectBun = () => {
-    const bun = ingredients.filter(item => item.type == 'bun' && item.name == 'Краторная булка N-200i');
-    setSelectedBun(bun);
+    const bun = ingredients.find(item => item.type == 'bun');
+
+    const test = {
+      id: 12345,
+      name: 'testName'
+    }
+
+    console.log("test", test);
+    console.log("bun", bun.name);
+    // setSelectedBun(bun);
   }
 
   // Фильтруем по начинке
@@ -103,37 +111,35 @@ export default function App() {
 
   return (
     <>
-      <BurgerContext.Provider value={{ ingredients }} >
-        <IngredientsContext.Provider value={{ selectedBun, selectedFilling, selectedId, setSelectedId }} >
-          <main className={app.app}>
-            <div className={app.header}>
-              <AppHeader />
-            </div>
-            <div className={app.section}>
-              <BurgerIngredients onOpenModal={handleIngredientDetailsOpenModal} />
-              <BurgerConstructor onOpenModal={handleOrderDetailsOpenModal} />
-            </div>
-          </main>
-
-          {isOrderDetailsOpened &&
-            <Modal
-              title=""
-              onClose={closeAllModals}
-            >
-              <OrderDetails order={order} />
-            </Modal>
-          }
-
-          {isIngredientDetailsOpened &&
-            <Modal
-              title="Детали ингредиента"
-              onClose={closeAllModals}
-            >
-              <IngredientDetails ingredient={selectedIngredient} />
-            </Modal>
-          }
-        </IngredientsContext.Provider>
-      </BurgerContext.Provider>
+      <main className={app.app}>
+        <div className={app.header}>
+          <AppHeader />
+        </div>
+        <div className={app.section}>
+          <BurgerContext.Provider value={{ ingredients }} >
+            <BurgerIngredients onOpenModal={handleIngredientDetailsOpenModal} />
+          </BurgerContext.Provider>
+          <IngredientsContext.Provider value={{ selectedBun, selectedFilling, selectedId, setSelectedId }} >
+            <BurgerConstructor onOpenModal={handleOrderDetailsOpenModal} />
+          </IngredientsContext.Provider>
+        </div>
+      </main>
+      {isOrderDetailsOpened &&
+        <Modal
+          title=""
+          onClose={closeAllModals}
+        >
+          <OrderDetails order={order} />
+        </Modal>
+      }
+      {isIngredientDetailsOpened &&
+        <Modal
+          title="Детали ингредиента"
+          onClose={closeAllModals}
+        >
+          <IngredientDetails ingredient={selectedIngredient} />
+        </Modal>
+      }
     </>
   );
 }
