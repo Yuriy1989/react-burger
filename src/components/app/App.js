@@ -87,15 +87,7 @@ export default function App() {
   // Фильтруем по булке
   const selectBun = () => {
     const bun = ingredients.find(item => item.type == 'bun');
-
-    const test = {
-      id: 12345,
-      name: 'testName'
-    }
-
-    console.log("test", test);
-    console.log("bun", bun.name);
-    // setSelectedBun(bun);
+    setSelectedBun(bun);
   }
 
   // Фильтруем по начинке
@@ -120,7 +112,9 @@ export default function App() {
             <BurgerIngredients onOpenModal={handleIngredientDetailsOpenModal} />
           </BurgerContext.Provider>
           <IngredientsContext.Provider value={{ selectedBun, selectedFilling, selectedId, setSelectedId }} >
-            <BurgerConstructor onOpenModal={handleOrderDetailsOpenModal} />
+            {selectedBun?.price &&
+              <BurgerConstructor onOpenModal={handleOrderDetailsOpenModal} />
+            }
           </IngredientsContext.Provider>
         </div>
       </main>
