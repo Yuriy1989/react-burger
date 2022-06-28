@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { shape } from 'prop-types';
 
 export const ingredientTypes = shape({
-    _id: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
     type: PropTypes.oneOf(["bun", "main", "sauce"]).isRequired,
     name: PropTypes.string.isRequired,
     proteins: PropTypes.number.isRequired,
@@ -17,3 +17,5 @@ export const dataTypes = PropTypes.arrayOf(
 )
 
 export const funcTypes = PropTypes.func
+
+export const orderTypes = PropTypes.number

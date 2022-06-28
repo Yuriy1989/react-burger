@@ -1,11 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import style, { Tab, Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredients from './burgerIngredients.module.css';
 import IngredientItem from '../ingredientItem/IngredientItem';
-import { dataTypes, funcTypes } from '../../utils/types';
+import { funcTypes } from '../../utils/types';
+import { BurgerContext } from '../../services/appContext';
 
-export default function BurgerIngredients({ data, onOpenModal }) {
+export default function BurgerIngredients({ onOpenModal }) {
+
+  const {ingredients} = useContext(BurgerContext);
 
   const bunRef = useRef(null);
   const sauceRef = useRef(null);
@@ -56,8 +59,8 @@ export default function BurgerIngredients({ data, onOpenModal }) {
         <h2 ref={bunRef} className="text text_type_main-medium test">Булки</h2>
         <div className={burgerIngredients.ingredient}>
           {
-            data.filter(card => card.type == 'bun').map(filteredType => (
-              <ul className={burgerIngredients.card} key={filteredType._id}>
+            ingredients.filter(card => card.type == 'bun').map(filteredType => (
+              <ul className={burgerIngredients.card} key={filteredType.id}>
                 <IngredientItem item={filteredType} onOpenModal={onOpenModal}/>
               </ul>
             ))
@@ -66,8 +69,8 @@ export default function BurgerIngredients({ data, onOpenModal }) {
         <h2 ref={sauceRef} className="text text_type_main-medium">Соусы</h2>
         <div className={burgerIngredients.ingredient}>
           {
-            data.filter(card => card.type == 'sauce').map(filteredType => (
-              <ul className={burgerIngredients.card} key={filteredType._id}>
+            ingredients.filter(card => card.type == 'sauce').map(filteredType => (
+              <ul className={burgerIngredients.card} key={filteredType.id}>
                 <IngredientItem item={filteredType} onOpenModal={onOpenModal}/>
               </ul>
             ))
@@ -76,9 +79,9 @@ export default function BurgerIngredients({ data, onOpenModal }) {
         <h2 ref={mainRef} className="text text_type_main-medium">Начинка</h2>
         <div className={burgerIngredients.ingredient}>
           {
-            data.filter(card => card.type == 'main').map(filteredType => (
-              <ul className={burgerIngredients.card} key={filteredType._id}>
-                  <IngredientItem item={filteredType} onOpenModal={onOpenModal}/>
+            ingredients.filter(card => card.type == 'main').map(filteredType => (
+              <ul className={burgerIngredients.card} key={filteredType.id}>
+                <IngredientItem item={filteredType} onOpenModal={onOpenModal}/>
               </ul>
             ))
           }
@@ -89,6 +92,5 @@ export default function BurgerIngredients({ data, onOpenModal }) {
 }
 
 BurgerIngredients.propTypes = {
-  data: dataTypes.isRequired,
   onOpenModal: funcTypes.isRequired
 }
