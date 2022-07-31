@@ -1,4 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { Provider, } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+// import thunk from 'redux-thunk';
+import { rootReducers } from '../../services/reducers/rootReducers';
+import { logger } from '../../services/middleware/logger';
+// import { getCards } from '../../services/actions/cards';
+
 import app from './app.module.css';
 import { api } from '../../utils/Api';
 import AppHeader from '../appHeader/AppHeader';
@@ -101,23 +109,33 @@ export default function App() {
     selectIngredients();
   }, [ingredients]);
 
+  const store = createStore(rootReducers, applyMiddleware(logger));
+
+  // const dispatch0 = useDispatch();
+
+  // useEffect(() => {
+  //   dispatch(getCards);
+  // }, [])
+
   return (
     <>
-      <main className={app.app}>
-        <div className={app.header}>
-          <AppHeader />
-        </div>
-        <div className={app.section}>
-          <BurgerContext.Provider value={{ ingredients }} >
-            <BurgerIngredients onOpenModal={handleIngredientDetailsOpenModal} />
-          </BurgerContext.Provider>
-          <IngredientsContext.Provider value={{ selectedBun, selectedFilling, selectedId, setSelectedId }} >
-            {selectedBun?.price &&
-              <BurgerConstructor onOpenModal={handleOrderDetailsOpenModal} />
-            }
-          </IngredientsContext.Provider>
-        </div>
-      </main>
+      <Provider store={store}>
+        <main className={app.app}>
+          <div className={app.header}>
+            <AppHeader />
+          </div>
+          <div className={app.section}>
+            <BurgerContext.Provider value={{ ingredients }} >
+              <BurgerIngredients onOpenModal={handleIngredientDetailsOpenModal} />
+            </BurgerContext.Provider>
+            <IngredientsContext.Provider value={{ selectedBun, selectedFilling, selectedId, setSelectedId }} >
+              {selectedBun?.price &&
+                <BurgerConstructor onOpenModal={handleOrderDetailsOpenModal} />
+              }
+            </IngredientsContext.Provider>
+          </div>
+        </main>
+
       {isOrderDetailsOpened &&
         <Modal
           title=""
@@ -134,6 +152,7 @@ export default function App() {
           <IngredientDetails ingredient={selectedIngredient} />
         </Modal>
       }
+      </Provider>
     </>
   );
 }

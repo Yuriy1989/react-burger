@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import style, { Tab, Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { GET_CARDS_API, testApi } from '../../services/actions/cards'
+
 import burgerIngredients from './burgerIngredients.module.css';
 import IngredientItem from '../ingredientItem/IngredientItem';
 import { funcTypes } from '../../utils/types';
@@ -47,9 +50,32 @@ export default function BurgerIngredients({ onOpenModal }) {
     }
   }, []);
 
+  const cards = useSelector((state) => state.cards);
+  // console.log("cards", cards);
+
+  //создание функции диспатч
+  const dispatch = useDispatch();
+
+  //вызов функции диспатч
+  const handleClickRedux = () => {
+    dispatch({
+      type: GET_CARDS_API,
+      payload: {
+        name: 123
+      },
+    })
+  }
+
+  //вызов функции диспатч
+  const handleApi = () => {
+    dispatch(testApi())
+  }
+
   return (
     <section className={burgerIngredients.burgerIngredients}>
       <h2 className={` ${burgerIngredients.title} text text_type_main-large`}>Собери бургер</h2>
+      <button onClick={handleClickRedux}>REDUX</button>
+      <button onClick={handleApi}>API</button>
       <div className={burgerIngredients.tab}>
         <Tab value="bun"  onClick={scrollToBun}>Булки</Tab>
         <Tab value="sauce"  onClick={scrollToSauce}>Соусы</Tab>
