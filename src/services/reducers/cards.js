@@ -1,23 +1,14 @@
-import { api } from '../../utils/Api';
-import { GET_CARDS_API, TEST_API, GET_CARDS } from '../actions/cards';
+import { GET_CARDS_API } from '../actions/cards';
 
-const defaultCard = {
-  name: 0,
+const defaultCards = {
+  cards: []
 }
 
-export const cardsApi = ( state = defaultCard, action ) => {
+export const cardsApi = ( state = defaultCards, action ) => {
   switch (action.type) {
-    case GET_CARDS: {
-      const items = action.payload
-      return items
-    }
     case GET_CARDS_API: {
-      const newName = action.payload
-      return {...state, name: newName}
-    }
-    case TEST_API: {
-      const newName = action.payload
-      return {...state, name: newName}
+      const cardsApi = action.payload
+      return {...state, cards: cardsApi}
     }
     default:
       return state
