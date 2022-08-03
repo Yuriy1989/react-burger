@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import { cardsApi } from './cards';
+import { ingredientsApi } from './ingredients';
 
 export const rootReducers = combineReducers({
-  cards: cardsApi
+  ingredients: ingredientsApi
 })

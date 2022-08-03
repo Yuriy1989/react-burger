@@ -1,15 +1,15 @@
-export const GET_CARDS_API = 'GET_CARDS';
+export const GET_INRGEDIENTS_API = 'GET_INRGEDIENTS_API';
 
 import { api } from '../../utils/Api';
 
-export const getCards = () => {
+export const getIngredients = () => {
   return (dispatch) => {
     api.getIngridients()
       .then(res => {
         dispatch({
-          type: GET_CARDS_API,
+          type: GET_INRGEDIENTS_API,
           payload: {
-            cards: res.data.map((item) => {
+            ingredients: res.data.map((item) => {
               return {
                 id: item._id,
                 name: item.name,

@@ -6,11 +6,11 @@ import { useSelector } from 'react-redux';
 import burgerIngredients from './burgerIngredients.module.css';
 import IngredientItem from '../ingredientItem/IngredientItem';
 import { funcTypes } from '../../utils/types';
-import { BurgerContext } from '../../services/appContext';
+// import { BurgerContext } from '../../services/appContext';
 
 export default function BurgerIngredients({ onOpenModal }) {
 
-  const {ingredients} = useContext(BurgerContext);
+  // const {ingredients} = useContext(BurgerContext);
 
   const bunRef = useRef(null);
   const sauceRef = useRef(null);
@@ -49,8 +49,8 @@ export default function BurgerIngredients({ onOpenModal }) {
     }
   }, []);
 
-  const cards = useSelector((state) => state.cards);
-  console.log("cards===============", cards.cards.cards);
+  const ingredients = useSelector((state) => state.ingredients.ingredients.ingredients);
+  // console.log("cards===============", cards);
   console.log("ingredients", ingredients);
 
   return (

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { getCards } from '../../services/actions/cards';
+import { getIngredients } from '../../services/actions/ingredients';
 
 import app from './app.module.css';
-import { api } from '../../utils/Api';
+// import { api } from '../../utils/Api';
 import AppHeader from '../appHeader/AppHeader';
 import BurgerIngredients from '../burgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../burgerConstructor/BurgerConstructor';
@@ -21,7 +21,7 @@ export default function App() {
   // Стейт для открытия модалки с информацией об открытом ингредиенте
   const [selectedIngredient, setselectedIngredient] = useState({});
   // Стейт для передачи данных в компоненты для отрисовки всех ингредиентов
-  const [ingredients, setIngredients] = useState([]);
+  // const [ingredients, setIngredients] = useState([]);
   // Стейт для передачи данных в компоненты для отрисовки выбранных булочек
   const [selectedBun, setSelectedBun] = useState({});
   // Стейт для передачи данных в компоненты для отрисовки выбранной начинки
@@ -50,28 +50,28 @@ export default function App() {
   };
 
   // Получение данных с сервера
-  const getIngredients = () => {
-    api.getIngridients()
-      .then(res => {
-        const ingredients = res.data.map((item) => {
-          return {
-            id: item._id,
-            name: item.name,
-            price: item.price,
-            type: item.type,
-            image: item.image,
-            image_mobile: item.image_mobile,
-            image_large: item.image_large,
-            proteins: item.proteins,
-            fat: item.fat,
-            carbohydrates: item.carbohydrates,
-            calories: item.calories
-          }
-        })
-        setIngredients(ingredients)
-      })
-      .catch(console.log);
-  }
+  // const getIngredients = () => {
+  //   api.getIngridients()
+  //     .then(res => {
+  //       const ingredients = res.data.map((item) => {
+  //         return {
+  //           id: item._id,
+  //           name: item.name,
+  //           price: item.price,
+  //           type: item.type,
+  //           image: item.image,
+  //           image_mobile: item.image_mobile,
+  //           image_large: item.image_large,
+  //           proteins: item.proteins,
+  //           fat: item.fat,
+  //           carbohydrates: item.carbohydrates,
+  //           calories: item.calories
+  //         }
+  //       })
+  //       setIngredients(ingredients)
+  //     })
+  //     .catch(console.log);
+  // }
 
   // Отправка данных на сервер для получения номера заказа
   const setOrderDetails = (data) => {
@@ -83,32 +83,32 @@ export default function App() {
   }
 
   // Хук получение данных с сервера только один раз при рендере страницы
-  useEffect(() => {
-    getIngredients();
-  }, []);
+  // useEffect(() => {
+  //   getIngredients();
+  // }, []);
 
   // Фильтруем по булке
-  const selectBun = () => {
-    const bun = ingredients.find(item => item.type == 'bun');
-    setSelectedBun(bun);
-  }
+  // const selectBun = () => {
+  //   const bun = ingredients.find(item => item.type == 'bun');
+  //   setSelectedBun(bun);
+  // }
 
-  // Фильтруем по начинке
-  const selectIngredients = () => {
-    const filling = ingredients.filter(item => item.type == 'main');
-    setSelectedFilling(filling);
-  }
+  // // Фильтруем по начинке
+  // const selectIngredients = () => {
+  //   const filling = ingredients.filter(item => item.type == 'main');
+  //   setSelectedFilling(filling);
+  // }
 
-  useEffect(() => {
-    selectBun();
-    selectIngredients();
-  }, [ingredients]);
+  // useEffect(() => {
+  //   selectBun();
+  //   selectIngredients();
+  // }, [ingredients]);
 
   //создание функции диспатч
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getCards());
+    dispatch(getIngredients());
   }, [])
 
   return (
@@ -118,14 +118,14 @@ export default function App() {
           <AppHeader />
         </div>
         <div className={app.section}>
-          <BurgerContext.Provider value={{ ingredients }} >
+          {/* <BurgerContext.Provider value={{ ingredients }} > */}
             <BurgerIngredients onOpenModal={handleIngredientDetailsOpenModal} />
-          </BurgerContext.Provider>
-          <IngredientsContext.Provider value={{ selectedBun, selectedFilling, selectedId, setSelectedId }} >
+          {/* </BurgerContext.Provider> */}
+          {/* <IngredientsContext.Provider value={{ selectedBun, selectedFilling, selectedId, setSelectedId }} > */}
             {selectedBun?.price &&
               <BurgerConstructor onOpenModal={handleOrderDetailsOpenModal} />
             }
-          </IngredientsContext.Provider>
+          {/* </IngredientsContext.Provider> */}
         </div>
       </main>
 
