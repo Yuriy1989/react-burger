@@ -1,4 +1,5 @@
-export const GET_INRGEDIENTS_API = 'GET_INRGEDIENTS_API';
+export const GET_INGREDIENTS_API = 'GET_INGREDIENTS_API';
+export const INGREDIENTS_IN_BURGER_CONSTRUCTOR = 'INGREDIENTS_IN_BURGER_CONSTRUCTOR';
 
 import { api } from '../../utils/Api';
 
@@ -7,7 +8,7 @@ export const getIngredients = () => {
     api.getIngridients()
       .then(res => {
         dispatch({
-          type: GET_INRGEDIENTS_API,
+          type: GET_INGREDIENTS_API,
           payload: {
             ingredients: res.data.map((item) => {
               return {
