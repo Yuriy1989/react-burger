@@ -49,8 +49,8 @@ export default function BurgerIngredients({ onOpenModal }) {
     }
   }, []);
 
-  const ingredients = useSelector((state) => state.ingredientsGetApi);
-  console.log("ingredients", ingredients);
+  // const ingredients = useSelector((state) => state.getIngredientsApi.ingredientsGetApi);
+  // console.log("ingredients", ingredients);
 
   return (
     <section className={burgerIngredients.burgerIngredients}>

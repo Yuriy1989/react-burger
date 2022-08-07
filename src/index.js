@@ -3,14 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/app/App';
 import reportWebVitals from './reportWebVitals';
-import { createStore, applyMiddleware } from 'redux';
+// import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
-import { rootReducers } from './services/reducers/rootReducers';
-import { logger } from './services/middleware/logger';
+import { store } from './services/store';
 
-import thunk from 'redux-thunk';
+// import { rootReducers } from './services/reducers/rootReducers';
+// import { logger } from './services/middleware/logger';
 
-const store = createStore(rootReducers, applyMiddleware(thunk));
+// const store = createStore(rootReducers, enhancer);
 
 ReactDOM.render(
   <React.StrictMode>

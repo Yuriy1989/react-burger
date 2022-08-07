@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { getIngredients } from '../../services/actions/ingredients';
+import { useDispatch, useSelector } from 'react-redux';
+import { getIngredients, getIngredientsForConstructor } from '../../services/actions/ingredients';
+import { GET_INGREDIENTS_API } from '../../services/reducers/ingredients';
 
 import app from './app.module.css';
 // import { api } from '../../utils/Api';
@@ -10,7 +11,7 @@ import BurgerConstructor from '../burgerConstructor/BurgerConstructor';
 import Modal from '../modal/Modal';
 import OrderDetails from '../orderDetails/OrderDetails';
 import IngredientDetails from '../ingredientDetails/IngredientDetails';
-import { BurgerContext, IngredientsContext } from '../../services/appContext';
+// import { BurgerContext, IngredientsContext } from '../../services/appContext';
 
 export default function App() {
 
@@ -107,12 +108,24 @@ export default function App() {
   //создание функции диспатч
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getIngredients());
-  }, [])
+  // const selectedIngredients = useSelector((state) => state);
+  // console.log("selectedIngredients", selectedIngredients);
+
+  // useEffect(() => {
+  //   dispatch(getIngredients());
+  // }, [])
+
+  // useEffect(() => {
+  //   dispatch(getIngredientsForConstructor(selectedIngredients));
+  // }, [selectedIngredients])
+
+  let data = [{name: 321}, {name: 123}];
+
+  // const testtest = dispatch(GET_INGREDIENTS_API(data));
 
   return (
     <>
+      <button onClick={(data) => dispatch(GET_INGREDIENTS_API(data))}>test</button>
       <main className={app.app}>
         <div className={app.header}>
           <AppHeader />
@@ -121,10 +134,10 @@ export default function App() {
           {/* <BurgerContext.Provider value={{ ingredients }} > */}
             <BurgerIngredients onOpenModal={handleIngredientDetailsOpenModal} />
           {/* </BurgerContext.Provider> */}
-          {/* <IngredientsContext.Provider value={{ selectedBun, selectedFilling, selectedId, setSelectedId }} > */}
-            {selectedBun?.price &&
+          {/* <IngredientsContext.Provider val> ue={{ selectedBun, selectedFilling, selectedId, setSelectedId }} > */}
+            {/* {selectedIngredients &&
               <BurgerConstructor onOpenModal={handleOrderDetailsOpenModal} />
-            }
+            } */}
           {/* </IngredientsContext.Provider> */}
         </div>
       </main>
