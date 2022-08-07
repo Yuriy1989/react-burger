@@ -49,7 +49,7 @@ export default function BurgerIngredients({ onOpenModal }) {
     }
   }, []);
 
-  // const ingredients = useSelector((state) => state.getIngredientsApi.ingredientsGetApi);
+  const ingredients = useSelector((state) => state.getIngredientsApi.ingredientsGetApi);
   // console.log("ingredients", ingredients);
 
   return (
@@ -63,33 +63,33 @@ export default function BurgerIngredients({ onOpenModal }) {
       <div className={burgerIngredients.ingredients}>
         <h2 ref={bunRef} className="text text_type_main-medium test">Булки</h2>
         <div className={burgerIngredients.ingredient}>
-          {/* {
+          {
             ingredients.filter(card => card.type == 'bun').map(filteredType => (
               <ul className={burgerIngredients.card} key={filteredType.id}>
                 <IngredientItem item={filteredType} onOpenModal={onOpenModal}/>
               </ul>
             ))
-          } */}
+          }
         </div>
         <h2 ref={sauceRef} className="text text_type_main-medium">Соусы</h2>
         <div className={burgerIngredients.ingredient}>
-          {/* {
+          {
             ingredients.filter(card => card.type == 'sauce').map(filteredType => (
               <ul className={burgerIngredients.card} key={filteredType.id}>
                 <IngredientItem item={filteredType} onOpenModal={onOpenModal}/>
               </ul>
             ))
-          } */}
+          }
         </div>
         <h2 ref={mainRef} className="text text_type_main-medium">Начинка</h2>
         <div className={burgerIngredients.ingredient}>
-          {/* {
+          {
             ingredients.filter(card => card.type == 'main').map(filteredType => (
               <ul className={burgerIngredients.card} key={filteredType.id}>
                 <IngredientItem item={filteredType} onOpenModal={onOpenModal}/>
               </ul>
             ))
-          } */}
+          }
         </div>
       </div>
     </section>

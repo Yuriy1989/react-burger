@@ -38,19 +38,19 @@ export default function BurgerConstructor({ onOpenModal }) {
 
   const selectedIngredients = useSelector(state => state.getIngredientsApi.ingredientForConstructor)
   // console.log("selectedIngredients", selectedIngredients);
-  if (selectedIngredients[0]?.type) {
-    const t = selectedIngredients[0]?.type && selectedIngredients.filter((item) => item.type == 'bun');
-  }
-  // const t = selectedIngredients[0]?.type && selectedIngredients.filter((item) => item.type == 'bun');
-  console.log("test123", selectedIngredients[0]);
+  // if (selectedIngredients[0]?.type) {
+  //   const t = selectedIngredients[0]?.type && selectedIngredients.filter((item) => item.type == 'bun');
+  // }
+  const selectedBun =  selectedIngredients.filter((item) => item.type == 'bun');
+  console.log("bun =", selectedBun);
 
   return (
     <section className={burgerConstructor.burgerConstructor} >
       <div className={burgerConstructor.bun}>
       {/* {
-        selectedIngredients[0].type && (selectedIngredients.filter((item) => item.type == 'bun')) && (selectedIngredients.filter((item) => item.type == 'bun'))
+        (selectedIngredients.filter((item) => item.type == 'bun'))
       } */}
-      { (selectedIngredients[0]?.type) &&  ("selectedIngredients its TRUE")  }
+
         {/* {
           <ConstructorElement
             key={selectedBun.id}

@@ -108,24 +108,28 @@ export default function App() {
   //создание функции диспатч
   const dispatch = useDispatch();
 
-  // const selectedIngredients = useSelector((state) => state);
-  // console.log("selectedIngredients", selectedIngredients);
+  const selectedIngredients = useSelector((state) => state.getIngredientsApi.ingredientsGetApi);
+  console.log("selectedIngredients", selectedIngredients);
 
-  // useEffect(() => {
-  //   dispatch(getIngredients());
-  // }, [])
 
-  // useEffect(() => {
-  //   dispatch(getIngredientsForConstructor(selectedIngredients));
-  // }, [selectedIngredients])
+  useEffect(() => {
+    dispatch(getIngredients());
+  }, [])
 
-  let data = [{name: 321}, {name: 123}];
+  useEffect(() => {
+    dispatch(getIngredientsForConstructor(selectedIngredients));
+  }, [selectedIngredients])
+
+  console.log("selectedIngredients length =", selectedIngredients.length);
+
+  let length = selectedIngredients.length
 
   // const testtest = dispatch(GET_INGREDIENTS_API(data));
 
+
+
   return (
     <>
-      <button onClick={(data) => dispatch(GET_INGREDIENTS_API(data))}>test</button>
       <main className={app.app}>
         <div className={app.header}>
           <AppHeader />
@@ -135,9 +139,9 @@ export default function App() {
             <BurgerIngredients onOpenModal={handleIngredientDetailsOpenModal} />
           {/* </BurgerContext.Provider> */}
           {/* <IngredientsContext.Provider val> ue={{ selectedBun, selectedFilling, selectedId, setSelectedId }} > */}
-            {/* {selectedIngredients &&
+            {(length > 0) &&
               <BurgerConstructor onOpenModal={handleOrderDetailsOpenModal} />
-            } */}
+            }
           {/* </IngredientsContext.Provider> */}
         </div>
       </main>
