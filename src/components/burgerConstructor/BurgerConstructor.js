@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer } from "react";
+import React, { useContext, useEffect, useMemo, useReducer } from "react";
 import PropTypes from 'prop-types';
 import style, { DragIcon, ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,7 +7,7 @@ import burgerConstructor from './burgerConstructor.module.css';
 import { funcTypes } from '../../utils/types';
 // import { IngredientsContext } from '../../services/appContext';
 
-export default function BurgerConstructor({ onOpenModal }) {
+function BurgerConstructor({ onOpenModal }) {
 
   // const {selectedBun, selectedFilling , selectedId, setSelectedId} = useContext(IngredientsContext);
 
@@ -41,7 +41,11 @@ export default function BurgerConstructor({ onOpenModal }) {
   // if (selectedIngredients[0]?.type) {
   //   const t = selectedIngredients[0]?.type && selectedIngredients.filter((item) => item.type == 'bun');
   // }
-  const selectedBun =  selectedIngredients.filter((item) => item.type == 'bun');
+  // const selectedBun =  selectedIngredients.filter((item) => item.type == 'bun');
+
+
+  const selectedBun = useMemo(() =>
+    selectedIngredients.filter((item) => item.type == 'bun'), [selectedIngredients]);
   console.log("bun =", selectedBun);
 
   return (
@@ -106,3 +110,5 @@ export default function BurgerConstructor({ onOpenModal }) {
 BurgerConstructor.propTypes = {
   onOpenModal: funcTypes.isRequired
 }
+
+export default React.memo(BurgerConstructor);

@@ -114,7 +114,7 @@ export default function App() {
 
   useEffect(() => {
     dispatch(getIngredients());
-  }, [])
+  }, [dispatch])
 
   useEffect(() => {
     dispatch(getIngredientsForConstructor(selectedIngredients));

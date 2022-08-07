@@ -8,7 +8,7 @@ import IngredientItem from '../ingredientItem/IngredientItem';
 import { funcTypes } from '../../utils/types';
 // import { BurgerContext } from '../../services/appContext';
 
-export default function BurgerIngredients({ onOpenModal }) {
+function BurgerIngredients({ onOpenModal }) {
 
   // const {ingredients} = useContext(BurgerContext);
 
@@ -99,3 +99,6 @@ export default function BurgerIngredients({ onOpenModal }) {
 BurgerIngredients.propTypes = {
   onOpenModal: funcTypes.isRequired
 }
+
+
+export default React.memo(BurgerIngredients);
