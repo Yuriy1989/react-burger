@@ -37,38 +37,34 @@ function BurgerConstructor({ onOpenModal }) {
   // }, [selectedFilling, selectedBun]);
 
   const selectedIngredients = useSelector(state => state.getIngredientsApi.ingredientForConstructor)
-  // console.log("selectedIngredients", selectedIngredients);
-  // if (selectedIngredients[0]?.type) {
-  //   const t = selectedIngredients[0]?.type && selectedIngredients.filter((item) => item.type == 'bun');
-  // }
-  // const selectedBun =  selectedIngredients.filter((item) => item.type == 'bun');
+  // console.log("selectedIngredients =", selectedIngredients);
 
-
-  const selectedBun = useMemo(() =>
-    selectedIngredients.filter((item) => item.type == 'bun'), [selectedIngredients]);
-  console.log("bun =", selectedBun);
+  const selectedBun = useMemo(() => selectedIngredients.filter((item) => item.type == 'bun'), [selectedIngredients]);
+  const selectedMain = useMemo(() => selectedIngredients.filter((item) => item.type !== 'bun'), [selectedIngredients]);
+  // const selectedMain = useMemo(() => selectedIngredients.slice().splice(selectedIdBun, 1), [selectedIngredients]);
+  // const selectedMain = selectedIngredients.slice();
+  // const selectedMain_2 = selectedMain.splice(9, 1);
+  // const selectedMain_2 = selectedMain.filter(function(item) { return item.type !== 'bun' });
+  // console.log("bun =", selectedBun);
+  // console.log("selectedMain =", selectedMain);
 
   return (
     <section className={burgerConstructor.burgerConstructor} >
       <div className={burgerConstructor.bun}>
-      {/* {
-        (selectedIngredients.filter((item) => item.type == 'bun'))
-      } */}
-
-        {/* {
+        {
           <ConstructorElement
-            key={selectedBun.id}
+            key={selectedBun[0]?.id}
             type="top"
             isLocked={true}
-            text={selectedBun.name}
-            price={selectedBun.price}
-            thumbnail={selectedBun.image_mobile}
+            text={selectedBun[0]?.name}
+            price={selectedBun[0]?.price}
+            thumbnail={selectedBun[0]?.image_mobile}
           />
-        } */}
+        }
       </div>
       <ul className={` ${burgerConstructor.list} ${burgerConstructor.ingredients} `}>
         {
-          selectedIngredients.map((item) => (
+          selectedMain.map((item) => (
             <li className={burgerConstructor.ingredient} key={item.id}>
               <div className={burgerConstructor.dragIcon}>
                 <DragIcon type="primary" />
@@ -83,16 +79,16 @@ function BurgerConstructor({ onOpenModal }) {
         }
       </ul>
       <div className={burgerConstructor.bun}>
-        {/* {
+        {
           <ConstructorElement
-            key={selectedBun.id}
+            key={selectedBun[0]?.id}
             type="bottom"
             isLocked={true}
-            text={selectedBun.name}
-            price={selectedBun.price}
-            thumbnail={selectedBun.image_mobile}
+            text={selectedBun[0]?.name}
+            price={selectedBun[0]?.price}
+            thumbnail={selectedBun[0]?.image_mobile}
           />
-        } */}
+        }
       </div>
       <div className={burgerConstructor.buttonOrder}>
         {/* <p className="text text_type_digits-medium">{state.price}</p> */}

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIngredients, getIngredientsForConstructor } from '../../services/actions/ingredients';
-import { GET_INGREDIENTS_API } from '../../services/reducers/ingredients';
 
 import app from './app.module.css';
 // import { api } from '../../utils/Api';
@@ -108,21 +107,23 @@ export default function App() {
   //создание функции диспатч
   const dispatch = useDispatch();
 
-  const selectedIngredients = useSelector((state) => state.getIngredientsApi.ingredientsGetApi);
-  console.log("selectedIngredients", selectedIngredients);
-
-
+  //делаем запрос к серверу
   useEffect(() => {
     dispatch(getIngredients());
-  }, [dispatch])
+  }, [])
+
+  const selectedIngredients = useSelector((state) => state.getIngredientsApi.ingredientsGetApi);
+  // console.log("selectedIngredients", selectedIngredients);
 
   useEffect(() => {
     dispatch(getIngredientsForConstructor(selectedIngredients));
   }, [selectedIngredients])
 
-  console.log("selectedIngredients length =", selectedIngredients.length);
+  // console.log("selectedIngredients length =", selectedIngredients.length);
+  const selectedIngredientForConstructor = useSelector(state => state.getIngredientsApi.ingredientForConstructor)
 
-  let length = selectedIngredients.length
+  let length = selectedIngredientForConstructor.length
+  // console.log("selectedIngredientForConstructor = ",length);
 
   // const testtest = dispatch(GET_INGREDIENTS_API(data));
 
@@ -139,7 +140,7 @@ export default function App() {
             <BurgerIngredients onOpenModal={handleIngredientDetailsOpenModal} />
           {/* </BurgerContext.Provider> */}
           {/* <IngredientsContext.Provider val> ue={{ selectedBun, selectedFilling, selectedId, setSelectedId }} > */}
-            {(length > 0) &&
+            {
               <BurgerConstructor onOpenModal={handleOrderDetailsOpenModal} />
             }
           {/* </IngredientsContext.Provider> */}

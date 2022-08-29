@@ -4,8 +4,12 @@ import PropTypes from 'prop-types';
 import style, { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientDetails from './ingredientDetails.module.css';
 import { ingredientTypes } from '../../utils/types';
+import { useSelector } from 'react-redux';
 
 export default function IngredientDetails({ ingredient }) {
+
+  const ingredient2 = useSelector((state) => state.getInfoSelectedIngredient.openModalIngredient);
+  console.log("ingredient2",ingredient2);
 
   return (
     <>
