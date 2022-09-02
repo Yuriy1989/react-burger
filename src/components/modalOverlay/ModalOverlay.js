@@ -1,13 +1,13 @@
 import React from 'react';
 import modalOverlay from './modalOverlay.module.css';
-import { funcTypes } from '../../utils/types';
+import { useDispatch } from 'react-redux';
+import { closeInfoSelectedInrgedient } from '../../services/actions/getIngredientforOpenModal';
 
-export default function ModalOverlay({ onClick }) {
+export default function ModalOverlay() {
+const dispatch = useDispatch();
+const closeModal = () => dispatch(closeInfoSelectedInrgedient());
+
   return (
-    <div className={modalOverlay.modalOverlay} onClick={onClick}></div>
+    <div className={modalOverlay.modalOverlay} onClick={closeModal}></div>
   )
-}
-
-ModalOverlay.propTypes = {
-  onClick: funcTypes.isRequired
 }

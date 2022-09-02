@@ -17,9 +17,9 @@ export default function App() {
   // Булевый стейт для открытия модалки "Счет на оплату"
   const [isOrderDetailsOpened, setIsOrderDetailsOpened] = useState(false);
   // Булевый стейт для открытия модалки "Информация об ингредиенте"
-  const [isIngredientDetailsOpened, setIsIngredientDetailsOpened] = useState(false);
+  // const [isIngredientDetailsOpened, setIsIngredientDetailsOpened] = useState(false);
   // Стейт для открытия модалки с информацией об открытом ингредиенте
-  const [selectedIngredient, setselectedIngredient] = useState({});
+  // const [selectedIngredient, setselectedIngredient] = useState({});
   // Стейт для передачи данных в компоненты для отрисовки всех ингредиентов
   // const [ingredients, setIngredients] = useState([]);
   // Стейт для передачи данных в компоненты для отрисовки выбранных булочек
@@ -48,30 +48,6 @@ export default function App() {
     setIsIngredientDetailsOpened(true);
     setselectedIngredient(item);
   };
-
-  // Получение данных с сервера
-  // const getIngredients = () => {
-  //   api.getIngridients()
-  //     .then(res => {
-  //       const ingredients = res.data.map((item) => {
-  //         return {
-  //           id: item._id,
-  //           name: item.name,
-  //           price: item.price,
-  //           type: item.type,
-  //           image: item.image,
-  //           image_mobile: item.image_mobile,
-  //           image_large: item.image_large,
-  //           proteins: item.proteins,
-  //           fat: item.fat,
-  //           carbohydrates: item.carbohydrates,
-  //           calories: item.calories
-  //         }
-  //       })
-  //       setIngredients(ingredients)
-  //     })
-  //     .catch(console.log);
-  // }
 
   // Отправка данных на сервер для получения номера заказа
   const setOrderDetails = (data) => {
@@ -113,21 +89,13 @@ export default function App() {
   }, [])
 
   const selectedIngredients = useSelector((state) => state.getIngredientsApi.ingredientsGetApi);
-  // console.log("selectedIngredients", selectedIngredients);
 
   useEffect(() => {
     dispatch(getIngredientsForConstructor(selectedIngredients));
   }, [selectedIngredients])
 
-  // console.log("selectedIngredients length =", selectedIngredients.length);
   const selectedIngredientForConstructor = useSelector(state => state.getIngredientsApi.ingredientForConstructor)
-
-  let length = selectedIngredientForConstructor.length
-  // console.log("selectedIngredientForConstructor = ",length);
-
-  // const testtest = dispatch(GET_INGREDIENTS_API(data));
-
-
+  const isOpenModal = useSelector(state => state.getInfoSelectedIngredient.openModal);
 
   return (
     <>
@@ -136,31 +104,25 @@ export default function App() {
           <AppHeader />
         </div>
         <div className={app.section}>
-          {/* <BurgerContext.Provider value={{ ingredients }} > */}
-            <BurgerIngredients onOpenModal={handleIngredientDetailsOpenModal} />
-          {/* </BurgerContext.Provider> */}
-          {/* <IngredientsContext.Provider val> ue={{ selectedBun, selectedFilling, selectedId, setSelectedId }} > */}
-            {
-              <BurgerConstructor onOpenModal={handleOrderDetailsOpenModal} />
-            }
-          {/* </IngredientsContext.Provider> */}
+          <>
+            <BurgerIngredients />
+            <BurgerConstructor />
+          </>
         </div>
       </main>
-
-      {isOrderDetailsOpened &&
+      {isOpenModal &&
         <Modal
           title=""
-          onClose={closeAllModals}
+        // onClose={closeAllModals}
         >
           <OrderDetails order={order} />
         </Modal>
       }
-      {isIngredientDetailsOpened &&
+      {isOpenModal &&
         <Modal
           title="Детали ингредиента"
-          onClose={closeAllModals}
         >
-          <IngredientDetails ingredient={selectedIngredient} />
+          <IngredientDetails />
         </Modal>
       }
     </>

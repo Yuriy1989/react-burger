@@ -8,7 +8,7 @@ import IngredientItem from '../ingredientItem/IngredientItem';
 import { funcTypes } from '../../utils/types';
 // import { BurgerContext } from '../../services/appContext';
 
-function BurgerIngredients({ onOpenModal }) {
+function BurgerIngredients() {
 
   // const {ingredients} = useContext(BurgerContext);
 
@@ -72,7 +72,7 @@ function BurgerIngredients({ onOpenModal }) {
             {
               ingredients.filter(card => card.type == 'bun').map(filteredType => (
                 <ul className={burgerIngredients.card} key={filteredType.id}>
-                  <IngredientItem item={filteredType} onOpenModal={onOpenModal} />
+                  <IngredientItem item={filteredType} />
                 </ul>
               ))
             }
@@ -82,7 +82,7 @@ function BurgerIngredients({ onOpenModal }) {
             {
               ingredients.filter(card => card.type == 'sauce').map(filteredType => (
                 <ul className={burgerIngredients.card} key={filteredType.id}>
-                  <IngredientItem item={filteredType} onOpenModal={onOpenModal} />
+                  <IngredientItem item={filteredType} />
                 </ul>
               ))
             }
@@ -92,7 +92,7 @@ function BurgerIngredients({ onOpenModal }) {
             {
               ingredients.filter(card => card.type == 'main').map(filteredType => (
                 <ul className={burgerIngredients.card} key={filteredType.id}>
-                  <IngredientItem item={filteredType} onOpenModal={onOpenModal} />
+                  <IngredientItem item={filteredType} />
                 </ul>
               ))
             }
@@ -104,8 +104,8 @@ function BurgerIngredients({ onOpenModal }) {
   );
 }
 
-BurgerIngredients.propTypes = {
-  onOpenModal: funcTypes.isRequired
-}
+// BurgerIngredients.propTypes = {
+//   onOpenModal: funcTypes.isRequired
+// }
 
 export default React.memo(BurgerIngredients);

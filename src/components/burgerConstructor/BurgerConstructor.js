@@ -2,34 +2,31 @@ import React, { useContext, useEffect, useMemo, useReducer } from "react";
 import PropTypes from 'prop-types';
 import style, { DragIcon, ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { calcPrice, setSelectedId } from '../../services/actions/getOrderDetails';
 import burgerConstructor from './burgerConstructor.module.css';
-import { funcTypes } from '../../utils/types';
-// import { IngredientsContext } from '../../services/appContext';
 
-function BurgerConstructor({ onOpenModal }) {
+function BurgerConstructor() {
 
-  // const {selectedBun, selectedFilling , selectedId, setSelectedId} = useContext(IngredientsContext);
+  const dispatch = useDispatch();
 
-  const calcPrice = {price: 0}; //начальная цена за бургер
-  //Высчитываем общую цену бургера
-  // const calculatePrice = (state, action) => {
-  //   switch (action.type) {
-  //     case 'price':
-  //       const priceBun = selectedBun.price; //цена одной булочки
-  //       const priceFilling = selectedFilling.reduce((s, i) => s += i.price, 0); //цена начинки
-  //       const newPrice = priceBun * 2 + priceFilling; //общая цена
-  //       return {price: newPrice};
-  //     default: throw new Error();
-  //   }
-  // };
+  const selectedInrgedientsForBurgerConstructor = useSelector(state => state.getIngredientsApi.ingredientForConstructor);
+  console.log("selectedInrgedientsForBurgerConstructor = ", selectedInrgedientsForBurgerConstructor);
 
-  // const [state, dispatch] = useReducer(calculatePrice, calcPrice);
+  const calculatePrice = (data) => {
+    const calcPrice = data.reduce((s, i ) => s += i.price, 0);
+    return calcPrice;
+  }
 
-  //Собираем все _id ингредиентов для отправки запроса на сервер
-  // const createOrder = () => {
-  //   setSelectedId(([(selectedBun.id)].concat(selectedFilling.map((key) => { return key.id; }))).concat([(selectedBun.id)]));
-  // };
+  // Собираем все _id ингредиентов для отправки запроса на сервер
+  const createOrder = () => {
+    const setSelectedId = (selectedInrgedientsForBurgerConstructor.map((key) => {return key.id}));
+    return setSelectedId;
+  };
+
+  useEffect(() => {
+    dispatch(calcPrice(calculatePrice(selectedInrgedientsForBurgerConstructor)));
+    dispatch(setSelectedId(createOrder()));
+  }, [selectedInrgedientsForBurgerConstructor]);
 
   // useEffect (() => {
   //   dispatch({type: 'price'});
@@ -37,16 +34,14 @@ function BurgerConstructor({ onOpenModal }) {
   // }, [selectedFilling, selectedBun]);
 
   const selectedIngredients = useSelector(state => state.getIngredientsApi.ingredientForConstructor)
-  // console.log("selectedIngredients =", selectedIngredients);
+  const dataPrice = useSelector(state => state.getOrderDetails.price);
+  const selectedId = useSelector(state => state.getOrderDetails.selectedIdIgredients);
+  console.log();
 
   const selectedBun = useMemo(() => selectedIngredients.filter((item) => item.type == 'bun'), [selectedIngredients]);
   const selectedMain = useMemo(() => selectedIngredients.filter((item) => item.type !== 'bun'), [selectedIngredients]);
-  // const selectedMain = useMemo(() => selectedIngredients.slice().splice(selectedIdBun, 1), [selectedIngredients]);
-  // const selectedMain = selectedIngredients.slice();
-  // const selectedMain_2 = selectedMain.splice(9, 1);
-  // const selectedMain_2 = selectedMain.filter(function(item) { return item.type !== 'bun' });
-  // console.log("bun =", selectedBun);
-  // console.log("selectedMain =", selectedMain);
+
+  const onOpenModal = () => {console.log('openModal')};
 
   return (
     <section className={burgerConstructor.burgerConstructor} >
@@ -91,7 +86,7 @@ function BurgerConstructor({ onOpenModal }) {
         }
       </div>
       <div className={burgerConstructor.buttonOrder}>
-        {/* <p className="text text_type_digits-medium">{state.price}</p> */}
+        <p className="text text_type_digits-medium">{dataPrice}</p>
         <div className={burgerConstructor.cellPrice}>
           <CurrencyIcon type="primary" className="p-4" />
         </div>
@@ -101,10 +96,6 @@ function BurgerConstructor({ onOpenModal }) {
       </div>
     </section>
   );
-}
-
-BurgerConstructor.propTypes = {
-  onOpenModal: funcTypes.isRequired
 }
 
 export default React.memo(BurgerConstructor);
