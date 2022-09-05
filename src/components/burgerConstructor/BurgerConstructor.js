@@ -4,14 +4,15 @@ import style, { DragIcon, ConstructorElement, CurrencyIcon, Button } from '@ya.p
 import { useDispatch, useSelector } from 'react-redux';
 import { calcPrice, setSelectedId } from '../../services/actions/getOrderDetails';
 import burgerConstructor from './burgerConstructor.module.css';
+import { openOrderDetails } from '../../services/actions/getIngredientforOpenModal';
 
 function BurgerConstructor() {
 
   const dispatch = useDispatch();
 
   const selectedInrgedientsForBurgerConstructor = useSelector(state => state.getIngredientsApi.ingredientForConstructor);
-  console.log("selectedInrgedientsForBurgerConstructor = ", selectedInrgedientsForBurgerConstructor);
 
+  //вычисляем общую цену за бургер
   const calculatePrice = (data) => {
     const calcPrice = data.reduce((s, i ) => s += i.price, 0);
     return calcPrice;
@@ -28,20 +29,13 @@ function BurgerConstructor() {
     dispatch(setSelectedId(createOrder()));
   }, [selectedInrgedientsForBurgerConstructor]);
 
-  // useEffect (() => {
-  //   dispatch({type: 'price'});
-  //   createOrder();
-  // }, [selectedFilling, selectedBun]);
-
   const selectedIngredients = useSelector(state => state.getIngredientsApi.ingredientForConstructor)
   const dataPrice = useSelector(state => state.getOrderDetails.price);
-  const selectedId = useSelector(state => state.getOrderDetails.selectedIdIgredients);
-  console.log();
 
   const selectedBun = useMemo(() => selectedIngredients.filter((item) => item.type == 'bun'), [selectedIngredients]);
   const selectedMain = useMemo(() => selectedIngredients.filter((item) => item.type !== 'bun'), [selectedIngredients]);
 
-  const onOpenModal = () => {console.log('openModal')};
+  const handleClick = () => dispatch(openOrderDetails());
 
   return (
     <section className={burgerConstructor.burgerConstructor} >
@@ -90,7 +84,7 @@ function BurgerConstructor() {
         <div className={burgerConstructor.cellPrice}>
           <CurrencyIcon type="primary" className="p-4" />
         </div>
-        <Button onClick={onOpenModal} type="primary" size="large">
+        <Button onClick={handleClick} type="primary" size="large">
           Оформить заказ
         </Button>
       </div>

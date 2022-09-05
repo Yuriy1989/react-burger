@@ -1,8 +1,14 @@
 //экшен для открытия модалки при нажатии на ингредиент
-import { OPEN_SELECTED_INRGEDIENT, CLOSE_SELECTED_INRGEDIENT } from '../actions/getIngredientforOpenModal';
+import {
+  OPEN_SELECTED_INRGEDIENT,
+  CLOSE_MODALS,
+  OPEN_ORDER_DETAILS
+}
+  from '../actions/getIngredientforOpenModal';
 
 const defaultState = {
   openModal: false, //состояние открыто ли модальное окно
+  openModalOrder: false, //состояние открыто ли модальное окно номера заказа
   openModalIngredient: {} //объект текущего просматриваемого ингредиента
 }
 
@@ -12,8 +18,11 @@ export const openInfoSelectedIngredient = (state = defaultState, action) => {
       const selectedInrgedient = action.payload;
       return {...state, openModalIngredient: selectedInrgedient, openModal: true}
     }
-    case CLOSE_SELECTED_INRGEDIENT: {
-      return {...state, openModal: false}
+    case CLOSE_MODALS: {
+      return {...state, openModal: false, openModalOrder: false}
+    }
+    case OPEN_ORDER_DETAILS: {
+      return {...state, openModalOrder: true}
     }
     default:
       return state

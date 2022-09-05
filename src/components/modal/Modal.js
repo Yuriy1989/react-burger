@@ -4,7 +4,7 @@ import style, { CloseIcon, } from '@ya.praktikum/react-developer-burger-ui-compo
 import ModalOverlay from '../modalOverlay/ModalOverlay';
 import modal from './modal.module.css';
 import { useDispatch } from 'react-redux';
-import { closeInfoSelectedInrgedient } from '../../services/actions/getIngredientforOpenModal';
+import { closeModal } from '../../services/actions/getIngredientforOpenModal';
 
 
 const modalsContainer = document.querySelector('#modals');
@@ -13,11 +13,11 @@ const Modal = ({ title, children }) => {
 
   const dispatch = useDispatch();
 
-  const closeModal = () => dispatch(closeInfoSelectedInrgedient());
+  const closeModals = () => dispatch(closeModal());
 
   // Обработка нажатия Esc
   const handleEscKeydown = (event) => {
-    event.key === "Escape" && dispatch(closeInfoSelectedInrgedient());
+    event.key === "Escape" && dispatch(closeModal());
   };
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const Modal = ({ title, children }) => {
         <div className={modal.modalForm}>
           <div className={modal.headerDetails}>
             <p className={` ${modal.headerText} text text_type_main-large`}>{title}</p>
-            <div className={modal.closeButton}><CloseIcon type="primary" onClick={closeModal} /></div>
+            <div className={modal.closeButton}><CloseIcon type="primary" onClick={closeModals} /></div>
           </div>
           {children}
         </div>

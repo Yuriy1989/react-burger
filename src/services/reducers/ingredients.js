@@ -1,4 +1,9 @@
-import { GET_INGREDIENTS_API, GET_INGREDIENTS_API_SUCCESS, GET_INGREDIENTS_API_FAILED, INGREDIENTS_IN_BURGER_CONSTRUCTOR } from '../actions/ingredients';
+import {
+  GET_INGREDIENTS_API,
+  GET_INGREDIENTS_API_SUCCESS,
+  GET_INGREDIENTS_API_FAILED,
+  INGREDIENTS_IN_BURGER_CONSTRUCTOR
+} from '../actions/ingredients';
 
 const defaultState = {
   feedRequest: false,

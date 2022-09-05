@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import style, { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
 import ingredientItem from './ingredientItem.module.css';
-import { ingredientTypes, funcTypes } from '../../utils/types';
+import { ingredientTypes } from '../../utils/types';
 import { openInfoSelectedInrgedient } from '../../services/actions/getIngredientforOpenModal';
 
 export default function IngredientItem ( {item} ) {
@@ -28,5 +28,4 @@ export default function IngredientItem ( {item} ) {
 
 IngredientItem.propTypes = {
   item: ingredientTypes.isRequired,
-  // onOpenModal: funcTypes.isRequired
 }

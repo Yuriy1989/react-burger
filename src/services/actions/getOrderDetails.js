@@ -4,26 +4,19 @@ export const GET_ORDER_DETAILS_SUCCESS_FAILED = 'GET_ORDER_DETAILS_SUCCESS_FAILE
 export const CALC_PRICE_ORDER_DETAILS = 'CALC_PRICE_ORDER_DETAILS';
 export const SET_SELECTED_ID_INGREDIENTS = 'SET_SELECTED_ID_INGREDIENTS';
 
+import { api } from '../../utils/Api';
+
 export const getOrderDetails = (data) => {
   return(dispatch) => {
     dispatch({
       type: GET_ORDER_DETAILS,
     })
-    fetch('https://norma.nomoreparties.space/api//orders', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        "ingredients": data
-      })
-    })
-      .then(res => res.ok ? res.json() : Promise.reject(res.status))
+    api.setOrderDetails(data)
       .then(res => {
         if(res && res.success) {
           dispatch({
             type: GET_ORDER_DETAILS_SUCCESS,
-            payload: res
+            payload: res.order
           })
         } else {
           dispatch({
