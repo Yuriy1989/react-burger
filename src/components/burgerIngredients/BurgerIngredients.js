@@ -56,35 +56,29 @@ function BurgerIngredients() {
       </div>
       <div className={burgerIngredients.ingredients}>
         <h2 ref={bunRef} className="text text_type_main-medium test">Булки</h2>
-        <div className={burgerIngredients.ingredient}>
+        <ul className={burgerIngredients.card}>
           {
             ingredients.filter(card => card.type == 'bun').map(filteredType => (
-              <ul className={burgerIngredients.card} key={filteredType.id}>
-                <IngredientItem item={filteredType} />
-              </ul>
+              <IngredientItem item={filteredType} key={filteredType.id} />
             ))
           }
-        </div>
+        </ul>
         <h2 ref={sauceRef} className="text text_type_main-medium">Соусы</h2>
-        <div className={burgerIngredients.ingredient}>
+        <ul className={burgerIngredients.card}>
           {
             ingredients.filter(card => card.type == 'sauce').map(filteredType => (
-              <ul className={burgerIngredients.card} key={filteredType.id}>
-                <IngredientItem item={filteredType} />
-              </ul>
+              <IngredientItem item={filteredType} key={filteredType.id} />
             ))
           }
-        </div>
+        </ul>
         <h2 ref={mainRef} className="text text_type_main-medium">Начинка</h2>
-        <div className={burgerIngredients.ingredient}>
+        <ul className={burgerIngredients.card} >
           {
             ingredients.filter(card => card.type == 'main').map(filteredType => (
-              <ul className={burgerIngredients.card} key={filteredType.id}>
-                <IngredientItem item={filteredType} />
-              </ul>
+              <IngredientItem item={filteredType} key={filteredType.id} />
             ))
           }
-        </div>
+        </ul>
       </div>
     </section>
   );

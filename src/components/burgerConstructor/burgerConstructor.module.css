@@ -1,7 +1,9 @@
 .burgerConstructor {
   max-width: 580px;
+  min-width: 100%;
   margin-top: 60px;
   justify-self: start;
+  box-sizing: border-box;
 }
 
 .ingredients {
@@ -32,22 +34,6 @@
   display: flex;
   flex-direction: column;
   padding-left: 2.5px;
-}
-
-.ingredient {
-  display: flex;
-  align-items: center;
-  list-style: none;
-  margin-bottom: 16px;
-  margin-right: 8px;
-}
-
-.ingredient:last-child {
-  margin-bottom: 0;
-}
-
-.dragIcon {
-  padding-right: 13.5px;
 }
 
 .cellPrice{

@@ -6,8 +6,10 @@ export const GET_INGREDIENTS_API = 'GET_INGREDIENTS_API';
 export const GET_INGREDIENTS_API_SUCCESS = 'GET_INGREDIENTS_API_SUCCESS';
 //экшен для при получение отрицательно ответа от сервера
 export const GET_INGREDIENTS_API_FAILED = 'GET_INGREDIENTS_API_FAILED';
-//экшен для отправки запроса на сервер
+//экшен для сборки ингредиентов для бургера
 export const INGREDIENTS_IN_BURGER_CONSTRUCTOR = 'INGREDIENTS_IN_BURGER_CONSTRUCTOR';
+//экшен для удаления ингредиента из собираемого бургера
+export const DELETE_INGREDIENTS_IN_BURGER_CONSTRUCTOR = 'DELETE_INGREDIENTS_IN_BURGER_CONSTRUCTOR';
 
 import { api } from '../../utils/Api';
 
@@ -51,16 +53,22 @@ export const getIngredients = () => {
   }
 }
 
-//фильтруем по начинке и булке
-export const getIngredientsForConstructor = (data) => {
-  return (dispatch) => {
-    let selectedIngredients = data.length > 0 ? data.filter(item => item.type == 'main') : [];  // Фильтруем по начинке
-    selectedIngredients.push(data.length > 0 ? data.find(item => item.type == 'bun') : []); // Фильтруем по булке
+//экшен по сбору выбранных ингредиентов для бургера
+export const selectedIngredientsForBurgerAction = (data) => {
+  return(dispatch) => {
     dispatch({
       type: INGREDIENTS_IN_BURGER_CONSTRUCTOR,
-      payload: selectedIngredients
+      payload: data
     })
   }
 }
 
-
+//экшен по удалению выбранных ингредиентов для бургера
+export const deleteSelectedIngredientsForBurgerAction = (data) => {
+  return(dispatch) => {
+    dispatch({
+      type: DELETE_INGREDIENTS_IN_BURGER_CONSTRUCTOR,
+      payload: data
+    })
+  }
+}

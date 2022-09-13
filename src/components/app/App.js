@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIngredients, getIngredientsForConstructor } from '../../services/actions/ingredients';
 
@@ -10,6 +10,8 @@ import BurgerConstructor from '../burgerConstructor/BurgerConstructor';
 import Modal from '../modal/Modal';
 import OrderDetails from '../orderDetails/OrderDetails';
 import IngredientDetails from '../ingredientDetails/IngredientDetails';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -18,12 +20,6 @@ export default function App() {
   useEffect(() => {
     dispatch(getIngredients());
   }, [])
-
-  const selectedIngredients = useSelector((state) => state.getIngredientsApi.ingredientsGetApi);
-
-  useEffect(() => {
-    dispatch(getIngredientsForConstructor(selectedIngredients));
-  }, [selectedIngredients])
 
   const isOpenModal = useSelector(state => state.getInfoSelectedIngredient.openModal);
   const isOpenModalDetails = useSelector(state => state.getInfoSelectedIngredient.openModalOrder);
@@ -43,8 +39,10 @@ export default function App() {
             </div>
             <div className={app.section}>
               <>
-                <BurgerIngredients />
-                <BurgerConstructor />
+                <DndProvider backend={HTML5Backend}>
+                  <BurgerIngredients />
+                  <BurgerConstructor />
+                </DndProvider>
               </>
             </div>
           </main>
