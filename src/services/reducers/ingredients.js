@@ -3,6 +3,7 @@ import {
   GET_INGREDIENTS_API_SUCCESS,
   GET_INGREDIENTS_API_FAILED,
   INGREDIENTS_IN_BURGER_CONSTRUCTOR,
+  SORT_INGREDIENTS_IN_BURGER_CONSTRUCTOR,
   DELETE_INGREDIENTS_IN_BURGER_CONSTRUCTOR,
 } from '../actions/ingredients';
 
@@ -10,10 +11,10 @@ const defaultState = {
   feedRequest: false,
   feedFailed: false,
   ingredientsGetApi: [], //список всех полученных ингредиентов
-  ingredientForConstructor: {
+  ingredientForConstructor: { //список всех ингредиентов в текущем конструкторе бургера
     bun: [],
     others: []
-  }, //список всех ингредиентов в текущем конструкторе бургера
+  },
 }
 
 export const getIngredientsApi = ( state = defaultState, action ) => {
@@ -48,40 +49,27 @@ export const getIngredientsApi = ( state = defaultState, action ) => {
           },
         }
       }
-      //Ищем булку в текущем добавляемом ингредиенте
-      // if (ingredients.type == 'bun') { //если добавляем ингредиент Булку
-      //   console.log('state.ingredientForConstructor = ', state.ingredientForConstructor);
-      //   if (state.ingredientForConstructor.find(item => (item.type == 'bun'))) { //проверяем наш стор на наличии в нем уже добавленной булочки
-      //     //извлекаем индекс под которым хранится наша булка в сторе
-      //     // const indexBun = state.ingredientForConstructor.indexOf(state.ingredientForConstructor.find((item, index) => (item.type == 'bun')));
-      //     //заменяем нашу булку в сторе на новую добавленную булку
-      //     // state.ingredientForConstructor.map((item, index) => (
-      //       // index == indexBun ? (state.ingredientForConstructor.splice(indexBun, 1, ingredients) ) : ''));
-      //     return {
-      //       ...state,
-      //       ingredientForConstructor: {...bun, ingredients}
-      //     }
-      //   } else { //если добавляем ингредиент булку, но булок еще нет в сторе
-      //     return {
-      //       ...state,
-      //       ingredientForConstructor: [...state.ingredientForConstructor, ingredients]
-      //     }
-      //   }
-      // } else { //игредиент не булка, добавляем ингредиент в общий массив
-      //   return {
-      //     ...state,
-      //     ingredientForConstructor: [...state.ingredientForConstructor, ingredients]
-      //   }
-      // }
+    }
+    case SORT_INGREDIENTS_IN_BURGER_CONSTRUCTOR: {
+      const dragIndex = action.dragIndex;
+      const hoverIndex = action.hoverIndex;
+      const newMas = state.ingredientForConstructor.others.slice(state.ingredientForConstructor.others.splice(hoverIndex, 0, state.ingredientForConstructor.others.splice(dragIndex, 1)[0]));
+      return {
+        ...state,
+        ingredientForConstructor: {
+          ...state.ingredientForConstructor,
+          others: [...newMas]
+        }
+      }
     }
     case DELETE_INGREDIENTS_IN_BURGER_CONSTRUCTOR: {
       const data = action.payload;
-      console.log('Index for delete = ', data);
-      console.log('state.ingredientForConstructor = ', state.ingredientForConstructor);
-
       return {
         ...state,
-        ingredientForConstructor: state.ingredientForConstructor.filter((item, index) => (index !== data))
+        ingredientForConstructor: {
+          ...state.ingredientForConstructor,
+          others: [...state.ingredientForConstructor.others.filter((item, index) => (index !== data))]
+        }
       }
     }
     default:

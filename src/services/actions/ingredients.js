@@ -8,6 +8,8 @@ export const GET_INGREDIENTS_API_SUCCESS = 'GET_INGREDIENTS_API_SUCCESS';
 export const GET_INGREDIENTS_API_FAILED = 'GET_INGREDIENTS_API_FAILED';
 //экшен для сборки ингредиентов для бургера
 export const INGREDIENTS_IN_BURGER_CONSTRUCTOR = 'INGREDIENTS_IN_BURGER_CONSTRUCTOR';
+//экшен для сортировки ингредиентов для бургера
+export const SORT_INGREDIENTS_IN_BURGER_CONSTRUCTOR = 'SORT_INGREDIENTS_IN_BURGER_CONSTRUCTOR';
 //экшен для удаления ингредиента из собираемого бургера
 export const DELETE_INGREDIENTS_IN_BURGER_CONSTRUCTOR = 'DELETE_INGREDIENTS_IN_BURGER_CONSTRUCTOR';
 
@@ -59,6 +61,17 @@ export const selectedIngredientsForBurgerAction = (data) => {
     dispatch({
       type: INGREDIENTS_IN_BURGER_CONSTRUCTOR,
       payload: data
+    })
+  }
+}
+
+//экшен по сортировке выбранных ингредиентов для бургера
+export const sortSelectedIngredientsForBurgerAction = (dragIndex, hoverIndex) => {
+  return(dispatch) => {
+    dispatch({
+      type: SORT_INGREDIENTS_IN_BURGER_CONSTRUCTOR,
+      dragIndex: dragIndex,
+      hoverIndex: hoverIndex
     })
   }
 }

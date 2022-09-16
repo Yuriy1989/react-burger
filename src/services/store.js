@@ -13,7 +13,6 @@ const enhancer = composeEnhancers(applyMiddleware(thunk));
 export const store = configureStore({
   reducer: {
     ingredients: ingredientsSlice
-    // enhancer: enhancer,
   },
 })
 
