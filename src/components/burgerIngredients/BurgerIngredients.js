@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import style, { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
+import { ingredientsName } from '../../services/reducers/ingredients';
 
 import burgerIngredients from './burgerIngredients.module.css';
 import IngredientItem from '../ingredientItem/IngredientItem';
@@ -14,7 +15,7 @@ function BurgerIngredients() {
   const ingredients = useSelector((state) => state.getIngredientsApi.ingredientsGetApi);
 
   //функция подсчета координат для выделения табов
-  const scrollTab = () => {
+  const scrollTab = useCallback(() => {
     const scrollArea = (document.querySelector('#scrollArea').getBoundingClientRect()).top;
     const scrollSectionBun = (document.querySelector('#sectionBun').getBoundingClientRect()).top;
     const scrollSectionSauce = (document.querySelector('#sectionSauce').getBoundingClientRect()).top;
@@ -31,7 +32,21 @@ function BurgerIngredients() {
     } else {
       setCurrent('main');
     }
+  }, [])
+
+  function throttle(callee, timeout) {
+    let timer = null
+    return function perform(...args) {
+      if (timer) return
+      timer = setTimeout(() => {
+        callee(...args)
+        clearTimeout(timer)
+        timer = null
+      }, timeout)
+    }
   }
+
+  let scrollTabThrottle = throttle(scrollTab, 500);
 
   const scrollToBun = () => {
     bunRef.current.scrollIntoView({
@@ -65,9 +80,9 @@ function BurgerIngredients() {
       scrollToMain();
     }
     const scrollBlock = document.getElementById("scrollArea");
-    scrollBlock.addEventListener("scroll", scrollTab);
+    scrollBlock.addEventListener("scroll", scrollTabThrottle);
     return function removeScroll() {
-      scrollBlock.removeEventListener("scroll", scrollTab);
+      scrollBlock.removeEventListener("scroll", scrollTabThrottle);
     };
   }, []);
 
@@ -75,15 +90,15 @@ function BurgerIngredients() {
     <section className={burgerIngredients.burgerIngredients} >
       <h2 className={` ${burgerIngredients.title} text text_type_main-large`}>Собери бургер</h2>
       <div className={burgerIngredients.tab}>
-        <Tab value="bun" active={current == 'bun'} onClick={scrollToBun}>Булки</Tab>
-        <Tab value="sauce" active={current == "sauce"} onClick={scrollToSauce}>Соусы</Tab>
-        <Tab value="main" active={current == "main"} onClick={scrollToMain}>Начинка</Tab>
+        <Tab value="bun" active={current === ingredientsName.bun} onClick={scrollToBun}>Булки</Tab>
+        <Tab value="sauce" active={current === ingredientsName.sauce} onClick={scrollToSauce}>Соусы</Tab>
+        <Tab value="main" active={current === ingredientsName.main} onClick={scrollToMain}>Начинка</Tab>
       </div>
       <div className={burgerIngredients.ingredients} id='scrollArea'>
-        <h2 ref={bunRef} className="text text_type_main-medium test"  id='sectionBun'>Булки</h2>
+        <h2 ref={bunRef} className="text text_type_main-medium test" id='sectionBun'>Булки</h2>
         <ul className={` ${burgerIngredients.card} ingredients`}>
           {
-            ingredients.filter(card => card.type == 'bun').map(filteredType => (
+            ingredients.filter(card => card.type === ingredientsName.bun).map(filteredType => (
               <IngredientItem item={filteredType} key={filteredType.id} />
             ))
           }
@@ -91,7 +106,7 @@ function BurgerIngredients() {
         <h2 ref={sauceRef} className="text text_type_main-medium" id='sectionSauce'>Соусы</h2>
         <ul className={` ${burgerIngredients.card} ingredients `} >
           {
-            ingredients.filter(card => card.type == 'sauce').map(filteredType => (
+            ingredients.filter(card => card.type === ingredientsName.sauce).map(filteredType => (
               <IngredientItem item={filteredType} key={filteredType.id} />
             ))
           }
@@ -99,7 +114,7 @@ function BurgerIngredients() {
         <h2 ref={mainRef} className="text text_type_main-medium" id='sectionMain'>Начинка</h2>
         <ul className={` ${burgerIngredients.card} ingredients `} >
           {
-            ingredients.filter(card => card.type == 'main').map(filteredType => (
+            ingredients.filter(card => card.type === ingredientsName.main).map(filteredType => (
               <IngredientItem item={filteredType} key={filteredType.id} />
             ))
           }

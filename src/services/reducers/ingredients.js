@@ -17,6 +17,8 @@ const defaultState = {
   },
 }
 
+export const ingredientsName = { bun: 'bun', main: 'main', sauce: 'sauce' };
+
 export const getIngredientsApi = ( state = defaultState, action ) => {
   switch (action.type) {
     case GET_INGREDIENTS_API: {
@@ -32,7 +34,7 @@ export const getIngredientsApi = ( state = defaultState, action ) => {
     case INGREDIENTS_IN_BURGER_CONSTRUCTOR: {
       const ingredients = action.payload;
       //Ищем булку в текущем добавляемом ингредиенте
-      if (ingredients.type == 'bun') { //если добавляем ингредиент Булку
+      if (ingredients.type === ingredientsName.bun) { //если добавляем ингредиент Булку
         return {
           ...state,
           ingredientForConstructor: {
@@ -64,6 +66,7 @@ export const getIngredientsApi = ( state = defaultState, action ) => {
     }
     case DELETE_INGREDIENTS_IN_BURGER_CONSTRUCTOR: {
       const data = action.payload;
+
       return {
         ...state,
         ingredientForConstructor: {

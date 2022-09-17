@@ -4,7 +4,7 @@ import uuid from 'react-uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import { calcPrice, setSelectedId } from '../../services/actions/getOrderDetails';
 import burgerConstructor from './burgerConstructor.module.css';
-import { openOrderDetails } from '../../services/actions/getIngredientforOpenModal';
+import { openOrderDetails, openOrderError } from '../../services/actions/getIngredientforOpenModal';
 import { useDrop } from "react-dnd";
 import { selectedIngredientsForBurgerAction } from '../../services/actions/ingredients';
 import ElementBurger from '../elementBurger/ElementBurger';
@@ -51,7 +51,14 @@ function BurgerConstructor() {
     dispatch(setSelectedId(createOrder()));
   }, [selectedIngredients]);
 
-  const handleClick = () => dispatch(openOrderDetails());
+
+  const handleClick = () => {
+    if (selectedIngredients.bun.find(item => item.type === 'bun')) {
+      dispatch(openOrderDetails());
+    } else {
+      dispatch(openOrderError());
+    }
+  }
 
   return (
     <section ref={dropTarget} className={burgerConstructor.burgerConstructor} style={{border}}>
@@ -62,7 +69,7 @@ function BurgerConstructor() {
               key={uuid()}
               type="top"
               isLocked={true}
-              text={selectedIngredients.bun[0]?.name}
+              text={` ${selectedIngredients.bun[0]?.name} (верх)`}
               price={selectedIngredients.bun[0]?.price}
               thumbnail={selectedIngredients.bun[0]?.image_mobile}
             />
@@ -83,7 +90,7 @@ function BurgerConstructor() {
               key={uuid()}
               type="bottom"
               isLocked={true}
-              text={selectedIngredients.bun[0]?.name}
+              text={` ${selectedIngredients.bun[0]?.name} (низ)`}
               price={selectedIngredients.bun[0]?.price}
               thumbnail={selectedIngredients.bun[0]?.image_mobile}
             />

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getIngredients, getIngredientsForConstructor } from '../../services/actions/ingredients';
+import { getIngredients } from '../../services/actions/ingredients';
 
 import app from './app.module.css';
 import style from '@ya.praktikum/react-developer-burger-ui-components';
@@ -9,12 +9,14 @@ import BurgerIngredients from '../burgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../burgerConstructor/BurgerConstructor';
 import Modal from '../modal/Modal';
 import OrderDetails from '../orderDetails/OrderDetails';
+import OrderMessage from '../orderMessage/OrderMessage';
 import IngredientDetails from '../ingredientDetails/IngredientDetails';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 export default function App() {
   const dispatch = useDispatch();
+  const message = {message: 'Добавьте булочку в ингредиенты'};
 
   //делаем запрос к серверу для получения всех ингредиентов
   useEffect(() => {
@@ -23,6 +25,7 @@ export default function App() {
 
   const isOpenModal = useSelector(state => state.getInfoSelectedIngredient.openModal);
   const isOpenModalDetails = useSelector(state => state.getInfoSelectedIngredient.openModalOrder);
+  const isOpenModalError = useSelector(state => state.getInfoSelectedIngredient.openModalError);
 
   const feedFailed = useSelector((state) => state.getIngredientsApi.feedFailed);
   const feedRequest = useSelector((state) => state.getIngredientsApi.feedRequest);
@@ -58,6 +61,13 @@ export default function App() {
               title="Детали ингредиента"
             >
               <IngredientDetails />
+            </Modal>
+          }
+          {isOpenModalError &&
+            <Modal
+              title=""
+            >
+              <OrderMessage />
             </Modal>
           }
         </>

@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import style, { CloseIcon, } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modalOverlay/ModalOverlay';
 import modal from './modal.module.css';
+import { text, component } from '../../utils/types';
 import { useDispatch } from 'react-redux';
 import { closeModal } from '../../services/actions/getIngredientforOpenModal';
-
 
 const modalsContainer = document.querySelector('#modals');
 
@@ -16,9 +16,9 @@ const Modal = ({ title, children }) => {
   const closeModals = () => dispatch(closeModal());
 
   // Обработка нажатия Esc
-  const handleEscKeydown = (event) => {
+  const handleEscKeydown = useCallback((event) => {
     event.key === "Escape" && dispatch(closeModal());
-  };
+  }, []);
 
   useEffect(() => {
     document.addEventListener('keydown', handleEscKeydown);
@@ -46,3 +46,8 @@ const Modal = ({ title, children }) => {
 }
 
 export default Modal;
+
+Modal.propTypes = {
+  title: text.isRequired,
+  children: component.isRequired
+}

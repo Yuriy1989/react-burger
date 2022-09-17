@@ -3,14 +3,14 @@ import style, { DragIcon, ConstructorElement } from '@ya.praktikum/react-develop
 import { useDispatch } from 'react-redux';
 import elementBurger from './elementBurger.module.css';
 import { deleteSelectedIngredientsForBurgerAction, sortSelectedIngredientsForBurgerAction } from '../../services/actions/ingredients';
-import { ingredientTypes } from '../../utils/types';
+import { ingredientTypes, numberTypes } from '../../utils/types';
 import { useDrag, useDrop } from 'react-dnd';
-import { useRef } from 'react';
+import { useRef, useCallback } from 'react';
 
 function ElementBurger({data, index}) {
   const dispatch = useDispatch();
-  const handleClose = () => dispatch(deleteSelectedIngredientsForBurgerAction(index));
-  const onDropHandlerOthers = (dragIndex, hoverIndex) => dispatch(sortSelectedIngredientsForBurgerAction(dragIndex, hoverIndex));
+  const handleClose = useCallback(() => dispatch(deleteSelectedIngredientsForBurgerAction(index)), []);
+  const onDropHandlerOthers = useCallback((dragIndex, hoverIndex) => dispatch(sortSelectedIngredientsForBurgerAction(dragIndex, hoverIndex)), []);
 
   const id = data.id;
   const ref = useRef();
@@ -81,4 +81,5 @@ export default ElementBurger;
 
 ElementBurger.propTypes = {
   data: ingredientTypes.isRequired,
+  index: numberTypes.isRequired
 }

@@ -4,7 +4,7 @@ import {
   GET_ORDER_DETAILS,
   GET_ORDER_DETAILS_SUCCESS,
   GET_ORDER_DETAILS_SUCCESS_FAILED,
- } from '../actions/getOrderDetails';
+} from '../actions/getOrderDetails';
 
 const defaultState = {
   feedRequest: false,

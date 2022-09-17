@@ -43,7 +43,7 @@
 .buttonOrder {
   display: flex;
   flex-direction: row;
-  justify-content: right;
+  justify-content: left;
   align-items: center;
-  margin: 40px 16px 0 0;
+  margin: 40px 16px 0 185px;
 }

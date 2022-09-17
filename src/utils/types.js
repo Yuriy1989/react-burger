@@ -18,4 +18,8 @@ export const dataTypes = PropTypes.arrayOf(
 
 export const funcTypes = PropTypes.func
 
-export const orderTypes = PropTypes.number
+export const numberTypes = PropTypes.number
+
+export const text = PropTypes.string
+
+export const component = PropTypes.object
