@@ -1,0 +1,16 @@
+.ingredient {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin-bottom: 16px;
+  margin-right: 8px;
+  cursor: move;
+}
+
+.ingredient:last-child {
+  margin-bottom: 0;
+}
+
+.dragIcon {
+  padding-right: 13.5px;
+}

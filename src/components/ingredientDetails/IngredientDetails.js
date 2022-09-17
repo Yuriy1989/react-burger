@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
-import style, { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientDetails from './ingredientDetails.module.css';
-import { ingredientTypes } from '../../utils/types';
+import { useSelector } from 'react-redux';
 
-export default function IngredientDetails({ ingredient }) {
+export default function IngredientDetails() {
+
+  const ingredient = useSelector((state) => state.getInfoSelectedIngredient.openModalIngredient);
 
   return (
     <>
@@ -31,8 +31,4 @@ export default function IngredientDetails({ ingredient }) {
         </ul>
     </>
   )
-}
-
-IngredientDetails.propTypes = {
-  ingredient: ingredientTypes.isRequired
 }

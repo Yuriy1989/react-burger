@@ -1,18 +1,52 @@
-import React, { useEffect, useRef, useContext } from 'react';
-import PropTypes from 'prop-types';
-import style, { Tab, Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import style, { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useSelector } from 'react-redux';
+import { ingredientsName } from '../../services/reducers/ingredients';
+
 import burgerIngredients from './burgerIngredients.module.css';
 import IngredientItem from '../ingredientItem/IngredientItem';
-import { funcTypes } from '../../utils/types';
-import { BurgerContext } from '../../services/appContext';
 
-export default function BurgerIngredients({ onOpenModal }) {
+function BurgerIngredients() {
 
-  const {ingredients} = useContext(BurgerContext);
-
+  const [current, setCurrent] = useState();
   const bunRef = useRef(null);
   const sauceRef = useRef(null);
   const mainRef = useRef(null);
+  const ingredients = useSelector((state) => state.getIngredientsApi.ingredientsGetApi);
+
+  //функция подсчета координат для выделения табов
+  const scrollTab = useCallback(() => {
+    const scrollArea = (document.querySelector('#scrollArea').getBoundingClientRect()).top;
+    const scrollSectionBun = (document.querySelector('#sectionBun').getBoundingClientRect()).top;
+    const scrollSectionSauce = (document.querySelector('#sectionSauce').getBoundingClientRect()).top;
+    const scrollSectionMain = (document.querySelector('#sectionMain').getBoundingClientRect()).top;
+
+    const bun = Math.abs(scrollArea - scrollSectionBun);
+    const sauce = Math.abs(scrollArea - scrollSectionSauce);
+    const main = Math.abs(scrollArea - scrollSectionMain);
+
+    if(bun < sauce) {
+      setCurrent('bun');
+    } else if (sauce < main) {
+      setCurrent('sauce');
+    } else {
+      setCurrent('main');
+    }
+  }, [])
+
+  function throttle(callee, timeout) {
+    let timer = null
+    return function perform(...args) {
+      if (timer) return
+      timer = setTimeout(() => {
+        callee(...args)
+        clearTimeout(timer)
+        timer = null
+      }, timeout)
+    }
+  }
+
+  let scrollTabThrottle = throttle(scrollTab, 500);
 
   const scrollToBun = () => {
     bunRef.current.scrollIntoView({
@@ -45,52 +79,49 @@ export default function BurgerIngredients({ onOpenModal }) {
     if (mainRef.current) {
       scrollToMain();
     }
+    const scrollBlock = document.getElementById("scrollArea");
+    scrollBlock.addEventListener("scroll", scrollTabThrottle);
+    return function removeScroll() {
+      scrollBlock.removeEventListener("scroll", scrollTabThrottle);
+    };
   }, []);
 
   return (
-    <section className={burgerIngredients.burgerIngredients}>
+    <section className={burgerIngredients.burgerIngredients} >
       <h2 className={` ${burgerIngredients.title} text text_type_main-large`}>Собери бургер</h2>
       <div className={burgerIngredients.tab}>
-        <Tab value="bun"  onClick={scrollToBun}>Булки</Tab>
-        <Tab value="sauce"  onClick={scrollToSauce}>Соусы</Tab>
-        <Tab value="main" onClick={scrollToMain}>Начинка</Tab>
+        <Tab value="bun" active={current === ingredientsName.bun} onClick={scrollToBun}>Булки</Tab>
+        <Tab value="sauce" active={current === ingredientsName.sauce} onClick={scrollToSauce}>Соусы</Tab>
+        <Tab value="main" active={current === ingredientsName.main} onClick={scrollToMain}>Начинка</Tab>
       </div>
-      <div className={burgerIngredients.ingredients}>
-        <h2 ref={bunRef} className="text text_type_main-medium test">Булки</h2>
-        <div className={burgerIngredients.ingredient}>
+      <div className={burgerIngredients.ingredients} id='scrollArea'>
+        <h2 ref={bunRef} className="text text_type_main-medium test" id='sectionBun'>Булки</h2>
+        <ul className={` ${burgerIngredients.card} ingredients`}>
           {
-            ingredients.filter(card => card.type == 'bun').map(filteredType => (
-              <ul className={burgerIngredients.card} key={filteredType.id}>
-                <IngredientItem item={filteredType} onOpenModal={onOpenModal}/>
-              </ul>
+            ingredients.filter(card => card.type === ingredientsName.bun).map(filteredType => (
+              <IngredientItem item={filteredType} key={filteredType.id} />
             ))
           }
-        </div>
-        <h2 ref={sauceRef} className="text text_type_main-medium">Соусы</h2>
-        <div className={burgerIngredients.ingredient}>
+        </ul>
+        <h2 ref={sauceRef} className="text text_type_main-medium" id='sectionSauce'>Соусы</h2>
+        <ul className={` ${burgerIngredients.card} ingredients `} >
           {
-            ingredients.filter(card => card.type == 'sauce').map(filteredType => (
-              <ul className={burgerIngredients.card} key={filteredType.id}>
-                <IngredientItem item={filteredType} onOpenModal={onOpenModal}/>
-              </ul>
+            ingredients.filter(card => card.type === ingredientsName.sauce).map(filteredType => (
+              <IngredientItem item={filteredType} key={filteredType.id} />
             ))
           }
-        </div>
-        <h2 ref={mainRef} className="text text_type_main-medium">Начинка</h2>
-        <div className={burgerIngredients.ingredient}>
+        </ul>
+        <h2 ref={mainRef} className="text text_type_main-medium" id='sectionMain'>Начинка</h2>
+        <ul className={` ${burgerIngredients.card} ingredients `} >
           {
-            ingredients.filter(card => card.type == 'main').map(filteredType => (
-              <ul className={burgerIngredients.card} key={filteredType.id}>
-                <IngredientItem item={filteredType} onOpenModal={onOpenModal}/>
-              </ul>
+            ingredients.filter(card => card.type === ingredientsName.main).map(filteredType => (
+              <IngredientItem item={filteredType} key={filteredType.id} />
             ))
           }
-        </div>
+        </ul>
       </div>
     </section>
   );
 }
 
-BurgerIngredients.propTypes = {
-  onOpenModal: funcTypes.isRequired
-}
+export default React.memo(BurgerIngredients);
