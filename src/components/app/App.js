@@ -39,28 +39,28 @@ export default function App() {
       {feedRequest && <h2 className={`text text_type_main-large`}>Загрузка...</h2>}
       {!feedFailed && !feedRequest &&
         <>
-          <main className={app.app}>
-            <div className={app.header}>
-              <AppHeader />
-            </div>
-            <div className={app.section}>
-              <>
-                <DndProvider backend={HTML5Backend}>
-                  <Router>
-                    <Switch>
-                      <Route path="/">
-                        <Login />
-                      </Route>
-                      <Route path="/ingredients">
-                        <BurgerIngredients />
-                        <BurgerConstructor />
-                      </Route>
-                    </Switch>
-                  </Router>
-                </DndProvider>
-              </>
-            </div>
-          </main>
+        <main className={app.app}>
+          <div className={app.header}>
+            <AppHeader />
+          </div>
+          <DndProvider backend={HTML5Backend}>
+            <Router>
+              <Switch>
+                <Route path="/">
+                  <Login />
+                </Route>
+                <Route path="/ingredients">
+                  <div className={app.section}>
+                    <>
+                      <BurgerIngredients />
+                      <BurgerConstructor />
+                    </>
+                  </div>
+                </Route>
+              </Switch>
+            </Router>
+          </DndProvider>
+        </main>
           {isOpenModalDetails &&
             <Modal
               title=""
