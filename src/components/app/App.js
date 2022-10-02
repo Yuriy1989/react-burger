@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getIngredients } from '../../services/actions/ingredients';
-
 import app from './app.module.css';
 import style from '@ya.praktikum/react-developer-burger-ui-components';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+
+import { getIngredients } from '../../services/actions/ingredients';
 import AppHeader from '../appHeader/AppHeader';
 import BurgerIngredients from '../burgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../burgerConstructor/BurgerConstructor';
@@ -11,8 +14,8 @@ import Modal from '../modal/Modal';
 import OrderDetails from '../orderDetails/OrderDetails';
 import OrderMessage from '../orderMessage/OrderMessage';
 import IngredientDetails from '../ingredientDetails/IngredientDetails';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { Login } from '../../pages';
+
 
 export default function App() {
   const dispatch = useDispatch();
@@ -43,8 +46,17 @@ export default function App() {
             <div className={app.section}>
               <>
                 <DndProvider backend={HTML5Backend}>
-                  <BurgerIngredients />
-                  <BurgerConstructor />
+                  <Router>
+                    <Switch>
+                      <Route path="/">
+                        <Login />
+                      </Route>
+                      <Route path="/ingredients">
+                        <BurgerIngredients />
+                        <BurgerConstructor />
+                      </Route>
+                    </Switch>
+                  </Router>
                 </DndProvider>
               </>
             </div>
