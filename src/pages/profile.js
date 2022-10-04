@@ -2,9 +2,9 @@
 import { useState, useRef } from 'react';
 import style, { EmailInput, PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
-import register from './register.module.css';
+import profile from './profile.module.css';
 
-export function Register () {
+export function Profile () {
 
   const [email, setEmail] = useState('test@yandex.ru');
   const [value, setValue] = useState('password');
@@ -21,15 +21,17 @@ export function Register () {
   }
 
   return (
-    <div className={register.register}>
-      <h2 className='text text_type_main-medium'>Регистрация</h2>
-      <div className={`${register.input_margin}`}>
+    <div className={profile.profile}>
+      <Link to="/">Профиль</Link>
+      <Link to="/">История заказов</Link>
+      <Link to="/">Выход</Link>
+      <div className={`${profile.input_margin}`}>
         <Input
           type={'text'}
           placeholder={'имя'}
           onChange={e => setValue(e.target.value)}
           icon={'CurrencyIcon'}
-          value=''
+          value='test'
           name={'name'}
           error={false}
           ref={inputRef}
@@ -38,18 +40,12 @@ export function Register () {
           size={'default'}
         />
       </div>
-      <div className={register.email}>
-        <EmailInput onChange={onChange} value='' name={'email'} />
+      <div className={profile.email}>
+        <EmailInput onChange={onChange} value='email' name={'email'} />
       </div>
-        <PasswordInput onChange={onChange} value='' name={'password'} />
-      <div className={register.button}>
-        <Button type="primary" size="medium">
-          Зарегистрироваться
-        </Button>
-      </div>
-      <div className={`${register.input} text text_type_main-default text_color_inactive`}>
-        <p className={register.paragraf}>Уже зарегистрированы?</p>
-        <Link to="/">Войти</Link>
+      <PasswordInput onChange={onChange} value='' name={'password'} />
+      <div className={`${profile.input} text text_type_main-default text_color_inactive`}>
+        <p className={profile.paragraf}>В этом разделе вы можете изменить свои персональные данные</p>
       </div>
     </div>
   )

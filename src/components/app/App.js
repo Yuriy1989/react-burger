@@ -14,7 +14,7 @@ import Modal from '../modal/Modal';
 import OrderDetails from '../orderDetails/OrderDetails';
 import OrderMessage from '../orderMessage/OrderMessage';
 import IngredientDetails from '../ingredientDetails/IngredientDetails';
-import { Login } from '../../pages';
+import { Login, Register, ForgotPassword, ResetPassword, Profile } from '../../pages';
 
 
 export default function App() {
@@ -46,8 +46,20 @@ export default function App() {
           <DndProvider backend={HTML5Backend}>
             <Router>
               <Switch>
-                <Route path="/">
+                {/* <Route path="/">
                   <Login />
+                </Route> */}
+                {/* <Route path="/">
+                  <Register />
+                </Route> */}
+                {/* <Route path="/">
+                  <ForgotPassword />
+                </Route> */}
+                {/* <Route path="/">
+                  <ResetPassword />
+                </Route> */}
+                <Route path="/">
+                  <Profile />
                 </Route>
                 <Route path="/ingredients">
                   <div className={app.section}>
