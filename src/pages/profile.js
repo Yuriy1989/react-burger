@@ -23,7 +23,7 @@ export function Profile () {
   return (
     <div className={profile.profile}>
       <nav className={profile.nav}>
-        <NavLink activeClassName={` ${profile.link} text text_type_main-medium text_color_inactive`} to="/">Профиль</NavLink>
+        <NavLink activeClassName={` ${profile.link} ${profile.link_activе} text text_type_main-medium text_color_inactive`} to="/">Профиль</NavLink>
         <NavLink activeClassName={` ${profile.link} text text_type_main-medium text_color_inactive`} to="/">История заказов</NavLink>
         <NavLink activeClassName={` ${profile.link} text text_type_main-medium text_color_inactive`} to="/">Выход</NavLink>
       </nav>

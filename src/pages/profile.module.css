@@ -1,40 +1,43 @@
 .profile {
   display: grid;
-  grid-template-areas: "post-1 post-1 post-2"
-                       "post-1 post-1 post-3"
-                       "post-6 post-5 post-4";
-  grid-template-rows: repeat(3, 200px);
+  grid-template-areas: "nav input item-1"
+                       "text item-2 item-3";
+  grid-template-rows: repeat(2, 1fr);
   grid-template-columns: repeat(3, 1fr);
-  /* grid-template-columns: repeat(3, 1fr); */
-  /* grid-template-areas: "nav input item"
-                       "text item item";
-  grid-template-rows: repeat(3, 1fr);
-  grid-template-columns: repeat(2, 1fr); */
-  /* align-items: center;
   max-width: 1240px;
   min-width: 480px;
   background-color: #131316;
+  margin: 0 auto;
   margin-top: 180px;
-  margin: 0 auto; */
 }
 
 .nav {
-  grid-area: post-1;
+  grid-area: nav;
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
 .link {
   height: 64px;
   text-decoration: none;
+  cursor: pointer;
+  transition: color 1s linear;
+}
+
+.link:hover {
+  color: #F2F2F3;
+}
+
+.link_activе {
+  color: #F2F2F3;
 }
 
 .input {
-  grid-area: post-1;
+  grid-area: input;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0;
   padding: 0;
 }
 
@@ -42,16 +45,8 @@
   margin: 24px 0;
 }
 
-.button {
-  margin: 24px 0 80px 0;
-}
-
-
-.input_margin {
-  margin: 24px 0 0 0;
-}
-
 .paragraf {
   grid-area: text;
-  margin: 0 8px 0 0;
+  margin: 16px 0 0 0;
+  padding: 0;
 }
