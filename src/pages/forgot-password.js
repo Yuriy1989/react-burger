@@ -15,11 +15,6 @@ export function ForgotPassword () {
     console.log('email = ', e.target.value);
   }
 
-  const onIconClick = () => {
-    setTimeout(() => inputRef.current.focus(), 0)
-    alert('Icon Click Callback')
-  }
-
   return (
     <div className={forgotPassword.forgotPassword}>
       <h2 className='text text_type_main-medium'>Восстановление пароля</h2>
@@ -33,7 +28,7 @@ export function ForgotPassword () {
       </div>
       <div className={`${forgotPassword.input} text text_type_main-default text_color_inactive`}>
         <p className={forgotPassword.paragraf}>Вспомнили пароль?</p>
-        <Link to="/">Войти</Link>
+        <Link to="/login">Войти</Link>
       </div>
     </div>
   )

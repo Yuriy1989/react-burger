@@ -49,7 +49,7 @@ export function Register () {
       </div>
       <div className={`${register.input} text text_type_main-default text_color_inactive`}>
         <p className={register.paragraf}>Уже зарегистрированы?</p>
-        <Link to="/">Войти</Link>
+        <Link to="/login">Войти</Link>
       </div>
     </div>
   )

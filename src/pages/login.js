@@ -28,11 +28,11 @@ export function Login () {
       </div>
       <div className={`${login.input} text text_type_main-default text_color_inactive`}>
         <p className={login.paragraf}>Вы — новый пользователь?</p>
-        <Link to="/">Зарегистрироваться</Link>
+        <Link to="/register">Зарегистрироваться</Link>
       </div>
       <div className={`${login.input} ${login.input_margin} text text_type_main-default text_color_inactive`}>
         <p className={login.paragraf}>Забыли пароль?</p>
-        <Link to="/">Восстановить пароль</Link>
+        <Link to="/forgot-password">Восстановить пароль</Link>
       </div>
     </div>
   )

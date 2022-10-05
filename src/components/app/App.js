@@ -46,18 +46,18 @@ export default function App() {
           <DndProvider backend={HTML5Backend}>
             <Router>
               <Switch>
-                {/* <Route path="/">
+                <Route path="/login">
                   <Login />
-                </Route> */}
-                {/* <Route path="/">
+                </Route>
+                <Route path="/register">
                   <Register />
-                </Route> */}
-                {/* <Route path="/">
+                </Route>
+                <Route path="/forgot-password">
                   <ForgotPassword />
-                </Route> */}
-                {/* <Route path="/">
+                </Route>
+                <Route path="/reset-password">
                   <ResetPassword />
-                </Route> */}
+                </Route>
                 <Route path="/">
                   <Profile />
                 </Route>
