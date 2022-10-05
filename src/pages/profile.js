@@ -1,7 +1,7 @@
 
 import { useState, useRef } from 'react';
 import style, { EmailInput, PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import profile from './profile.module.css';
 
 export function Profile () {
@@ -22,10 +22,12 @@ export function Profile () {
 
   return (
     <div className={profile.profile}>
-      <Link to="/">Профиль</Link>
-      <Link to="/">История заказов</Link>
-      <Link to="/">Выход</Link>
-      <div className={`${profile.input_margin}`}>
+      <nav className={profile.nav}>
+        <NavLink activeClassName={` ${profile.link} text text_type_main-medium text_color_inactive`} to="/">Профиль</NavLink>
+        <NavLink activeClassName={` ${profile.link} text text_type_main-medium text_color_inactive`} to="/">История заказов</NavLink>
+        <NavLink activeClassName={` ${profile.link} text text_type_main-medium text_color_inactive`} to="/">Выход</NavLink>
+      </nav>
+      <div className={`${profile.input} ${profile.input_margin}`}>
         <Input
           type={'text'}
           placeholder={'имя'}
@@ -39,13 +41,13 @@ export function Profile () {
           errorText={'Ошибка'}
           size={'default'}
         />
+        <div className={profile.email}>
+          <EmailInput onChange={onChange} value='email' name={'email'} />
+        </div>
+        <PasswordInput onChange={onChange} value='' name={'password'} />
       </div>
-      <div className={profile.email}>
-        <EmailInput onChange={onChange} value='email' name={'email'} />
-      </div>
-      <PasswordInput onChange={onChange} value='' name={'password'} />
-      <div className={`${profile.input} text text_type_main-default text_color_inactive`}>
-        <p className={profile.paragraf}>В этом разделе вы можете изменить свои персональные данные</p>
+      <div className={`${profile.paragraf} text text_type_main-default text_color_inactive`}>
+        <p >В этом разделе вы можете изменить свои персональные данные</p>
       </div>
     </div>
   )
