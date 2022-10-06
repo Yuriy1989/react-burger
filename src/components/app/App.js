@@ -46,22 +46,22 @@ export default function App() {
           <DndProvider backend={HTML5Backend}>
             <Router>
               <Switch>
-                <Route path="/login">
+                <Route path="/login" exact={true}>
                   <Login />
                 </Route>
-                <Route path="/register">
+                <Route path="/register" exact={true}>
                   <Register />
                 </Route>
-                <Route path="/forgot-password">
+                <Route path="/forgot-password" exact={true}>
                   <ForgotPassword />
                 </Route>
-                <Route path="/reset-password">
+                <Route path="/reset-password" exact={true}>
                   <ResetPassword />
                 </Route>
-                <Route path="/">
+                <Route path="/" exact={true}>
                   <Profile />
                 </Route>
-                <Route path="/ingredients">
+                <Route path="/ingredients" exact={true}>
                   <div className={app.section}>
                     <>
                       <BurgerIngredients />
