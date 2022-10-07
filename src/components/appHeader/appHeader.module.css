@@ -45,3 +45,20 @@
 .profile {
   justify-self: end;
 }
+
+.link {
+  text-decoration: none;
+  transition: color 1s linear;
+}
+
+.link:hover {
+  color: #F2F2F3;
+}
+
+.linkActive {
+  color: #F2F2F3;
+}
+
+.linkActive:hover {
+  color: #8585AD;
+}

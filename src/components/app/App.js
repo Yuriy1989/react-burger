@@ -40,33 +40,46 @@ export default function App() {
       {!feedFailed && !feedRequest &&
         <>
         <main className={app.app}>
-          <div className={app.header}>
-            <AppHeader />
-          </div>
           <DndProvider backend={HTML5Backend}>
             <Router>
               <Switch>
                 <Route path="/login" exact={true}>
+                  <div className={app.header}>
+                    <AppHeader />
+                  </div>
                   <Login />
                 </Route>
                 <Route path="/register" exact={true}>
+                  <div className={app.header}>
+                    <AppHeader />
+                  </div>
                   <Register />
                 </Route>
                 <Route path="/forgot-password" exact={true}>
+                  <div className={app.header}>
+                    <AppHeader />
+                  </div>
                   <ForgotPassword />
                 </Route>
                 <Route path="/reset-password" exact={true}>
+                  <div className={app.header}>
+                    <AppHeader />
+                  </div>
                   <ResetPassword />
                 </Route>
                 <Route path="/" exact={true}>
+                  <div className={app.header}>
+                    <AppHeader />
+                  </div>
                   <Profile />
                 </Route>
                 <Route path="/ingredients" exact={true}>
+                  <div className={app.header}>
+                    <AppHeader />
+                  </div>
                   <div className={app.section}>
-                    <>
-                      <BurgerIngredients />
-                      <BurgerConstructor />
-                    </>
+                    <BurgerIngredients />
+                    <BurgerConstructor />
                   </div>
                 </Route>
               </Switch>

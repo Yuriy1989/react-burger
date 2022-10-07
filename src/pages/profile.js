@@ -1,7 +1,7 @@
 
 import { useState, useRef } from 'react';
-import style, { EmailInput, PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, NavLink } from 'react-router-dom';
+import style, { EmailInput, PasswordInput, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import { NavLink } from 'react-router-dom';
 import profile from './profile.module.css';
 
 export function Profile () {

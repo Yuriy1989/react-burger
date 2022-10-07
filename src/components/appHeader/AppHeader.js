@@ -1,6 +1,7 @@
 import React from 'react';
 import style, { BurgerIcon, ListIcon, ProfileIcon, Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import appHeaderStyles from './appHeader.module.css';
+import { NavLink } from 'react-router-dom';
 
 export default function AppHeader() {
   return (
@@ -12,7 +13,7 @@ export default function AppHeader() {
               <div className="p-2">
                 <BurgerIcon type="primary" />
               </div>
-              Конструктор
+              <NavLink activeClassName={` ${appHeaderStyles.linkActive} `} className={` ${appHeaderStyles.link} text text_type_main-default text_color_inactive`} to="/ingredients">Конструктор</NavLink>
             </button>
           </li>
           <li>
@@ -20,7 +21,7 @@ export default function AppHeader() {
               <div className="p-2">
                 <ListIcon type="secondary" />
               </div>
-              Лента заказов
+              <NavLink activeClassName={` ${appHeaderStyles.linkActive} `} className={` ${appHeaderStyles.link} text text_type_main-default text_color_inactive`} to="/feed">Лента заказов</NavLink>
             </button>
           </li>
         </ul>
@@ -29,7 +30,7 @@ export default function AppHeader() {
           <div className="p-2">
             <ProfileIcon type="secondary" />
           </div>
-          Личный кабинет
+          <NavLink activeClassName={` ${appHeaderStyles.linkActive} `} className={` ${appHeaderStyles.link} text text_type_main-default text_color_inactive`} to="/login">Личный кабинет</NavLink>
         </button>
       </nav>
     </header>
