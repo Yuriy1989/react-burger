@@ -23,6 +23,7 @@ class Api {
       .then(res => res.ok ? res.json() : Promise.reject(res.status))
   }
 
+  //проверка, зарегистрирован ли пользователь в системе
   getEmails(data) {
     return fetch(`${this._url}/password-reset`, {
       method: 'POST',
@@ -34,9 +35,8 @@ class Api {
       .then(res => res.ok ? res.json() : Promise.reject(res.status))
   }
 
+  //восстановление пароля
   resetPassword(password, token) {
-    console.log("password =", password);
-    console.log("token =", token);
     return fetch(`${this._url}/password-reset/reset`, {
       method: 'POST',
       headers: this._headers,
@@ -47,6 +47,64 @@ class Api {
     })
       .then(res => res.ok ? res.json() : Promise.reject(res.status))
   }
+
+  //авторизацмя в системе
+  async login(email, password) {
+    return await fetch(`${this._url}/auth/login`, {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: this._headers,
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify({
+        "email": email,
+        "password": password
+      })
+    })
+      .then(res => res.ok ? res.json() : Promise.reject(res.status))
+  }
+
+  //регистрация в системе
+  async register(data) {
+    console.log('data', data);
+    return await fetch(`${this._url}/auth/register`, {
+      method: 'POST',
+      headers: this._headers,
+      body: JSON.stringify({
+        "email": data.email,
+        "password": data.password,
+        "name": data.name
+      })
+    })
+      .then(res => res.ok ? res.json() : Promise.reject(res.status))
+  }
+
+  //выход из системы
+  logout(token) {
+    return fetch(`${this._url}/auth/logout`, {
+      method: 'POST',
+      headers: this._headers,
+      body: JSON.stringify({
+        "token": token
+      })
+    })
+      .then(res => res.ok ? res.json() : Promise.reject(res.status))
+  }
+
+  //обновление токена
+  token(token) {
+    return fetch(`${this._url}/auth/token`, {
+      method: 'POST',
+      headers: this._headers,
+      body: JSON.stringify({
+        "token": token
+      })
+    })
+      .then(res => res.ok ? res.json() : Promise.reject(res.status))
+  }
+
 }
 
 export const api = new Api({

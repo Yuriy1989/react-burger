@@ -1,28 +1,35 @@
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import style, { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import login from './login.module.css';
+import { dataTypes } from '../utils/types';
 
 export function Login () {
 
-  const [email, setEmail] = useState('test@yandex.ru');
-  const [value, setValue] = useState('password');
+  const [data, setData] = useState({email: '', password: ''});
 
   const onChange = (e) => {
-    setEmail(e.target.value);
+    setData( { ...data, [e.target.name]: e.target.value} );
     console.log('email = ', e.target.value);
   }
+
+  const handleClick = useCallback(
+    e => {
+      e.preventDefault();
+    },
+    [data]
+  )
 
   return (
     <div className={login.login}>
       <h2 className='text text_type_main-medium'>Вход</h2>
       <div className={login.email}>
-        <EmailInput onChange={onChange} value='' name={'email'} />
+        <EmailInput onChange={onChange} value={data.email} name={'email'} />
       </div>
-      <PasswordInput onChange={onChange} value='' name={'password'} />
+      <PasswordInput onChange={onChange} value={data.password} name={'password'} />
       <div className={login.button}>
-        <Button type="primary" size="medium">
+        <Button onClick={handleClick} type="primary" size="medium">
           Войти
         </Button>
       </div>
