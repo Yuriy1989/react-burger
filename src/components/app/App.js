@@ -5,6 +5,7 @@ import style from '@ya.praktikum/react-developer-burger-ui-components';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { ProtectedRoute } from '../protectedRoute/ProtectedRoute';
 
 import { getIngredients } from '../../services/actions/ingredients';
 import AppHeader from '../appHeader/AppHeader';
@@ -19,7 +20,6 @@ import { Login, Register, ForgotPassword, ResetPassword, Profile } from '../../p
 
 export default function App() {
   const dispatch = useDispatch();
-  const message = {message: 'Добавьте булочку в ингредиенты'};
 
   //делаем запрос к серверу для получения всех ингредиентов
   useEffect(() => {
@@ -67,13 +67,13 @@ export default function App() {
                   </div>
                   <ResetPassword />
                 </Route>
-                <Route path="/" exact={true}>
+                <Route path="/profile" exact={true}>
                   <div className={app.header}>
                     <AppHeader />
                   </div>
                   <Profile />
                 </Route>
-                <Route path="/ingredients" exact={true}>
+                <ProtectedRoute path="/" exact={true}>
                   <div className={app.header}>
                     <AppHeader />
                   </div>
@@ -81,7 +81,7 @@ export default function App() {
                     <BurgerIngredients />
                     <BurgerConstructor />
                   </div>
-                </Route>
+                </ProtectedRoute>
               </Switch>
             </Router>
           </DndProvider>

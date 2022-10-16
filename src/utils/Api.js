@@ -49,18 +49,18 @@ class Api {
   }
 
   //авторизацмя в системе
-  async login(email, password) {
+  async login(data) {
     return await fetch(`${this._url}/auth/login`, {
       method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
+      // mode: 'cors',
+      // cache: 'no-cache',
+      // credentials: 'same-origin',
       headers: this._headers,
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
+      // redirect: 'follow',
+      // referrerPolicy: 'no-referrer',
       body: JSON.stringify({
-        "email": email,
-        "password": password
+        "email": data.email,
+        "password": data.password
       })
     })
       .then(res => res.ok ? res.json() : Promise.reject(res.status))
@@ -68,7 +68,6 @@ class Api {
 
   //регистрация в системе
   async register(data) {
-    console.log('data', data);
     return await fetch(`${this._url}/auth/register`, {
       method: 'POST',
       headers: this._headers,
@@ -82,12 +81,12 @@ class Api {
   }
 
   //выход из системы
-  logout(token) {
-    return fetch(`${this._url}/auth/logout`, {
+  async logout(data) {
+    return await fetch(`${this._url}/auth/logout`, {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
-        "token": token
+        "token": data
       })
     })
       .then(res => res.ok ? res.json() : Promise.reject(res.status))

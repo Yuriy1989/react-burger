@@ -8,6 +8,12 @@
   margin-top: 180px;
 }
 
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .email {
   margin: 24px 0;
 }
@@ -26,6 +32,16 @@
 
 .input_margin {
   margin: 24px 0 0 0;
+}
+
+.link {
+  text-decoration: none;
+  color: #4C4CFF;
+  transition: color 1s linear;
+}
+
+.link:hover {
+  color: #F2F2F3;
 }
 
 .paragraf {
