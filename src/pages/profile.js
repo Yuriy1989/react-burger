@@ -2,30 +2,25 @@
 import { useState, useRef } from 'react';
 import style, { EmailInput, PasswordInput, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { NavLink } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import profile from './profile.module.css';
-import { getCookie } from '../utils/cookie';
 import { actionRequestExit } from '../services/actions/actionsAuthorization';
 
 export function Profile () {
 
-  const [email, setEmail] = useState('test@yandex.ru');
-  const [value, setValue] = useState('password');
+  const refreshToken = useSelector(state => state.authorization.refreshToken);
+  const emailData = useSelector(state => state.authorization.user.email);
+  const nameData = useSelector(state => state.authorization.user.name);
+  const [data, setData] = useState({email: emailData, name: nameData, password: ''});
   const inputRef = useRef(null)
   const dispatch = useDispatch();
 
   const onChange = (e) => {
-    setEmail(e.target.value);
-  }
-
-  const onIconClick = () => {
-    setTimeout(() => inputRef.current.focus(), 0)
-    alert('Icon Click Callback')
+    setData({ ...data, [e.target.name]: e.target.value});
   }
 
   const handleClick = () => {
-    const data = getCookie('token');
-    dispatch(actionRequestExit(data));
+    dispatch(actionRequestExit(refreshToken));
   }
 
   return (
@@ -39,20 +34,19 @@ export function Profile () {
         <Input
           type={'text'}
           placeholder={'имя'}
-          onChange={e => setValue(e.target.value)}
+          onChange={onChange}
           icon={'CurrencyIcon'}
-          value='test'
+          value={data.name}
           name={'name'}
           error={false}
           ref={inputRef}
-          onIconClick={onIconClick}
           errorText={'Ошибка'}
           size={'default'}
         />
         <div className={profile.email}>
-          <EmailInput onChange={onChange} value='email' name={'email'} />
+          <EmailInput onChange={onChange} value={data.email} name={'email'} />
         </div>
-        <PasswordInput onChange={onChange} value='' name={'password'} />
+        <PasswordInput onChange={onChange} value={data.password} name={'password'} />
       </div>
       <div className={`${profile.paragraf} text text_type_main-default text_color_inactive`}>
         <p >В этом разделе вы можете изменить свои персональные данные</p>

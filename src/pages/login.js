@@ -38,7 +38,6 @@ export function Login () {
     e => {
       e.preventDefault();
       dispatch(actionRequestAuth(data));
-
     },
     [data]
   )

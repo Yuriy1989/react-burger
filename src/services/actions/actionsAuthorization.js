@@ -26,9 +26,6 @@ export const actionRequestRegister = (data) => {
           dispatch({
             type: REGISTER_REQUEST_SUCCESS,
             payload: {
-              email: res.user.email,
-              name: res.user.name,
-              accessToken: accessToken,
               refreshToken: res.refreshToken
           }
           })
@@ -56,14 +53,13 @@ export const actionRequestAuth = (data) => {
           let accessToken;
           if (res.accessToken.indexOf('Bearer') === 0) {
             accessToken = res.accessToken.split('Bearer ')[1];
-          }
-          if(res.refreshToken) {
-            setCookie('token', res.refreshToken, { expires: 20000 } );
+            setCookie('token', res.accessToken, { expires: 20000 } );
           }
           dispatch({
             type: LOGIN_REQUEST_SUCCESS,
             payload: {
-              accessToken: accessToken,
+              email: res.user.email,
+              name: res.user.name,
               refreshToken: res.refreshToken
             }
           })
@@ -87,7 +83,7 @@ export const actionRequestExit = (data) => {
     })
     api.logout(data)
       .then(res => {
-        if (res && res.success) {
+        if (res && (res.success === true)) {
           deleteCookie('token');
           dispatch({
             type: EXIT_REQUEST_SUCCESS

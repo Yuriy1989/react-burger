@@ -67,12 +67,12 @@ export default function App() {
                   </div>
                   <ResetPassword />
                 </Route>
-                <Route path="/profile" exact={true}>
+                <ProtectedRoute path="/profile" exact={true}>
                   <div className={app.header}>
                     <AppHeader />
                   </div>
                   <Profile />
-                </Route>
+                </ProtectedRoute>
                 <ProtectedRoute path="/" exact={true}>
                   <div className={app.header}>
                     <AppHeader />

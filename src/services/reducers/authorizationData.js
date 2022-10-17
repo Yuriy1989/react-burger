@@ -17,7 +17,6 @@ const defaultState = {
     email: '',
     name: ''
   },
-  accessToken: '',
   refreshToken: '',
 }
 
@@ -29,12 +28,6 @@ export const authorization = ( state=defaultState, action ) => {
     case REGISTER_REQUEST_SUCCESS: {
       const data = action.payload
       return { ...state,
-        user: {
-          ...state.user,
-          email: data.email,
-          name: data.name
-        },
-        accessToken: data.accessToken,
         refreshToken: data.refreshToken,
         feedRequest: false
       };
@@ -50,8 +43,9 @@ export const authorization = ( state=defaultState, action ) => {
       return { ...state,
         user: {
           ...state.user,
+          email: data.email,
+          name: data.name
         },
-        accessToken: data.accessToken,
         refreshToken: data.refreshToken,
         feedRequest: false
       };
@@ -63,7 +57,13 @@ export const authorization = ( state=defaultState, action ) => {
       return { ...state, feedRequest: true, feedFailed: false};
     }
     case EXIT_REQUEST_SUCCESS: {
-      return { ...state, accessToken: '', refreshToken: '', feedRequest: false,};
+      return { ...state,
+        user: {
+          ...state.user,
+          email: '',
+          name: ''
+        },
+        refreshToken: '', feedRequest: false,};
     }
     case EXIT_REQUEST_FAILED: {
       return { ...state, feedRequest: false, feedFailed: true }
