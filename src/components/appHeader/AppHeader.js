@@ -7,8 +7,6 @@ export default function AppHeader() {
 
   const history = useHistory();
 
-  console.log('history = ', history.location.pathname);
-
   return (
     <header className={appHeaderStyles.header}>
       <nav className={appHeaderStyles.navigation}>

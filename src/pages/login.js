@@ -1,7 +1,7 @@
 
 import { useState, useCallback } from 'react';
 import style, { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import login from './login.module.css';
@@ -20,6 +20,9 @@ export function Login () {
   // console.log('feedFailed = ', feedFailed);
   // console.log('feedRequest = ', feedRequest);
 
+  const history = useHistory();
+
+  console.log('history = ', history.location.pathname);
 
   if (token) {
     return (
@@ -35,6 +38,7 @@ export function Login () {
     e => {
       e.preventDefault();
       dispatch(actionRequestAuth(data));
+
     },
     [data]
   )
