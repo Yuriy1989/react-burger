@@ -1,6 +1,7 @@
 
-import { useState, useRef, useCallback } from 'react';
-import style, { EmailInput, PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useState, useCallback } from 'react';
+import { useSelector } from 'react-redux';
+import style, { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useHistory } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 import forgotPassword from './forgot-password.module.css';
@@ -17,6 +18,11 @@ export function ForgotPassword () {
 
   const history = useHistory();
   const token = getCookie('token');
+
+  const feedFailed = useSelector((state) => state.authorization.feedFailed);
+  const feedRequest = useSelector((state) => state.authorization.feedRequest);
+  console.log('feedFailed = ', feedFailed);
+  console.log('feedRequest = ', feedRequest);
 
   const resetPassword = useCallback(() => {
     history.replace({ pathname: '/reset-password' })

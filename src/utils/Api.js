@@ -36,13 +36,13 @@ class Api {
   }
 
   //восстановление пароля
-  resetPassword(password, token) {
+  resetPassword(data) {
     return fetch(`${this._url}/password-reset/reset`, {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
-        "password": password,
-        "token": token
+        "password": data.password,
+        "token": data.token
       })
     })
       .then(res => res.ok ? res.json() : Promise.reject(res.status))

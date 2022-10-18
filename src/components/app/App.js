@@ -17,7 +17,6 @@ import OrderMessage from '../orderMessage/OrderMessage';
 import IngredientDetails from '../ingredientDetails/IngredientDetails';
 import { Login, Register, ForgotPassword, ResetPassword, Profile } from '../../pages';
 
-
 export default function App() {
   const dispatch = useDispatch();
 

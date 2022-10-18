@@ -11,18 +11,17 @@ import { getCookie } from '../utils/cookie';
 export function Login () {
 
   const [data, setData] = useState({email: '', password: ''});
-
   const dispatch = useDispatch();
-  const token = getCookie('token');
-  // const feedFailed = useSelector((state) => state.authorization.feedFailed);
-  // const feedRequest = useSelector((state) => state.authorization.feedRequest);
-
-  // console.log('feedFailed = ', feedFailed);
-  // console.log('feedRequest = ', feedRequest);
-
   const history = useHistory();
 
-  console.log('history = ', history.location.pathname);
+  const token = getCookie('token');
+
+  const loginClick = useCallback(
+    () => {
+      history.replace({ pathname: '/' });
+    },
+    [history]
+  )
 
   if (token) {
     return (
@@ -38,8 +37,9 @@ export function Login () {
     e => {
       e.preventDefault();
       dispatch(actionRequestAuth(data));
+      loginClick();
     },
-    [data]
+    []
   )
 
   return (

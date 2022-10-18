@@ -1,39 +1,49 @@
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import style, { EmailInput, PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import resetPassword from './reset-password.module.css';
 import { api } from '../utils/Api';
 
 export function ResetPassword() {
 
-  const [password, setPassword] = useState('');
-  const [token, setToken] = useState('');
+  const [data, setData] = useState({password: '', token: ''});
+  const history = useHistory();
 
   const onChangeInput = (e) => {
-    setPassword(e.target.value);
+    setData({...data, [e.target.name]: e.target.value });
   }
 
-  const handleClick = () => {
-    api.resetPassword(password, token)
-      .then(res => {
-        console.log('res =', res);
-      })
-  }
+  const loginRedirect = useCallback(() => {
+    history.replace({ pathname: '/login' });
+  },
+    [history]
+  );
+
+  const handleClick = useCallback(
+    () => {
+      api.resetPassword(data)
+        .then(res => {
+          if (res.success === true) {
+            loginRedirect();
+          }
+        })
+    }, [history]
+  )
 
   return (
     <div className={resetPassword.resetPassword}>
       <h2 className='text text_type_main-medium'>Восстановление пароля</h2>
       <div className={`${resetPassword.input_margin}`}>
-        <PasswordInput value={password} onChange={onChangeInput} name={'password'} />
+        <PasswordInput value={data.password} onChange={onChangeInput} name={'password'} />
       </div>
       <div className={`${resetPassword.input_margin}`}>
         <Input
           type={'text'}
           placeholder={'Введите код из письма'}
-          onChange={e => setToken(e.target.value)}
-          value={token}
-          name={'name'}
+          onChange={onChangeInput}
+          value={data.token}
+          name={'token'}
           error={false}
           errorText={'Ошибка'}
           size={'default'}
