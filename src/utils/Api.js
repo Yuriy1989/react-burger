@@ -93,12 +93,40 @@ class Api {
   }
 
   //обновление токена
-  token(token) {
-    return fetch(`${this._url}/auth/token`, {
+  async token(token) {
+    return await fetch(`${this._url}/auth/token`, {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
         "token": token
+      })
+    })
+      .then(res => res.ok ? res.json() : Promise.reject(res.status))
+  }
+
+  //получение данных о пользователе
+  async getUser(token) {
+    return await fetch(`${this._url}/auth/user`, {
+      method: 'GET',
+      headers: this._headers,
+      body: JSOM.stringify({
+        "authorization": token
+      })
+    })
+      .then(res => res.ok ? res.json() : Promise.reject(res.status))
+  }
+
+  //обновление данных пользователя
+  async getUser(data) {
+    return await fetch(`${this._url}/auth/user`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSOM.stringify({
+        "authorization": data.token,
+        "user": {
+          "email" : data.email,
+          "name": data.name,
+        }
       })
     })
       .then(res => res.ok ? res.json() : Promise.reject(res.status))

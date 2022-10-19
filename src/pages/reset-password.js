@@ -1,47 +1,57 @@
 
 import { useState, useCallback } from 'react';
-import style, { EmailInput, PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import style, { PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useHistory } from 'react-router-dom';
 import resetPassword from './reset-password.module.css';
+import { getCookie } from '../utils/cookie';
 import { api } from '../utils/Api';
 
 export function ResetPassword() {
 
-  const [data, setData] = useState({password: '', token: ''});
+  const [data, setData] = useState( {password: '', token: ''} );
   const history = useHistory();
+  const token = getCookie('accessToken');
 
-  const onChangeInput = (e) => {
-    setData({...data, [e.target.name]: e.target.value });
+  if (token) {
+    return (
+      <Redirect to={{ pathname: '/' }} />
+    )
   }
 
-  const loginRedirect = useCallback(() => {
-    history.replace({ pathname: '/login' });
-  },
+  const loginRedirect = useCallback(
+    () => {
+      history.replace({ pathname: '/login' });
+    },
     [history]
   );
 
+  const onChange = (e) => {
+    setData( {...data, [e.target.name]: e.target.value } );
+  }
+
   const handleClick = useCallback(
-    () => {
+    e => {
+      e.preventDefault();
       api.resetPassword(data)
         .then(res => {
           if (res.success === true) {
             loginRedirect();
           }
         })
-    }, [history]
+    }, [data]
   )
 
   return (
     <div className={resetPassword.resetPassword}>
       <h2 className='text text_type_main-medium'>Восстановление пароля</h2>
       <div className={`${resetPassword.input_margin}`}>
-        <PasswordInput value={data.password} onChange={onChangeInput} name={'password'} />
+        <PasswordInput value={data.password} onChange={onChange} name={'password'} />
       </div>
       <div className={`${resetPassword.input_margin}`}>
         <Input
           type={'text'}
           placeholder={'Введите код из письма'}
-          onChange={onChangeInput}
+          onChange={onChange}
           value={data.token}
           name={'token'}
           error={false}

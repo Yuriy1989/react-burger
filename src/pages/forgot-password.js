@@ -1,6 +1,5 @@
 
 import { useState, useCallback } from 'react';
-import { useSelector } from 'react-redux';
 import style, { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useHistory } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
@@ -11,24 +10,8 @@ import { getCookie } from '../utils/cookie';
 export function ForgotPassword () {
 
   const [email, setEmail] = useState('test@yandex.ru');
-
-  const onChange = e => {
-    setEmail(e.target.value)
-  }
-
   const history = useHistory();
-  const token = getCookie('token');
-
-  const feedFailed = useSelector((state) => state.authorization.feedFailed);
-  const feedRequest = useSelector((state) => state.authorization.feedRequest);
-  console.log('feedFailed = ', feedFailed);
-  console.log('feedRequest = ', feedRequest);
-
-  const resetPassword = useCallback(() => {
-    history.replace({ pathname: '/reset-password' })
-  },
-    [history]
-  );
+  const token = getCookie('accessToken');
 
   if (token) {
     return (
@@ -36,7 +19,17 @@ export function ForgotPassword () {
     )
   }
 
-  const handleClick = useCallback(
+  const resetPassword = useCallback(() => {
+    history.replace({ pathname: '/reset-password' })
+  },
+    [history]
+  );
+
+  const onChange = e => {
+    setEmail(e.target.value)
+  }
+
+    const handleClick = useCallback(
     e => {
       e.preventDefault();
       api.getEmails(email)

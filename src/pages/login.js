@@ -6,15 +6,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import login from './login.module.css';
 import { actionRequestAuth } from '../services/actions/actionsAuthorization';
-import { getCookie } from '../utils/cookie';
+import { getCookie, setCookie } from '../utils/cookie';
+import { api } from '../utils/Api';
 
 export function Login () {
 
   const [data, setData] = useState({email: '', password: ''});
   const dispatch = useDispatch();
   const history = useHistory();
+  const token = getCookie('accessToken');
 
-  const token = getCookie('token');
+  if (token) {
+    return (
+      <Redirect to={{ pathname: '/' }} />
+    )
+  }
 
   const loginClick = useCallback(
     () => {
@@ -23,12 +29,6 @@ export function Login () {
     [history]
   )
 
-  if (token) {
-    return (
-      <Redirect to={{ pathname: '/' }} />
-    )
-  }
-
   const onChange = (e) => {
     setData( { ...data, [e.target.name]: e.target.value} );
   }
@@ -36,10 +36,20 @@ export function Login () {
   const handleClick = useCallback(
     e => {
       e.preventDefault();
-      dispatch(actionRequestAuth(data));
-      loginClick();
+      api.login(data)
+        .then(res => {
+          if(res.success === true) {
+            if (res.accessToken.indexOf('Bearer') === 0) {
+              let accessToken = res.accessToken.split('Bearer ')[1];
+              setCookie('accessToken', accessToken, { expires: 20000 });
+              setCookie('refreshToken', res.refreshToken);
+            }
+            loginClick();
+            dispatch(actionRequestAuth(res));
+          }
+        })
     },
-    []
+    [data]
   )
 
   return (

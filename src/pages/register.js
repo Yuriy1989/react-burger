@@ -1,20 +1,24 @@
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import style, { EmailInput, PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
-import { actionRequestRegister } from '../services/actions/actionsAuthorization';
 import register from './register.module.css';
 import { getCookie } from '../utils/cookie';
+import { api } from '../utils/Api';
 
 export function Register () {
-
-  const dispatch = useDispatch();
 
   const [data, setData] = useState({email: '', password: '', name: ''});
   const inputRef = useRef(null)
   const token = getCookie('token');
+  const history = useHistory();
+
+  const loginRequest = useCallback(() => {
+    history.replace({ pathname: '/login' })
+  },
+    [history]
+  );
 
   if (token) {
     return (
@@ -28,7 +32,12 @@ export function Register () {
 
   const handleClick = (e) => {
     e.preventDefault();
-    dispatch(actionRequestRegister(data));
+    api.register(data)
+      .then(res => {
+        if(res.success === true) {
+          loginRequest();
+        }
+      })
   }
 
   return (

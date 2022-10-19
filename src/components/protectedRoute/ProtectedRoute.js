@@ -4,13 +4,13 @@ import { getCookie } from '../../utils/cookie';
 
 export function ProtectedRoute ({ children, ...rest }) {
 
-  const token = getCookie('token');
+  const accessToken = getCookie('accessToken');
 
   return (
     <Route
       {...rest}
       render={({ location }) =>
-      token ? (
+      accessToken ? (
           children
         ) : (
           <Redirect
