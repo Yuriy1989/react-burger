@@ -58,7 +58,7 @@ export function Profile () {
             type={'text'}
             placeholder={'имя'}
             onChange={onChange}
-            icon={'CurrencyIcon'}
+            icon={'EditIcon'}
             value={data.name}
             name={'name'}
             error={false}
