@@ -1,7 +1,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import style, { EmailInput, PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, useHistory, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import profile from './profile.module.css';
 import { actionRequestGetUser, actionRequestExit } from '../services/actions/actionsAuthorization';
@@ -15,17 +15,23 @@ export function Profile () {
   const feedFailed = useSelector((state) => state.authorization.feedFailed);
   const feedRequest = useSelector((state) => state.authorization.feedRequest);
 
-  console.log();
-  const [data, setData] = useState({email: emailData, name: nameData, password: ''});
+  // const [data, setData] = useState({email: '', name: '', password: ''});
+  const [email, setEmail] = useState();
+  const [name, setName] = useState();
+  const [password, setPassword] = useState();
   const inputRef = useRef(null)
   const dispatch = useDispatch();
   const history = useHistory();
   const token = getCookie('refreshToken');
   const accessToken = getCookie('accessToken');
-  const tokenTetst = getCookie('token');
-  // console.log('token', token);
-  console.log('accessToken', accessToken);
-  // console.log('tokenTetst', tokenTetst);
+
+  console.log('emailData', emailData);
+
+  if (accessToken) {
+    return (
+      <Redirect to={{ pathname: '/' }} />
+    )
+  }
 
   const exitClick = useCallback(
     () => {
@@ -35,7 +41,11 @@ export function Profile () {
   )
 
   const onChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value});
+    // setData({ ...data, [e.target.name]: e.target.value});
+    console.log('e', e);
+    // setEmail();
+    // setName();
+    // setPassword();
   }
 
   const handleClickExit = useCallback(
@@ -51,7 +61,7 @@ export function Profile () {
           }
         })
     },
-    [data]
+    [emailData]
   )
 
   const handleClickSave = useCallback(
@@ -64,7 +74,7 @@ export function Profile () {
           }
         })
     },
-    [data]
+    [emailData]
   )
 
   const handleClickCancel = useCallback(
@@ -72,11 +82,12 @@ export function Profile () {
       e.preventDefault();
       dispatch();
     },
-    [data]
+    [emailData]
   )
 
   useEffect( () => {
     dispatch(actionRequestGetUser(accessToken));
+    // setData({ ...data, ['email']: emailData, ['name']: nameData });
   }, [] )
 
   return (
@@ -98,7 +109,7 @@ export function Profile () {
                   placeholder={'имя'}
                   onChange={onChange}
                   icon={'EditIcon'}
-                  value={data.name}
+                  value={name}
                   name={'name'}
                   error={false}
                   ref={inputRef}
@@ -106,9 +117,9 @@ export function Profile () {
                   size={'default'}
                 />
                 <div className={profile.email}>
-                  <EmailInput onChange={onChange} value={data.email} name={'email'} />
+                  <EmailInput onChange={onChange} value={email} name={'email'} />
                 </div>
-                <PasswordInput onChange={onChange} value={data.password} name={'password'} />
+                <PasswordInput onChange={onChange} value={password} name={'password'} />
               </div>
               <div className={profile.button}>
                 <Button onClick={handleClickSave} type="primary" size="medium">

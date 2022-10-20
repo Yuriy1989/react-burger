@@ -17,23 +17,22 @@ export const actionRequestGetUser = (token) => {
     api.getUser(token)
       .then(res => {
         if(res && res.success) {
-          console.log('true', res.user);
           dispatch({
             type: GET_USER_REQUEST_SUCCESS,
             payload: res.user
           })
         }
-        // else {
-        //   dispatch({
-        //     type: GET_USER_REQUEST_FAILED
-        //   })
-        // }
+        else {
+          dispatch({
+            type: GET_USER_REQUEST_FAILED
+          })
+        }
       })
-      // .catch(err => {
-      //   dispatch({
-      //     type: GET_USER_REQUEST_FAILED
-      //   })
-      // })
+      .catch(err => {
+        dispatch({
+          type: GET_USER_REQUEST_FAILED
+        })
+      })
   }
 }
 

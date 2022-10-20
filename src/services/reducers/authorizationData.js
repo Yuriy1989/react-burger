@@ -17,7 +17,7 @@ const defaultState = {
   },
 }
 
-export const authorization = ( state=defaultState, action ) => {
+export const authorization = ( state = defaultState, action ) => {
   switch(action.type) {
     case GET_USER_REQUEST: {
       return { ...state, feedRequest: true, feedFailed: false }
@@ -25,7 +25,7 @@ export const authorization = ( state=defaultState, action ) => {
     case GET_USER_REQUEST_SUCCESS: {
       console.log('GET_USER_REQUEST_SUCCESS');
       const data = action.payload;
-      console.log('data', data.user);
+      console.log('data', data);
       return {
         ...state,
         user: {
