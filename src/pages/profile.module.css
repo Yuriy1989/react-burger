@@ -15,7 +15,11 @@
   grid-area: nav;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
+}
+
+.form {
+  max-width: 320px;
 }
 
 .link {
@@ -43,6 +47,13 @@
 
 .email {
   margin: 24px 0;
+}
+
+.button {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 24px 0 80px 0;
 }
 
 .paragraf {

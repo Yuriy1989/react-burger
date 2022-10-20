@@ -106,18 +106,24 @@ class Api {
 
   //получение данных о пользователе
   async getUser(token) {
+    console.log('api token', token);
     return await fetch(`${this._url}/auth/user`, {
       method: 'GET',
-      headers: this._headers,
-      body: JSOM.stringify({
-        "authorization": token
-      })
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+        "authorization": 'Bearer ' + token
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer'
     })
       .then(res => res.ok ? res.json() : Promise.reject(res.status))
   }
 
   //обновление данных пользователя
-  async getUser(data) {
+  async patchUser(data) {
     return await fetch(`${this._url}/auth/user`, {
       method: 'PATCH',
       headers: this._headers,
