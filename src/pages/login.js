@@ -2,17 +2,14 @@
 import { useState, useCallback } from 'react';
 import style, { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import login from './login.module.css';
-import { actionRequestAuth } from '../services/actions/actionsAuthorization';
 import { getCookie, setCookie } from '../utils/cookie';
 import { api } from '../utils/Api';
 
 export function Login () {
 
   const [data, setData] = useState({email: '', password: ''});
-  const dispatch = useDispatch();
   const history = useHistory();
   const token = getCookie('accessToken');
 
@@ -41,8 +38,7 @@ export function Login () {
           if(res.success === true) {
             if (res.accessToken.indexOf('Bearer') === 0) {
               let accessToken = res.accessToken.split('Bearer ')[1];
-              setCookie('token', res.accessToken);
-              setCookie('accessToken', accessToken, { expires: 20000 });
+              setCookie('accessToken', accessToken, { expires: 2000 });
               setCookie('refreshToken', res.refreshToken);
             }
             loginClick();

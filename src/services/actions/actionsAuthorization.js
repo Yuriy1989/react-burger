@@ -6,6 +6,7 @@ export const PATCH_USER_REQUEST = 'PATCH_USER_REQUEST';
 export const PATCH_USER_REQUEST_SUCCESS = 'PATCH_USER_REQUEST_SUCCESS';
 export const PATCH_USER_REQUEST_FAILED = 'PATCH_USER_REQUEST_FAILED';
 export const EXIT_REQUEST_SUCCESS = 'EXIT_REQUEST_SUCCESS';
+export const CANCEL_EDIT_USER = 'CANCEL_USER_EDIT';
 
 import { api } from '../../utils/Api';
 
@@ -36,32 +37,44 @@ export const actionRequestGetUser = (token) => {
   }
 }
 
-export const actionRequestPatchUser = (data) => {
+export const actionRequestPatchUser = (data, accessToken) => {
   return (dispatch) => {
-    dispatch({
-      type: PATCH_USER_REQUEST
-    })
-    api.patchUser(data)
+    // dispatch({
+    //   type: PATCH_USER_REQUEST
+    // })
+    // console.log('data api = ', data);
+    api.patchUser(data, accessToken)
       .then(res => {
         if(res && res.success) {
+          console.log('res api = ', res);
           dispatch({
             type: PATCH_USER_REQUEST_SUCCESS,
             payload: res.user
           })
-        } else {
-          dispatch({
-            type: PATCH_USER_REQUEST_FAILED
-          })
         }
-      }).catch(err => {
-        dispatch({
-          type: PATCH_USER_REQUEST_FAILED
-        })
+        // else {
+        //   dispatch({
+        //     type: PATCH_USER_REQUEST_FAILED
+        //   })
+        // }
       })
+      // .catch(err => {
+      //   dispatch({
+      //     type: PATCH_USER_REQUEST_FAILED
+      //   })
+      // })
   }
 }
 
-export const actionRequestExit = (data) => {
+export const actionRequestCancelEditUser = () => {
+  return(dispatch) => {
+    dispatch({
+      type: CANCEL_EDIT_USER
+    })
+  }
+}
+
+export const actionRequestExit = () => {
   return (dispatch) => {
     dispatch({
       type: EXIT_REQUEST_SUCCESS

@@ -3,6 +3,7 @@ import {
   GET_USER_REQUEST_FAILED,
   GET_USER_REQUEST_SUCCESS,
   EXIT_REQUEST_SUCCESS,
+  CANCEL_EDIT_USER,
   PATCH_USER_REQUEST,
   PATCH_USER_REQUEST_SUCCESS,
   PATCH_USER_REQUEST_FAILED,
@@ -11,6 +12,8 @@ import {
 const defaultState = {
   feedRequest: false,
   feedFailed: false,
+  feedRequestPatchUser: false,
+  feedFailedPatchUser: false,
   user: {
     email: '',
     name: ''
@@ -23,9 +26,7 @@ export const authorization = ( state = defaultState, action ) => {
       return { ...state, feedRequest: true, feedFailed: false }
     }
     case GET_USER_REQUEST_SUCCESS: {
-      console.log('GET_USER_REQUEST_SUCCESS');
       const data = action.payload;
-      console.log('data', data);
       return {
         ...state,
         user: {
@@ -38,6 +39,28 @@ export const authorization = ( state = defaultState, action ) => {
     }
     case GET_USER_REQUEST_FAILED: {
       return { ...state, feedRequest: false, feedFailed: true }
+    }
+    case PATCH_USER_REQUEST: {
+      return { ...state, feedRequestPatchUser: true, feedFailedPatchUser: false }
+    }
+    case PATCH_USER_REQUEST_SUCCESS: {
+      const data = action.payload;
+      console.log('data = ', data);
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          email: data.email,
+          name: data.name
+        },
+        feedRequestPatchUser: false,
+      }
+    }
+    case PATCH_USER_REQUEST_FAILED: {
+      return { ...state, feedRequestPatchUser: false, feedFailedPatchUser: true }
+    }
+    case CANCEL_EDIT_USER: {
+      return { ...state }
     }
     case EXIT_REQUEST_SUCCESS: {
       return { ...state,
