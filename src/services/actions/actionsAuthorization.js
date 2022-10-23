@@ -10,12 +10,12 @@ export const CANCEL_EDIT_USER = 'CANCEL_USER_EDIT';
 
 import { api } from '../../utils/Api';
 
-export const actionRequestGetUser = (token) => {
+export const actionRequestGetUser = (accessToken) => {
   return (dispatch) => {
     dispatch({
       type: GET_USER_REQUEST
     })
-    api.getUser(token)
+    api.getUser(accessToken)
       .then(res => {
         if(res && res.success) {
           dispatch({
@@ -39,30 +39,29 @@ export const actionRequestGetUser = (token) => {
 
 export const actionRequestPatchUser = (data, accessToken) => {
   return (dispatch) => {
-    // dispatch({
-    //   type: PATCH_USER_REQUEST
-    // })
-    // console.log('data api = ', data);
+    dispatch({
+      type: PATCH_USER_REQUEST
+    })
     api.patchUser(data, accessToken)
       .then(res => {
-        if(res && res.success) {
-          console.log('res api = ', res);
+        if(res.success === true) {
           dispatch({
             type: PATCH_USER_REQUEST_SUCCESS,
             payload: res.user
           })
         }
-        // else {
-        //   dispatch({
-        //     type: PATCH_USER_REQUEST_FAILED
-        //   })
-        // }
+        else {
+          dispatch({
+            type: PATCH_USER_REQUEST_FAILED,
+            payload: res.message
+          })
+        }
       })
-      // .catch(err => {
-      //   dispatch({
-      //     type: PATCH_USER_REQUEST_FAILED
-      //   })
-      // })
+      .catch(err => {
+        dispatch({
+          type: PATCH_USER_REQUEST_FAILED
+        })
+      })
   }
 }
 

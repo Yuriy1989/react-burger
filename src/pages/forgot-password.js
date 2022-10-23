@@ -5,7 +5,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 import forgotPassword from './forgot-password.module.css';
 import { api } from '../utils/Api';
-import { getCookie } from '../utils/cookie';
+import { getCookie, setCookie } from '../utils/cookie';
 
 export function ForgotPassword () {
 
@@ -19,9 +19,10 @@ export function ForgotPassword () {
     )
   }
 
-  const resetPassword = useCallback(() => {
-    history.replace({ pathname: '/reset-password' })
-  },
+  const resetPassword = useCallback(
+    () => {
+      history.replace({ pathname: '/reset-password' })
+    },
     [history]
   );
 
@@ -35,6 +36,7 @@ export function ForgotPassword () {
       api.getEmails(email)
         .then(res => {
           if (res.success === true) {
+            setCookie('forgotPassword', res.success, { expires: 200 });
             resetPassword();
           }
         })

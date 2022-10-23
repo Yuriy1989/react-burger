@@ -1,8 +1,7 @@
 
 import { useState, useCallback } from 'react';
 import style, { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, useHistory } from 'react-router-dom';
-import { Redirect } from 'react-router-dom';
+import { Link, useHistory, Redirect } from 'react-router-dom';
 import login from './login.module.css';
 import { getCookie, setCookie } from '../utils/cookie';
 import { api } from '../utils/Api';
@@ -15,7 +14,8 @@ export function Login () {
 
   if (token) {
     return (
-      <Redirect to={{ pathname: '/' }} />
+      // <Redirect to={{ pathname: '/' }} />
+      <Redirect to={ state?.from || '/' } />
     )
   }
 
@@ -38,7 +38,7 @@ export function Login () {
           if(res.success === true) {
             if (res.accessToken.indexOf('Bearer') === 0) {
               let accessToken = res.accessToken.split('Bearer ')[1];
-              setCookie('accessToken', accessToken, { expires: 2000 });
+              setCookie('accessToken', accessToken, { expires: 200 });
               setCookie('refreshToken', res.refreshToken);
             }
             loginClick();

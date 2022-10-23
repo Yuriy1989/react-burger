@@ -12,6 +12,7 @@ export function Profile () {
 
   const email = useSelector(state => state.authorization.user.email);
   const name = useSelector(state => state.authorization.user.name);
+  const error = useSelector(state => state.authorization.error);
   const feedFailed = useSelector((state) => state.authorization.feedFailed);
   const feedRequest = useSelector((state) => state.authorization.feedRequest);
   const [data, setData] = useState({name: '', email: '', password: ''});
@@ -63,7 +64,7 @@ export function Profile () {
   )
 
   useEffect( () => {
-    if (!accessToken ) {
+    if ( !accessToken ) {
       return (
         <Redirect to={{ pathname: '/login' }} />
       )
@@ -104,6 +105,7 @@ export function Profile () {
                 />
                 <div className={profile.email}>
                   <EmailInput onChange={onChange} value={data.email} name={'email'} />
+                  {error && <p className={`input__error text_type_main-default`}>ошибка: {error} </p>}
                 </div>
                 <PasswordInput onChange={onChange} value={data.password} name={'password'} />
               </div>

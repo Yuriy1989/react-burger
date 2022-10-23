@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react';
 
 import PropTypes from 'prop-types';
-import style, { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import style, { ConstructorElement, Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
 import ingredientItem from './ingredientItem.module.css';
 import { ingredientTypes } from '../../utils/types';
 import { openInfoSelectedInrgedient } from '../../services/actions/getIngredientforOpenModal';
 import { useDrag } from "react-dnd";
+import { Link, useLocation } from 'react-router-dom';
 import uuid from 'react-uuid';
 
 export default function IngredientItem ( {item} ) {
 
   const [count, setCount] = useState({}); //объект типа {ID:количество} в массиве arrayData
   const [arrayData, setArrayData] = useState([]); //общий массив всех ингредиентов
+  const location = useLocation();
+
+  // console.log('location = ',location);
 
   const [{ isDrag }, dragRef] = useDrag({
     type: 'ingredients',
@@ -50,11 +54,15 @@ export default function IngredientItem ( {item} ) {
 
   return (
     !isDrag &&
+    <Link className={ingredientItem.link}
+      to={{ pathname: `/${item.id}` }}
+      state={{background: location}}
+    >
       <li ref={dragRef} className={ingredientItem.item}>
-        <img onClick={handleClick} className={ingredientItem.image} src={item.image}></img>
+        <img className={ingredientItem.image} src={item.image}></img>
         <div className={ingredientItem.counter}>
           {arrayData.map(check => (check.id === item.id &&
-            <Counter key={uuid()} count={count[item.id]} size="default" /> ))
+            <Counter key={uuid()} count={count[item.id]} size="default" />))
           }
         </div>
         <div className={ingredientItem.price}>
@@ -63,6 +71,7 @@ export default function IngredientItem ( {item} ) {
         </div>
         <p className={` ${ingredientItem.name} text text_type_main-default`}>{item.name}</p>
       </li>
+    </Link>
   );
 }
 

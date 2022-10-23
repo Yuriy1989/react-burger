@@ -14,6 +14,7 @@ const defaultState = {
   feedFailed: false,
   feedRequestPatchUser: false,
   feedFailedPatchUser: false,
+  error: '',
   user: {
     email: '',
     name: ''
@@ -45,7 +46,6 @@ export const authorization = ( state = defaultState, action ) => {
     }
     case PATCH_USER_REQUEST_SUCCESS: {
       const data = action.payload;
-      console.log('data = ', data);
       return {
         ...state,
         user: {
@@ -57,7 +57,13 @@ export const authorization = ( state = defaultState, action ) => {
       }
     }
     case PATCH_USER_REQUEST_FAILED: {
-      return { ...state, feedRequestPatchUser: false, feedFailedPatchUser: true }
+      const data = action.payload;
+      return {
+        ...state,
+        error: data,
+        feedRequestPatchUser: false,
+        feedFailedPatchUser: true,
+      }
     }
     case CANCEL_EDIT_USER: {
       return { ...state }

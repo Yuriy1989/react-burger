@@ -1,7 +1,7 @@
 
 import { useState, useCallback } from 'react';
 import style, { PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, Redirect } from 'react-router-dom';
 import resetPassword from './reset-password.module.css';
 import { getCookie } from '../utils/cookie';
 import { api } from '../utils/Api';
@@ -10,11 +10,18 @@ export function ResetPassword() {
 
   const [data, setData] = useState( {password: '', token: ''} );
   const history = useHistory();
-  const token = getCookie('accessToken');
+  const accessToken = getCookie('accessToken');
+  const forgotPassword = getCookie('forgotPassword');
 
-  if (token) {
+  if (accessToken) {
     return (
       <Redirect to={{ pathname: '/' }} />
+    )
+  }
+
+  if (!forgotPassword) {
+    return (
+      <Redirect to={{ pathname: '/forgot-password' }} />
     )
   }
 

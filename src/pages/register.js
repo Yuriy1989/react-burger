@@ -11,7 +11,7 @@ export function Register () {
 
   const [data, setData] = useState({email: '', password: '', name: ''});
   const inputRef = useRef(null)
-  const token = getCookie('token');
+  const accessToken = getCookie('accessToken');
   const history = useHistory();
 
   const loginRequest = useCallback(() => {
@@ -20,7 +20,7 @@ export function Register () {
     [history]
   );
 
-  if (token) {
+  if (accessToken) {
     return (
       <Redirect to={{ pathname: '/' }} />
     )

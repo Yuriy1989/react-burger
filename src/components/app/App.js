@@ -4,7 +4,8 @@ import app from './app.module.css';
 import style from '@ya.praktikum/react-developer-burger-ui-components';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { ProtectedRoute } from '../protectedRoute/ProtectedRoute';
 
 import { getIngredients } from '../../services/actions/ingredients';
@@ -15,10 +16,15 @@ import Modal from '../modal/Modal';
 import OrderDetails from '../orderDetails/OrderDetails';
 import OrderMessage from '../orderMessage/OrderMessage';
 import IngredientDetails from '../ingredientDetails/IngredientDetails';
-import { Login, Register, ForgotPassword, ResetPassword, Profile } from '../../pages';
+import { Login, Register, ForgotPassword, ResetPassword, Profile, Ingredients } from '../../pages';
 
 export default function App() {
   const dispatch = useDispatch();
+
+  // const location = useLocation();
+  console.log('location = ',location);
+  const background = location.state?.background;
+  console.log('background = ',background);
 
   //делаем запрос к серверу для получения всех ингредиентов
   useEffect(() => {
@@ -41,7 +47,7 @@ export default function App() {
         <main className={app.app}>
           <DndProvider backend={HTML5Backend}>
             <Router>
-              <Switch>
+              <Switch >
                 <Route path="/login" exact={true}>
                   <div className={app.header}>
                     <AppHeader />
@@ -66,6 +72,13 @@ export default function App() {
                   </div>
                   <ResetPassword />
                 </Route>
+                {/* <Route path={`/ingredients/:id`} exact={true}>
+                  <div className={app.header}>
+                    <AppHeader />
+                  </div>
+                  <Ingredients />
+                </Route> */}
+
                 <ProtectedRoute path="/profile" exact={true}>
                   <div className={app.header}>
                     <AppHeader />
@@ -81,31 +94,58 @@ export default function App() {
                     <BurgerConstructor />
                   </div>
                 </ProtectedRoute>
+                {/* {background &&
+                  <Route path={`/ingredients/:id`}>
+                  <Modal title="Детали ингредиента" >
+                        <IngredientDetails />
+                      </Modal>
+                  </Route>
+                } */}
               </Switch>
+
+
+                <ProtectedRoute path={`/:id`} exact={true}>
+                  <Modal title="Детали ингредиента" >
+                    <IngredientDetails />
+                  </Modal>
+                </ProtectedRoute>
+
+
             </Router>
           </DndProvider>
-        </main>
-          {isOpenModalDetails &&
+          </main>
+          {/* {isOpenModalDetails &&
             <Modal
               title=""
             >
               <OrderDetails />
             </Modal>
-          }
-          {isOpenModal &&
+          } */}
+          {/* {isOpenModal &&
             <Modal
               title="Детали ингредиента"
             >
               <IngredientDetails />
             </Modal>
-          }
-          {isOpenModalError &&
+          } */}
+          {/* {background &&
+            <Route
+              path={`/ingredients/:id`}
+              children={
+                <Modal title="Детали ингредиента" >
+                  <IngredientDetails />
+                </Modal>
+              }
+            />
+
+          } */}
+          {/* {isOpenModalError &&
             <Modal
               title=""
             >
               <OrderMessage />
             </Modal>
-          }
+          } */}
         </>
       }
     </>

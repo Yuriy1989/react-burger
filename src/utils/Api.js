@@ -52,12 +52,7 @@ class Api {
   async login(data) {
     return await fetch(`${this._url}/auth/login`, {
       method: 'POST',
-      // mode: 'cors',
-      // cache: 'no-cache',
-      // credentials: 'same-origin',
       headers: this._headers,
-      // redirect: 'follow',
-      // referrerPolicy: 'no-referrer',
       body: JSON.stringify({
         "email": data.email,
         "password": data.password
@@ -105,46 +100,33 @@ class Api {
   }
 
   //получение данных о пользователе
-  async getUser(token) {
+  async getUser(accessToken) {
+    console.log('API accessToken = ', accessToken);
     return await fetch(`${this._url}/auth/user`, {
       method: 'GET',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json',
-        "authorization": 'Bearer ' + token
+        "authorization": 'Bearer ' + accessToken
       },
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer'
     })
       .then(res => res.ok ? res.json() : Promise.reject(res.status))
   }
 
   //обновление данных пользователя
-  async patchUser(data, token) {
-    console.log('API data', data);
+  async patchUser(data, accessToken) {
     return await fetch(`${this._url}/auth/user`, {
       method: 'PATCH',
-      // mode: 'cors',
-      // cache: 'no-cache',
-      // credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json',
-        "authorization": 'Bearer ' + token
+        "authorization": 'Bearer ' + accessToken
       },
       body: JSON.stringify({
-        "user": {
-          "email" : data.email,
-          "name": data.name,
-        }
+        "email" : data.email,
+        "name": data.name,
       }),
-      // redirect: 'follow',
-      // referrerPolicy: 'no-referrer'
     })
-      .then(res => res.ok ? res.json() : Promise.reject(res.status))
+      .then(res => res.ok ? res.json() : res.json())
   }
-
 }
 
 export const api = new Api({
