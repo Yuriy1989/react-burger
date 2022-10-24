@@ -14,8 +14,8 @@ export function Login () {
 
   if (token) {
     return (
-      // <Redirect to={{ pathname: '/' }} />
-      <Redirect to={ state?.from || '/' } />
+      <Redirect to={{ pathname: '/' }} />
+      // <Redirect to={ state?.from || '/' } />
     )
   }
 

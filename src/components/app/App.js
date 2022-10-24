@@ -21,9 +21,10 @@ import { Login, Register, ForgotPassword, ResetPassword, Profile, Ingredients } 
 export default function App() {
   const dispatch = useDispatch();
 
-  // const location = useLocation();
-  console.log('location = ',location);
+  const location = useLocation();
+  console.log('App location = ',location);
   const background = location.state?.background;
+  // let background = location.state && location.state.background;
   console.log('background = ',background);
 
   //делаем запрос к серверу для получения всех ингредиентов
@@ -46,8 +47,7 @@ export default function App() {
         <>
         <main className={app.app}>
           <DndProvider backend={HTML5Backend}>
-            <Router>
-              <Switch >
+              <Switch location={background || location}>
                 <Route path="/login" exact={true}>
                   <div className={app.header}>
                     <AppHeader />
@@ -72,13 +72,12 @@ export default function App() {
                   </div>
                   <ResetPassword />
                 </Route>
-                {/* <Route path={`/ingredients/:id`} exact={true}>
+                <Route path={`/ingredients/:id`} >
                   <div className={app.header}>
                     <AppHeader />
                   </div>
                   <Ingredients />
-                </Route> */}
-
+                </Route>
                 <ProtectedRoute path="/profile" exact={true}>
                   <div className={app.header}>
                     <AppHeader />
@@ -94,24 +93,13 @@ export default function App() {
                     <BurgerConstructor />
                   </div>
                 </ProtectedRoute>
-                {/* {background &&
-                  <Route path={`/ingredients/:id`}>
-                  <Modal title="Детали ингредиента" >
-                        <IngredientDetails />
-                      </Modal>
-                  </Route>
-                } */}
               </Switch>
-
-
-                <ProtectedRoute path={`/:id`} exact={true}>
+              {background && (<Route path={`/ingredients/:id`} exact={true}>
                   <Modal title="Детали ингредиента" >
                     <IngredientDetails />
                   </Modal>
-                </ProtectedRoute>
-
-
-            </Router>
+                </Route>)
+              }
           </DndProvider>
           </main>
           {/* {isOpenModalDetails &&

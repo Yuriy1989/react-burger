@@ -16,7 +16,7 @@ export default function IngredientItem ( {item} ) {
   const [arrayData, setArrayData] = useState([]); //общий массив всех ингредиентов
   const location = useLocation();
 
-  // console.log('location = ',location);
+  console.log('IngredientItem location = ',location);
 
   const [{ isDrag }, dragRef] = useDrag({
     type: 'ingredients',
@@ -55,8 +55,14 @@ export default function IngredientItem ( {item} ) {
   return (
     !isDrag &&
     <Link className={ingredientItem.link}
-      to={{ pathname: `/${item.id}` }}
-      state={{background: location}}
+      // to={{
+      //   pathname: `/ingredients/${item.id}`,
+      //   state:{ background: location }
+      // }}
+      to={{
+        pathname: `/ingredients/${item.id}`,
+        state: { background: location }
+      }}
     >
       <li ref={dragRef} className={ingredientItem.item}>
         <img className={ingredientItem.image} src={item.image}></img>
