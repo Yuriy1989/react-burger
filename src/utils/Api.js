@@ -88,12 +88,13 @@ class Api {
   }
 
   //обновление токена
-  async token(token) {
+  async refreshToken(refreshToken) {
+    console.log('refreshToken API', refreshToken);
     return await fetch(`${this._url}/auth/token`, {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
-        "token": token
+        "token": refreshToken
       })
     })
       .then(res => res.ok ? res.json() : Promise.reject(res.status))
@@ -101,7 +102,6 @@ class Api {
 
   //получение данных о пользователе
   async getUser(accessToken) {
-    console.log('API accessToken = ', accessToken);
     return await fetch(`${this._url}/auth/user`, {
       method: 'GET',
       headers: {

@@ -12,20 +12,12 @@ const modalsContainer = document.querySelector('#modals');
 const Modal = ({ title, children }) => {
 
   const history = useHistory();
-  const location = useLocation();
-  const token = getCookie('accessToken');
+  const accessToken = getCookie('accessToken');
 
-  // const isOpenModalError = location.state?.isOpenModalError;
-  // console.log('isOpenModalError', isOpenModalError);
-
-  // if (!isOpenModalError) {
-  //   console.log('Modal isOpenModalError', isOpenModalError);
-  //   <Redirect to={{ pathname: '/' }} />
-  // }
-
-  if (!token) {
+  //Если нет accessToken редирект на страницу авторизации login
+  if (!accessToken) {
     return (
-      <Redirect to={{ pathname: '/' }} />
+      <Redirect to={{ pathname: '/login' }} />
     )
   }
 
@@ -34,6 +26,7 @@ const Modal = ({ title, children }) => {
     event.key === "Escape" && closeModals();
   }, []);
 
+  // Закрытие модалки - возврат на предыдущую страницу
   const closeModals = useCallback(
     () => {
       history.goBack();

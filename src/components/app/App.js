@@ -24,21 +24,11 @@ export default function App() {
   const isOpenModalIngredient = location.state?.isOpenModalIngredient;
   const isOpenModalError = location.state?.isOpenModalError;
   const isOpenModalDetails = location.state?.isOpenModalDetails;
-  console.log('App isOpenModalError = ', isOpenModalError);
-
-  if (!isOpenModalError) {
-    console.log('Modal isOpenModalError', isOpenModalError);
-    <Redirect to={{ pathname: '/' }} />
-  }
 
   //делаем запрос к серверу для получения всех ингредиентов
   useEffect(() => {
     dispatch(getIngredients());
   }, [])
-
-  // const isOpenModal = useSelector(state => state.getInfoSelectedIngredient.openModal);
-  // const isOpenModalDetails = useSelector(state => state.getInfoSelectedIngredient.openModalOrder);
-  // const isOpenModalError = useSelector(state => state.getInfoSelectedIngredient.openModalError);
 
   const feedFailed = useSelector((state) => state.getIngredientsApi.feedFailed);
   const feedRequest = useSelector((state) => state.getIngredientsApi.feedRequest);

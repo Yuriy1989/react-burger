@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import profile from './profile.module.css';
 import { actionRequestGetUser, actionRequestPatchUser } from '../services/actions/actionsAuthorization';
 import { api } from '../utils/Api';
-import { getCookie, deleteCookie } from '../utils/cookie';
+import { getCookie, setCookie, deleteCookie } from '../utils/cookie';
 
 export function Profile () {
 
@@ -22,10 +22,12 @@ export function Profile () {
   const refreshToken = getCookie('refreshToken');
   const accessToken = getCookie('accessToken');
 
+  //Сбор данных из всех input
   const onChange = (e) => {
     setData( { ...data, [e.target.name]: e.target.value} );
   }
 
+  //При успешном выходе делает редирект на страницу авторизации
   const exitClick = useCallback(
     () => {
       history.replace({ pathname: '/login' });
@@ -33,6 +35,9 @@ export function Profile () {
     [history]
   )
 
+  console.log('Profile document.cookie', document.cookie);
+
+  //Запрос к серверу для выхода и удаления всех токинов из кук
   const handleClickExit = useCallback(
     () => {
       api.logout(refreshToken)
@@ -47,6 +52,7 @@ export function Profile () {
     [data]
   )
 
+  //При успешном получении данных о пользователе, сохраняем их в Store
   const handleClickSave = useCallback(
     e => {
       e.preventDefault();
@@ -55,6 +61,7 @@ export function Profile () {
     [data]
   )
 
+  //Отмена всех введных ранее данных
   const handleClickCancel = useCallback(
     e => {
       e.preventDefault();
@@ -63,15 +70,38 @@ export function Profile () {
     [data]
   )
 
-  useEffect( () => {
-    if ( !accessToken ) {
-      return (
-        <Redirect to={{ pathname: '/login' }} />
-      )
+  //При успешной обновлении токена переход страницу
+  const redirectRefreshToken = useCallback(
+    () => {
+      history.replace({ pathname: '/profile' });
+    },
+    [history]
+  )
+
+  //При переходе на страницу Профиля, делаем запрос к серверу и сохраняем данные в Store
+  useEffect(() => {
+    if (!accessToken) {
+      console.log('Токен accessToken не найден');
+      if (refreshToken) {
+        api.refreshToken(refreshToken)
+          .then(res => {
+            if (res.success === true) {
+              console.log('new accessToken =', res);
+              let newAccessToken = res.accessToken.split('Bearer ')[1];
+              setCookie('accessToken', newAccessToken, { 'max-age': 60 });
+              redirectRefreshToken();
+            }
+          })
+      } else {
+        console.log('Никаких токенов нет');
+        return (
+          <Redirect to={{ pathname: '/login' }} />
+        )
+      }
     } else {
       dispatch(actionRequestGetUser(accessToken));
     }
-  }, [] )
+  }, [])
 
   useEffect( () => {
     setData( {name: name, email: email, password: ''} );

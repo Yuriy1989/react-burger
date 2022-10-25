@@ -11,14 +11,17 @@ export function ForgotPassword () {
 
   const [email, setEmail] = useState('test@yandex.ru');
   const history = useHistory();
-  const token = getCookie('accessToken');
+  const accessToken = getCookie('accessToken');
 
-  if (token) {
+  //Если accessToken существует в куках, то делаем редирект на главную страницу /
+  if (accessToken) {
     return (
       <Redirect to={{ pathname: '/' }} />
     )
   }
 
+  //При успешном отправке запроса на восстановление
+  //пароль делаем редирект на ввода нового пароля и ключа
   const resetPassword = useCallback(
     () => {
       history.replace({ pathname: '/reset-password' })
@@ -26,11 +29,12 @@ export function ForgotPassword () {
     [history]
   );
 
-  const onChange = e => {
+    const onChange = e => {
     setEmail(e.target.value)
   }
 
-    const handleClick = useCallback(
+  //запрос к серверу для восстановление пароля по email
+  const handleClick = useCallback(
     e => {
       e.preventDefault();
       api.getEmails(email)

@@ -14,12 +14,14 @@ export function Register () {
   const accessToken = getCookie('accessToken');
   const history = useHistory();
 
+  //При успешной регистрации, делаем редирект на страницу атворизации
   const loginRequest = useCallback(() => {
     history.replace({ pathname: '/login' })
   },
     [history]
   );
 
+  //Если accessToken существует в куках, то делаем редирект на главную страницу /
   if (accessToken) {
     return (
       <Redirect to={{ pathname: '/' }} />
@@ -30,6 +32,7 @@ export function Register () {
     setData( {...data, [e.target.name]: e.target.value} );
   }
 
+  //Запрос к серверу для регистрации пользователя
   const handleClick = (e) => {
     e.preventDefault();
     api.register(data)

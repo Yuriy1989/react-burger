@@ -12,12 +12,14 @@ export function Ingredients () {
   const ingredientsData = useSelector(state => state.getIngredientsApi.ingredientsGetApi);
   const [data, setData] = useState({});
 
+   //Ищем ингредиент из общего массива ингредиентов по определенному id из ссылки
   const selectedIngredients = useCallback(
     () => {
       setData(ingredientsData.find(item => item.id === id));
     }, [ingredientsData]
   )
 
+  //Если accessToken существует в куках, то делаем редирект на главную страницу /
   if (!accessToken) {
     return (
       <Redirect to={{ pathname: '/' }} />

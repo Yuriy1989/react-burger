@@ -13,18 +13,21 @@ export function ResetPassword() {
   const accessToken = getCookie('accessToken');
   const forgotPassword = getCookie('forgotPassword');
 
+  //Если accessToken существует в куках, то делаем редирект на главную страницу /
   if (accessToken) {
     return (
       <Redirect to={{ pathname: '/' }} />
     )
   }
 
+  //Если forgotPassword не существует в куках, то делаем редирект на forgot-password для ввода email
   if (!forgotPassword) {
     return (
       <Redirect to={{ pathname: '/forgot-password' }} />
     )
   }
 
+  //При успешной смене пароля делает редирект на страницу авторизации
   const loginRedirect = useCallback(
     () => {
       history.replace({ pathname: '/login' });
@@ -36,6 +39,7 @@ export function ResetPassword() {
     setData( {...data, [e.target.name]: e.target.value } );
   }
 
+  //Запрос к серверу для смены пароля
   const handleClick = useCallback(
     e => {
       e.preventDefault();

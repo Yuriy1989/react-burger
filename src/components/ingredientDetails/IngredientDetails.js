@@ -13,15 +13,17 @@ export default function IngredientDetails() {
   const [ingredient, setIngredient] = useState({});
   const dispatch = useDispatch();
 
+  //Ищем ингредиент из общего массива ингредиентов по определенному id из ссылки
   const selectedIngredients = useCallback(
     () => {
       setIngredient(ingredientData.find(item => item.id === id));
     }, [ingredientData]
   )
 
+  //Если нет accessToken редирект на страницу авторизации login
   if (!accessToken) {
     return (
-      <Redirect to={{ pathname: '/' }} />
+      <Redirect to={{ pathname: '/login' }} />
     )
   }
 

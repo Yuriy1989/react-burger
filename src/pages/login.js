@@ -1,5 +1,5 @@
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import style, { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useHistory, Redirect } from 'react-router-dom';
 import login from './login.module.css';
@@ -10,15 +10,20 @@ export function Login () {
 
   const [data, setData] = useState({email: '', password: ''});
   const history = useHistory();
-  const token = getCookie('accessToken');
+  const accessToken = getCookie('accessToken');
+  const refreshToken = getCookie('refreshToken');
 
-  if (token) {
+  console.log('Login document.cookie', document.cookie);
+
+  //Если есть accessToken редирект на главную страницу
+  if (accessToken) {
     return (
       <Redirect to={{ pathname: '/' }} />
       // <Redirect to={ state?.from || '/' } />
     )
   }
 
+  //При успешной авторизации переход на главную страницу /
   const loginClick = useCallback(
     () => {
       history.replace({ pathname: '/' });
@@ -26,10 +31,12 @@ export function Login () {
     [history]
   )
 
+  //Сбор все данных с input
   const onChange = (e) => {
     setData( { ...data, [e.target.name]: e.target.value} );
   }
 
+  //Запрос к серверу для авторизации пользователя
   const handleClick = useCallback(
     e => {
       e.preventDefault();
@@ -38,7 +45,7 @@ export function Login () {
           if(res.success === true) {
             if (res.accessToken.indexOf('Bearer') === 0) {
               let accessToken = res.accessToken.split('Bearer ')[1];
-              setCookie('accessToken', accessToken, { expires: 200 });
+              setCookie('accessToken', accessToken, { 'max-age': 120 });
               setCookie('refreshToken', res.refreshToken);
             }
             loginClick();
@@ -47,6 +54,38 @@ export function Login () {
     },
     [data]
   )
+
+  //При успешной обновлении токена переход страницу
+  const redirectRefreshToken = useCallback(
+    () => {
+      history.replace({ pathname: '/profile' });
+    },
+    [history]
+  )
+
+  //При переходе на страницу Профиля, делаем запрос к серверу и сохраняем данные в Store
+  useEffect(() => {
+    if (!accessToken) {
+      console.log('Токен accessToken не найден');
+      if (refreshToken) {
+        api.refreshToken(refreshToken)
+          .then(res => {
+            if (res.success === true) {
+              console.log('new refreshAccessToken =', res);
+              let newAccessToken = res.accessToken.split('Bearer ')[1];
+              setCookie('accessToken', newAccessToken, { 'max-age': 60 });
+              setCookie('refreshToken', res.refreshToken);
+              redirectRefreshToken();
+            }
+          })
+      } else {
+        console.log('Никаких токенов нет');
+        return (
+          <Redirect to={{ pathname: '/login' }} />
+        )
+      }
+    }
+  }, [])
 
   return (
     <div className={login.login}>
