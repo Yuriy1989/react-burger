@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import modalOverlay from './modalOverlay.module.css';
-import { useDispatch } from 'react-redux';
-import { closeModal } from '../../services/actions/getIngredientforOpenModal';
+import { useHistory } from 'react-router-dom';
 
 export default function ModalOverlay() {
-const dispatch = useDispatch();
-const closeModals = () => dispatch(closeModal());
+
+const history = useHistory();
+
+const closeModals = useCallback(
+  () => {
+    history.goBack();
+  }, []
+)
 
   return (
     <div className={modalOverlay.modalOverlay} onClick={closeModals}></div>

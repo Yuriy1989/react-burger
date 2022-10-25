@@ -1,16 +1,18 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useCallback } from "react";
 import style, { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import uuid from 'react-uuid';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { calcPrice, setSelectedId } from '../../services/actions/getOrderDetails';
 import burgerConstructor from './burgerConstructor.module.css';
-import { openOrderDetails, openOrderError } from '../../services/actions/getIngredientforOpenModal';
 import { useDrop } from "react-dnd";
 import { selectedIngredientsForBurgerAction } from '../../services/actions/ingredients';
 import ElementBurger from '../elementBurger/ElementBurger';
 
 function BurgerConstructor() {
 
+  const location = useLocation();
+  const history = useHistory();
   const dispatch = useDispatch();
   const onDropHandler = (itemId) => dispatch(selectedIngredientsForBurgerAction(itemId));
 
@@ -52,13 +54,21 @@ function BurgerConstructor() {
   }, [selectedIngredients]);
 
 
-  const handleClick = () => {
-    if (selectedIngredients.bun.find(item => item.type === 'bun')) {
-      dispatch(openOrderDetails());
-    } else {
-      dispatch(openOrderError());
+  const handleClick = useCallback(
+    () => {
+      if (selectedIngredients.bun.find(item => item.type === 'bun')) {
+        history.push({
+          pathname: `/orderDetails`,
+          state: { isOpenModalDetails: location }
+        })
+      } else {
+        history.push({
+          pathname: `/error`,
+          state: { isOpenModalError: location }
+        })
+      }
     }
-  }
+  )
 
   return (
     <section ref={dropTarget} className={burgerConstructor.burgerConstructor} style={{border}}>

@@ -4,21 +4,41 @@ import style, { CloseIcon, } from '@ya.praktikum/react-developer-burger-ui-compo
 import ModalOverlay from '../modalOverlay/ModalOverlay';
 import modal from './modal.module.css';
 import { text, component } from '../../utils/types';
-import { useDispatch } from 'react-redux';
-import { closeModal } from '../../services/actions/getIngredientforOpenModal';
+import { useHistory, useLocation, Redirect } from 'react-router-dom';
+import { getCookie } from '../../utils/cookie';
 
 const modalsContainer = document.querySelector('#modals');
 
 const Modal = ({ title, children }) => {
 
-  const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
+  const token = getCookie('accessToken');
 
-  const closeModals = () => dispatch(closeModal());
+  // const isOpenModalError = location.state?.isOpenModalError;
+  // console.log('isOpenModalError', isOpenModalError);
+
+  // if (!isOpenModalError) {
+  //   console.log('Modal isOpenModalError', isOpenModalError);
+  //   <Redirect to={{ pathname: '/' }} />
+  // }
+
+  if (!token) {
+    return (
+      <Redirect to={{ pathname: '/' }} />
+    )
+  }
 
   // Обработка нажатия Esc
   const handleEscKeydown = useCallback((event) => {
-    event.key === "Escape" && dispatch(closeModal());
+    event.key === "Escape" && closeModals();
   }, []);
+
+  const closeModals = useCallback(
+    () => {
+      history.goBack();
+    }, []
+  )
 
   useEffect(() => {
     document.addEventListener('keydown', handleEscKeydown);

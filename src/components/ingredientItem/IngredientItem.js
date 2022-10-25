@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
 import PropTypes from 'prop-types';
-import style, { ConstructorElement, Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
+import style, { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useSelector } from 'react-redux';
 import ingredientItem from './ingredientItem.module.css';
 import { ingredientTypes } from '../../utils/types';
-import { openInfoSelectedInrgedient } from '../../services/actions/getIngredientforOpenModal';
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from 'react-router-dom';
 import uuid from 'react-uuid';
@@ -16,8 +15,6 @@ export default function IngredientItem ( {item} ) {
   const [arrayData, setArrayData] = useState([]); //общий массив всех ингредиентов
   const location = useLocation();
 
-  console.log('IngredientItem location = ',location);
-
   const [{ isDrag }, dragRef] = useDrag({
     type: 'ingredients',
     item: item,
@@ -26,7 +23,6 @@ export default function IngredientItem ( {item} ) {
     })
   });
 
-  const dispatch = useDispatch();
   const countData = useSelector(state => state.getIngredientsApi.ingredientForConstructor);
 
   //результат подсчета кол-ва элементов отобранных для бургера
@@ -50,18 +46,12 @@ export default function IngredientItem ( {item} ) {
     caclCount();
   }, [countData]);
 
-  const handleClick = () => dispatch(openInfoSelectedInrgedient(item));
-
   return (
     !isDrag &&
     <Link className={ingredientItem.link}
-      // to={{
-      //   pathname: `/ingredients/${item.id}`,
-      //   state:{ background: location }
-      // }}
       to={{
         pathname: `/ingredients/${item.id}`,
-        state: { background: location }
+        state: { isOpenModalIngredient: location }
       }}
     >
       <li ref={dragRef} className={ingredientItem.item}>
