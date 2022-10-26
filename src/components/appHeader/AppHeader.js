@@ -14,26 +14,26 @@ export default function AppHeader() {
           <li>
             <button className={`${appHeaderStyles.button} text text_type_main-default`}>
               <div className="p-2" >
-                <BurgerIcon type={ history.location.pathname == '/' ? 'primary' : 'secondary' }/>
+                <BurgerIcon type={ history.location.pathname === '/' ? 'primary' : 'secondary' }/>
               </div>
-              <NavLink activeClassName={` ${appHeaderStyles.linkActive} `} className={` ${appHeaderStyles.link} text text_type_main-default text_color_inactive`} to="/">Конструктор</NavLink>
+              <NavLink activeClassName={` ${appHeaderStyles.linkActive} `} className={` ${appHeaderStyles.link} text text_type_main-default text_color_inactive`} to="/" exact={true}>Конструктор</NavLink>
             </button>
           </li>
           <li>
             <button className={`${appHeaderStyles.button} text text_type_main-default`}>
               <div className="p-2">
-                <ListIcon type={ history.location.pathname == '/feed' ? 'primary' : 'secondary' } />
+                <ListIcon type={ history.location.pathname === '/feed' ? 'primary' : 'secondary' } />
               </div>
-              <NavLink activeClassName={` ${appHeaderStyles.linkActive} `} className={` ${appHeaderStyles.link} text text_type_main-default text_color_inactive`} to="/feed">Лента заказов</NavLink>
+              <NavLink activeClassName={` ${appHeaderStyles.linkActive} `} className={` ${appHeaderStyles.link} text text_type_main-default text_color_inactive`} to="/feed" exact={true}>Лента заказов</NavLink>
             </button>
           </li>
         </ul>
         <div className={appHeaderStyles.logo}><Logo /></div>
         <button className={` ${appHeaderStyles.profile} ${appHeaderStyles.button} text text_type_main-default`}>
           <div className="p-2">
-            <ProfileIcon type={ history.location.pathname == '/profile' ? 'primary' : 'secondary' } />
+            <ProfileIcon type={ history.location.pathname === '/profile' ? 'primary' : 'secondary' } />
           </div>
-          <NavLink activeClassName={` ${appHeaderStyles.linkActive} `} className={` ${appHeaderStyles.link} text text_type_main-default text_color_inactive`} to="/profile">Личный кабинет</NavLink>
+          <NavLink activeClassName={` ${appHeaderStyles.linkActive} `} className={` ${appHeaderStyles.link} text text_type_main-default text_color_inactive`} to="/profile" exact={true}>Личный кабинет</NavLink>
         </button>
       </nav>
     </header>

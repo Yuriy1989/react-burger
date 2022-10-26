@@ -4,12 +4,16 @@ class Api {
     this._headers = options.headers;
   }
 
+  _getResponse(res){
+    return res.ok ? res.json() : Promise.reject(res.status);
+  }
+
   getIngridients() {
     return fetch(`${this._url}/ingredients`, {
       method: 'GET',
       headers: this._headers
     })
-      .then(res => res.ok ? res.json() : Promise.reject(res.status))
+      .then(res => this._getResponse(res))
   }
 
   setOrderDetails(data) {
@@ -20,7 +24,7 @@ class Api {
         "ingredients": data
       })
     })
-      .then(res => res.ok ? res.json() : Promise.reject(res.status))
+      .then(res => this._getResponse(res))
   }
 
   //проверка, зарегистрирован ли пользователь в системе
@@ -32,7 +36,7 @@ class Api {
         "email": data
       })
     })
-      .then(res => res.ok ? res.json() : Promise.reject(res.status))
+      .then(res => this._getResponse(res))
   }
 
   //восстановление пароля
@@ -45,7 +49,7 @@ class Api {
         "token": data.token
       })
     })
-      .then(res => res.ok ? res.json() : Promise.reject(res.status))
+      .then(res => this._getResponse(res))
   }
 
   //авторизацмя в системе
@@ -58,7 +62,7 @@ class Api {
         "password": data.password
       })
     })
-      .then(res => res.ok ? res.json() : Promise.reject(res.status))
+      .then(res => this._getResponse(res))
   }
 
   //регистрация в системе
@@ -72,7 +76,7 @@ class Api {
         "name": data.name
       })
     })
-      .then(res => res.ok ? res.json() : Promise.reject(res.status))
+      .then(res => this._getResponse(res))
   }
 
   //выход из системы
@@ -84,12 +88,11 @@ class Api {
         "token": data
       })
     })
-      .then(res => res.ok ? res.json() : Promise.reject(res.status))
+      .then(res => this._getResponse(res))
   }
 
   //обновление токена
   async refreshToken(refreshToken) {
-    console.log('refreshToken API', refreshToken);
     return await fetch(`${this._url}/auth/token`, {
       method: 'POST',
       headers: this._headers,
@@ -97,7 +100,7 @@ class Api {
         "token": refreshToken
       })
     })
-      .then(res => res.ok ? res.json() : Promise.reject(res.status))
+      .then(res => this._getResponse(res))
   }
 
   //получение данных о пользователе
@@ -109,12 +112,12 @@ class Api {
         "authorization": 'Bearer ' + accessToken
       },
     })
-      .then(res => res.ok ? res.json() : Promise.reject(res.status))
+      .then(res => this._getResponse(res))
   }
 
   //обновление данных пользователя
-  async patchUser(data, accessToken) {
-    return await fetch(`${this._url}/auth/user`, {
+  patchUser(data, accessToken) {
+    return  fetch(`${this._url}/auth/user`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

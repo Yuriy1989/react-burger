@@ -56,7 +56,7 @@ function BurgerConstructor() {
 
   const handleClick = useCallback(
     () => {
-      if (selectedIngredients.bun.find(item => item.type === 'bun')) {
+      if (selectedIngredients.bun.length) {
         history.push({
           pathname: `/orderDetails`,
           state: { isOpenModalDetails: location }

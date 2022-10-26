@@ -3,12 +3,10 @@ import style from '@ya.praktikum/react-developer-burger-ui-components';
 import { useParams, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ingredients from './ingredients.module.css';
-import { getCookie } from '../utils/cookie';
 
 export function Ingredients () {
 
   const { id }  = useParams();
-  const accessToken = getCookie('accessToken');
   const ingredientsData = useSelector(state => state.getIngredientsApi.ingredientsGetApi);
   const [data, setData] = useState({});
 
@@ -18,13 +16,6 @@ export function Ingredients () {
       setData(ingredientsData.find(item => item.id === id));
     }, [ingredientsData]
   )
-
-  //Если accessToken существует в куках, то делаем редирект на главную страницу /
-  if (!accessToken) {
-    return (
-      <Redirect to={{ pathname: '/' }} />
-    )
-  }
 
   useEffect(() => {
     selectedIngredients();

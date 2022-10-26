@@ -1,6 +1,6 @@
 
 import { useState, useRef, useCallback } from 'react';
-import style, { EmailInput, PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import style, { PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useHistory } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 import register from './register.module.css';
@@ -61,7 +61,16 @@ export function Register () {
           />
         </div>
         <div className={register.email}>
-          <EmailInput onChange={onChange} value={data.email} name={'email'} />
+          <Input
+            type={'email'}
+            placeholder={'E-mail'}
+            onChange={onChange}
+            value={data.email}
+            name={'email'}
+            error={false}
+            errorText={'Ошибка'}
+            size={'default'}
+          />
         </div>
           <PasswordInput onChange={onChange} value={data.password} name={'password'} />
         <div className={register.button}>

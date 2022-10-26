@@ -21,7 +21,7 @@ export function setCookie(name, value, props) {
   for (const propName in props) {
     updatedCookie += '; ' + propName;
     const propValue = props[propName];
-    if (propValue !== true) {
+    if (!propValue) {
       updatedCookie += '=' + propValue;
     }
   }

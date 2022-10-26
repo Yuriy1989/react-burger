@@ -47,7 +47,7 @@ export const actionRequestPatchUser = (data, accessToken) => {
         if(res.success === true) {
           dispatch({
             type: PATCH_USER_REQUEST_SUCCESS,
-            payload: res.user
+            payload: res
           })
         }
         else {

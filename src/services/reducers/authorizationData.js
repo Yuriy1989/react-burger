@@ -14,10 +14,10 @@ const defaultState = {
   feedFailed: false,
   feedRequestPatchUser: false,
   feedFailedPatchUser: false,
-  error: '',
+  error: null,
   user: {
     email: '',
-    name: ''
+    name: '',
   },
 }
 
@@ -50,9 +50,10 @@ export const authorization = ( state = defaultState, action ) => {
         ...state,
         user: {
           ...state.user,
-          email: data.email,
-          name: data.name
+          email: data.user.email,
+          name: data.user.name
         },
+        error: null,
         feedRequestPatchUser: false,
       }
     }

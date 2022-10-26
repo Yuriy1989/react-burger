@@ -1,6 +1,6 @@
 
 import { useState, useCallback } from 'react';
-import style, { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import style, { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useHistory } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 import forgotPassword from './forgot-password.module.css';
@@ -9,7 +9,7 @@ import { getCookie, setCookie } from '../utils/cookie';
 
 export function ForgotPassword () {
 
-  const [email, setEmail] = useState('test@yandex.ru');
+  const [email, setEmail] = useState('');
   const history = useHistory();
   const accessToken = getCookie('accessToken');
 
@@ -53,7 +53,16 @@ export function ForgotPassword () {
       <h2 className='text text_type_main-medium'>Восстановление пароля</h2>
       <form className={forgotPassword.form}>
         <div className={forgotPassword.email}>
-          <EmailInput onChange={onChange} value={email} name={'email'} />
+          <Input
+            type={'email'}
+            placeholder={'Укажите e-mail'}
+            onChange={onChange}
+            value={email}
+            name={'email'}
+            error={false}
+            errorText={'Ошибка'}
+            size={'default'}
+          />
         </div>
         <div className={forgotPassword.button}>
           <Button onClick={handleClick} type="primary" size="medium">

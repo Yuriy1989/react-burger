@@ -1,5 +1,5 @@
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import style, { EmailInput, PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { NavLink, useHistory, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,12 +11,12 @@ import { getCookie, setCookie, deleteCookie } from '../utils/cookie';
 export function Profile () {
 
   const email = useSelector(state => state.authorization.user.email);
-  const name = useSelector(state => state.authorization.user.name);
+  let name = useSelector(state => state.authorization.user.name);
+
   const error = useSelector(state => state.authorization.error);
   const feedFailed = useSelector((state) => state.authorization.feedFailed);
   const feedRequest = useSelector((state) => state.authorization.feedRequest);
   const [data, setData] = useState({name: '', email: '', password: ''});
-  const inputRef = useRef(null)
   const dispatch = useDispatch();
   const history = useHistory();
   const refreshToken = getCookie('refreshToken');
@@ -50,7 +50,7 @@ export function Profile () {
     [data]
   )
 
-  //При успешном получении данных о пользователе, сохраняем их в Store
+  //Обновление данных о пользователе, с сохранением их в Store
   const handleClickSave = useCallback(
     e => {
       e.preventDefault();
@@ -59,7 +59,7 @@ export function Profile () {
     [data]
   )
 
-  //Отмена всех введных ранее данных
+  //Отмена всех введеных ранее данных
   const handleClickCancel = useCallback(
     e => {
       e.preventDefault();
@@ -104,12 +104,11 @@ export function Profile () {
                   value={data.name}
                   name={'name'}
                   error={false}
-                  ref={inputRef}
                   errorText={'Ошибка'}
                   size={'default'}
                 />
                 <div className={profile.email}>
-                  <EmailInput onChange={onChange} value={data.email} name={'email'} />
+                  <EmailInput onChange={onChange} value={data.email}  placeholder={'имя'} name={'email'} />
                   {error && <p className={`input__error text_type_main-default`}>ошибка: {error} </p>}
                 </div>
                 <PasswordInput onChange={onChange} value={data.password} name={'password'} />

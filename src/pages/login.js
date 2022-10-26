@@ -1,6 +1,6 @@
 
 import { useState, useCallback, useEffect } from 'react';
-import style, { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import style, { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useHistory, Redirect } from 'react-router-dom';
 import login from './login.module.css';
 import { getCookie, setCookie } from '../utils/cookie';
@@ -14,11 +14,11 @@ export function Login () {
   const refreshToken = getCookie('refreshToken');
 
   //Если есть accessToken редирект на главную страницу
-  if (accessToken) {
-    return (
-      <Redirect to={ state?.from || '/' } />
-    )
-  }
+  // if (accessToken) {
+  //   return (
+  //     <Redirect to={ state?.from || '/' } />
+  //   )
+  // }
 
   //При успешной авторизации переход на главную страницу /
   const loginClick = useCallback(
@@ -86,7 +86,16 @@ export function Login () {
       <h2 className='text text_type_main-medium'>Вход</h2>
       <form className={login.form}>
         <div className={login.email}>
-          <EmailInput onChange={onChange} value={data.email} name={'email'} />
+          <Input
+            type={'email'}
+            placeholder={'E-mail'}
+            onChange={onChange}
+            value={data.email}
+            name={'email'}
+            error={false}
+            errorText={'Ошибка'}
+            size={'default'}
+          />
         </div>
         <PasswordInput onChange={onChange} value={data.password} name={'password'} />
         <div className={login.button}>

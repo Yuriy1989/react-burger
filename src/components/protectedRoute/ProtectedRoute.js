@@ -1,5 +1,4 @@
 import { Route, Redirect } from 'react-router-dom';
-import { useState, useCallback } from 'react';
 import { getCookie } from '../../utils/cookie';
 
 export function ProtectedRoute ({ children, ...rest }) {

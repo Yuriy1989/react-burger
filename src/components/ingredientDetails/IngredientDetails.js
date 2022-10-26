@@ -20,13 +20,6 @@ export default function IngredientDetails() {
     }, [ingredientData]
   )
 
-  //Если нет accessToken редирект на страницу авторизации login
-  if (!accessToken) {
-    return (
-      <Redirect to={{ pathname: '/login' }} />
-    )
-  }
-
   useEffect(() => {
     selectedIngredients();
     dispatch(openInfoSelectedInrgedient(ingredient));

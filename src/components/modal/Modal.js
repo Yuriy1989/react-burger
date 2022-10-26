@@ -4,22 +4,13 @@ import style, { CloseIcon, } from '@ya.praktikum/react-developer-burger-ui-compo
 import ModalOverlay from '../modalOverlay/ModalOverlay';
 import modal from './modal.module.css';
 import { text, component } from '../../utils/types';
-import { useHistory, useLocation, Redirect } from 'react-router-dom';
-import { getCookie } from '../../utils/cookie';
+import { useHistory } from 'react-router-dom';
 
 const modalsContainer = document.querySelector('#modals');
 
 const Modal = ({ title, children }) => {
 
   const history = useHistory();
-  const accessToken = getCookie('accessToken');
-
-  //Если нет accessToken редирект на страницу авторизации login
-  if (!accessToken) {
-    return (
-      <Redirect to={{ pathname: '/login' }} />
-    )
-  }
 
   // Обработка нажатия Esc
   const handleEscKeydown = useCallback((event) => {

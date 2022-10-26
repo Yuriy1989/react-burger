@@ -7,7 +7,6 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { useLocation, Redirect } from 'react-router-dom';
 import { ProtectedRoute } from '../protectedRoute/ProtectedRoute';
-
 import { getIngredients } from '../../services/actions/ingredients';
 import AppHeader from '../appHeader/AppHeader';
 import BurgerIngredients from '../burgerIngredients/BurgerIngredients';
@@ -17,7 +16,6 @@ import OrderDetails from '../orderDetails/OrderDetails';
 import OrderMessage from '../orderMessage/OrderMessage';
 import IngredientDetails from '../ingredientDetails/IngredientDetails';
 import { Login, Register, ForgotPassword, ResetPassword, Profile, Ingredients } from '../../pages';
-import { getCookie } from '../../utils/cookie';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -25,11 +23,6 @@ export default function App() {
   const isOpenModalIngredient = location.state?.isOpenModalIngredient;
   const isOpenModalError = location.state?.isOpenModalError;
   const isOpenModalDetails = location.state?.isOpenModalDetails;
-  const accessToken = getCookie('accessToken');
-
-  // if (accessToken) {
-  //   dispatch(getIngredients());
-  // }
 
   //делаем запрос к серверу для получения всех ингредиентов
   useEffect(() => {
@@ -46,74 +39,56 @@ export default function App() {
       {!feedFailed && !feedRequest &&
         <>
         <main className={app.app}>
-          <DndProvider backend={HTML5Backend}>
-            <Switch location={isOpenModalDetails || isOpenModalError || isOpenModalIngredient || location}>
-              <Route path="/login" exact={true}>
-                <div className={app.header}>
-                  <AppHeader />
-                </div>
-                <Login />
-              </Route>
-              <Route path="/register" exact={true}>
-                <div className={app.header}>
-                  <AppHeader />
-                </div>
-                <Register />
-              </Route>
-              <Route path="/forgot-password" exact={true}>
-                <div className={app.header}>
-                  <AppHeader />
-                </div>
-                <ForgotPassword />
-              </Route>
-              <Route path="/reset-password" exact={true}>
-                <div className={app.header}>
-                  <AppHeader />
-                </div>
-                <ResetPassword />
-              </Route>
-              <Route path={`/ingredients/:id`} >
-                <div className={app.header}>
-                  <AppHeader />
-                </div>
-                <Ingredients />
-              </Route>
-              <ProtectedRoute path="/profile" exact={true}>
-                <div className={app.header}>
-                  <AppHeader />
-                </div>
-                <Profile />
-              </ProtectedRoute>
-              <ProtectedRoute path="/" exact={true}>
-                <div className={app.header}>
-                  <AppHeader />
-                </div>
+          <div className={app.header}>
+            <AppHeader />
+          </div>
+          <Switch location={isOpenModalDetails || isOpenModalError || isOpenModalIngredient || location}>
+            <Route path="/login" exact={true}>
+              <Login />
+            </Route>
+            <Route path="/register" exact={true}>
+              <Register />
+            </Route>
+            <Route path="/forgot-password" exact={true}>
+              <ForgotPassword />
+            </Route>
+            <Route path="/reset-password" exact={true}>
+              <ResetPassword />
+            </Route>
+            <Route path={`/ingredients/:id`} >
+              <Ingredients />
+            </Route>
+            <ProtectedRoute path="/profile" exact={true}>
+              <Profile />
+            </ProtectedRoute>
+            <Route path="/" exact={true}>
+              <DndProvider backend={HTML5Backend}>
                 <div className={app.section}>
                   <BurgerIngredients />
                   <BurgerConstructor />
                 </div>
-              </ProtectedRoute>
-            </Switch>
-            {isOpenModalIngredient && (<Route path={`/ingredients/:id`} exact={true}>
-              <Modal title="Детали ингредиента" >
-                <IngredientDetails />
-              </Modal>
-            </Route>)
-            }
-            {isOpenModalDetails && (<Route path={`/orderDetails`} exact={true}>
-              <Modal title="" >
+              </DndProvider>
+            </Route>
+          </Switch>
+          {isOpenModalIngredient && (<Route path={`/ingredients/:id`} exact={true}>
+            <Modal title="Детали ингредиента" >
+              <IngredientDetails />
+            </Modal>
+          </Route>)
+          }
+          {isOpenModalDetails && (<Route path={`/orderDetails`} exact={true}>
+            <Modal title="" >
               <OrderDetails />
-              </Modal>
-            </Route>)
-            }
-            {isOpenModalError && (<Route path={`/error`} exact={true} >
-              <Modal title="" >
-                <OrderMessage />
-              </Modal>
-            </Route>)
-            }
-          </DndProvider>
-          </main>
+            </Modal>
+          </Route>)
+          }
+          {isOpenModalError && (<Route path={`/error`} exact={true} >
+            <Modal title="" >
+              <OrderMessage />
+            </Modal>
+          </Route>)
+          }
+        </main>
         </>
       }
     </>
