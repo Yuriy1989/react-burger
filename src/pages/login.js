@@ -13,13 +13,10 @@ export function Login () {
   const accessToken = getCookie('accessToken');
   const refreshToken = getCookie('refreshToken');
 
-  console.log('Login document.cookie', document.cookie);
-
   //Если есть accessToken редирект на главную страницу
   if (accessToken) {
     return (
-      <Redirect to={{ pathname: '/' }} />
-      // <Redirect to={ state?.from || '/' } />
+      <Redirect to={ state?.from || '/' } />
     )
   }
 
@@ -66,12 +63,10 @@ export function Login () {
   //При переходе на страницу Профиля, делаем запрос к серверу и сохраняем данные в Store
   useEffect(() => {
     if (!accessToken) {
-      console.log('Токен accessToken не найден');
       if (refreshToken) {
         api.refreshToken(refreshToken)
           .then(res => {
             if (res.success === true) {
-              console.log('new refreshAccessToken =', res);
               let newAccessToken = res.accessToken.split('Bearer ')[1];
               setCookie('accessToken', newAccessToken, { 'max-age': 60 });
               setCookie('refreshToken', res.refreshToken);
@@ -79,7 +74,6 @@ export function Login () {
             }
           })
       } else {
-        console.log('Никаких токенов нет');
         return (
           <Redirect to={{ pathname: '/login' }} />
         )

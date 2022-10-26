@@ -35,8 +35,6 @@ export function Profile () {
     [history]
   )
 
-  console.log('Profile document.cookie', document.cookie);
-
   //Запрос к серверу для выхода и удаления всех токинов из кук
   const handleClickExit = useCallback(
     () => {
@@ -70,36 +68,13 @@ export function Profile () {
     [data]
   )
 
-  //При успешной обновлении токена переход страницу
-  const redirectRefreshToken = useCallback(
-    () => {
-      history.replace({ pathname: '/profile' });
-    },
-    [history]
-  )
 
   //При переходе на страницу Профиля, делаем запрос к серверу и сохраняем данные в Store
   useEffect(() => {
     if (!accessToken) {
-      console.log('Токен accessToken не найден');
-      if (refreshToken) {
-        api.refreshToken(refreshToken)
-          .then(res => {
-            if (res.success === true) {
-              console.log('new accessToken =', res);
-              let newAccessToken = res.accessToken.split('Bearer ')[1];
-              setCookie('accessToken', newAccessToken, { 'max-age': 60 });
-              redirectRefreshToken();
-            }
-          })
-      } else {
-        console.log('Никаких токенов нет');
-        return (
-          <Redirect to={{ pathname: '/login' }} />
-        )
-      }
+        <Redirect to={{ pathname: '/login' }} />
     } else {
-      dispatch(actionRequestGetUser(accessToken));
+        dispatch(actionRequestGetUser(accessToken));
     }
   }, [])
 

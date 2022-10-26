@@ -17,6 +17,7 @@ import OrderDetails from '../orderDetails/OrderDetails';
 import OrderMessage from '../orderMessage/OrderMessage';
 import IngredientDetails from '../ingredientDetails/IngredientDetails';
 import { Login, Register, ForgotPassword, ResetPassword, Profile, Ingredients } from '../../pages';
+import { getCookie } from '../../utils/cookie';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -24,6 +25,11 @@ export default function App() {
   const isOpenModalIngredient = location.state?.isOpenModalIngredient;
   const isOpenModalError = location.state?.isOpenModalError;
   const isOpenModalDetails = location.state?.isOpenModalDetails;
+  const accessToken = getCookie('accessToken');
+
+  // if (accessToken) {
+  //   dispatch(getIngredients());
+  // }
 
   //делаем запрос к серверу для получения всех ингредиентов
   useEffect(() => {
