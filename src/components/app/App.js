@@ -61,7 +61,7 @@ export default function App() {
             <Route path="/feed" exact={true}>
               <Feed />
             </Route>
-            <ProtectedRoute path="/prodile/orders" exact={true}>
+            <ProtectedRoute path="/profile/orders" exact={true}>
               <Orders />
             </ProtectedRoute>
             <ProtectedRoute path="/profile" exact={true}>

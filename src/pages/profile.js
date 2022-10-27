@@ -1,12 +1,12 @@
 
 import { useState, useEffect, useCallback } from 'react';
+import MenuProfile from '../components/menuProfile/MenuProfile';
 import style, { EmailInput, PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { NavLink, useHistory, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import profile from './profile.module.css';
 import { actionRequestGetUser, actionRequestPatchUser } from '../services/actions/actionsAuthorization';
-import { api } from '../utils/Api';
-import { getCookie, deleteCookie } from '../utils/cookie';
+import { getCookie } from '../utils/cookie';
 
 export function Profile () {
 
@@ -17,8 +17,6 @@ export function Profile () {
   const feedRequest = useSelector((state) => state.authorization.feedRequest);
   const [data, setData] = useState({name: '', email: '', password: ''});
   const dispatch = useDispatch();
-  const history = useHistory();
-  const refreshToken = getCookie('refreshToken');
   const accessToken = getCookie('accessToken');
 
   console.log('accessToken = ', accessToken);
@@ -27,29 +25,6 @@ export function Profile () {
   const onChange = (e) => {
     setData( { ...data, [e.target.name]: e.target.value} );
   }
-
-  //При успешном выходе делает редирект на страницу авторизации
-  const exitClick = useCallback(
-    () => {
-      history.replace({ pathname: '/login' });
-    },
-    [history]
-  )
-
-  //Запрос к серверу для выхода и удаления всех токинов из кук
-  const handleClickExit = useCallback(
-    () => {
-      api.logout(refreshToken)
-        .then(res => {
-          if (res.success === true) {
-            deleteCookie('refreshToken');
-            deleteCookie('accessToken');
-            exitClick();
-          }
-        })
-    },
-    [data]
-  )
 
   //Обновление данных о пользователе, с сохранением их в Store
   const handleClickSave = useCallback(
@@ -89,11 +64,7 @@ export function Profile () {
       {!feedFailed && !feedRequest &&
         <>
           <div className={profile.profile}>
-            <nav className={profile.nav}>
-              <NavLink className={` ${profile.link} ${profile.link_activе} text text_type_main-medium text_color_inactive`} to="/profile">Профиль</NavLink>
-              <NavLink className={` ${profile.link} text text_type_main-medium text_color_inactive`} to="/orders">История заказов</NavLink>
-              <NavLink onClick={handleClickExit} className={` ${profile.link} text text_type_main-medium text_color_inactive`} to="/profile">Выход</NavLink>
-            </nav>
+            <MenuProfile />
             <form className={profile.form}>
               <div className={`${profile.input} ${profile.input_margin}`}>
                 <Input
