@@ -15,7 +15,7 @@ import Modal from '../modal/Modal';
 import OrderDetails from '../orderDetails/OrderDetails';
 import OrderMessage from '../orderMessage/OrderMessage';
 import IngredientDetails from '../ingredientDetails/IngredientDetails';
-import { Login, Register, ForgotPassword, ResetPassword, Profile, Ingredients } from '../../pages';
+import { Login, Register, ForgotPassword, ResetPassword, Profile, Ingredients, Feed, Orders } from '../../pages';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -58,6 +58,12 @@ export default function App() {
             <Route path={`/ingredients/:id`} >
               <Ingredients />
             </Route>
+            <Route path="/feed" exact={true}>
+              <Feed />
+            </Route>
+            <ProtectedRoute path="/prodile/orders" exact={true}>
+              <Orders />
+            </ProtectedRoute>
             <ProtectedRoute path="/profile" exact={true}>
               <Profile />
             </ProtectedRoute>

@@ -6,13 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import profile from './profile.module.css';
 import { actionRequestGetUser, actionRequestPatchUser } from '../services/actions/actionsAuthorization';
 import { api } from '../utils/Api';
-import { getCookie, setCookie, deleteCookie } from '../utils/cookie';
+import { getCookie, deleteCookie } from '../utils/cookie';
 
 export function Profile () {
 
   const email = useSelector(state => state.authorization.user.email);
-  let name = useSelector(state => state.authorization.user.name);
-
+  const name = useSelector(state => state.authorization.user.name);
   const error = useSelector(state => state.authorization.error);
   const feedFailed = useSelector((state) => state.authorization.feedFailed);
   const feedRequest = useSelector((state) => state.authorization.feedRequest);
@@ -21,6 +20,8 @@ export function Profile () {
   const history = useHistory();
   const refreshToken = getCookie('refreshToken');
   const accessToken = getCookie('accessToken');
+
+  console.log('accessToken = ', accessToken);
 
   //Сбор данных из всех input
   const onChange = (e) => {
@@ -68,7 +69,6 @@ export function Profile () {
     [data]
   )
 
-
   //При переходе на страницу Профиля, делаем запрос к серверу и сохраняем данные в Store
   useEffect(() => {
     if (!accessToken) {
@@ -79,7 +79,7 @@ export function Profile () {
   }, [])
 
   useEffect( () => {
-    setData( {name: name, email: email, password: ''} );
+    setData( {name: name ? name : '', email: email ? email : '', password: ''} );
   }, [ email, name ] )
 
   return (
@@ -90,9 +90,9 @@ export function Profile () {
         <>
           <div className={profile.profile}>
             <nav className={profile.nav}>
-              <NavLink activeClassName={` ${profile.link} ${profile.link_activе} text text_type_main-medium text_color_inactive`} to="/profile">Профиль</NavLink>
-              <NavLink activeClassName={` ${profile.link} text text_type_main-medium text_color_inactive`} to="/">История заказов</NavLink>
-              <NavLink onClick={handleClickExit} activeClassName={` ${profile.link} text text_type_main-medium text_color_inactive`} to="/profile">Выход</NavLink>
+              <NavLink className={` ${profile.link} ${profile.link_activе} text text_type_main-medium text_color_inactive`} to="/profile">Профиль</NavLink>
+              <NavLink className={` ${profile.link} text text_type_main-medium text_color_inactive`} to="/orders">История заказов</NavLink>
+              <NavLink onClick={handleClickExit} className={` ${profile.link} text text_type_main-medium text_color_inactive`} to="/profile">Выход</NavLink>
             </nav>
             <form className={profile.form}>
               <div className={`${profile.input} ${profile.input_margin}`}>

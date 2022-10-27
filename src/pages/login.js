@@ -12,6 +12,7 @@ export function Login () {
   const history = useHistory();
   const accessToken = getCookie('accessToken');
   const refreshToken = getCookie('refreshToken');
+  const timeCookie = 1200;
 
   //Если есть accessToken редирект на главную страницу
   // if (accessToken) {
@@ -42,7 +43,8 @@ export function Login () {
           if(res.success === true) {
             if (res.accessToken.indexOf('Bearer') === 0) {
               let accessToken = res.accessToken.split('Bearer ')[1];
-              setCookie('accessToken', accessToken, { 'max-age': 120 });
+              setCookie('accessToken', accessToken);
+              setCookie('maxAgeAccessToken', { 'max-age': timeCookie });
               setCookie('refreshToken', res.refreshToken);
             }
             loginClick();
@@ -68,7 +70,7 @@ export function Login () {
           .then(res => {
             if (res.success === true) {
               let newAccessToken = res.accessToken.split('Bearer ')[1];
-              setCookie('accessToken', newAccessToken, { 'max-age': 60 });
+              setCookie('accessToken', newAccessToken, { 'max-age': timeCookie });
               setCookie('refreshToken', res.refreshToken);
               redirectRefreshToken();
             }

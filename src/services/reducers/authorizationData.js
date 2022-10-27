@@ -16,8 +16,8 @@ const defaultState = {
   feedFailedPatchUser: false,
   error: null,
   user: {
-    email: '',
-    name: '',
+    email: null,
+    name: null,
   },
 }
 

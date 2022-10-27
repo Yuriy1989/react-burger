@@ -105,6 +105,7 @@ class Api {
 
   //получение данных о пользователе
   async getUser(accessToken) {
+    console.log('accessToken API',accessToken);
     return await fetch(`${this._url}/auth/user`, {
       method: 'GET',
       headers: {
@@ -112,7 +113,7 @@ class Api {
         "authorization": 'Bearer ' + accessToken
       },
     })
-      .then(res => this._getResponse(res))
+      .then(res => res.ok ? res.json() : Promise.reject(res.status))
   }
 
   //обновление данных пользователя
