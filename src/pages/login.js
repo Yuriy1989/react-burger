@@ -14,6 +14,8 @@ export function Login () {
   const refreshToken = getCookie('refreshToken');
   const timeCookie = 1200;
 
+  console.log('refreshToken LOGIN = ', refreshToken);
+
   //Если есть accessToken редирект на главную страницу
   // if (accessToken) {
   //   return (

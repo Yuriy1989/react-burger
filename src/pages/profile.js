@@ -19,7 +19,8 @@ export function Profile () {
   const dispatch = useDispatch();
   const accessToken = getCookie('accessToken');
 
-  console.log('accessToken = ', accessToken);
+  console.log('Profile accessToken = ', accessToken);
+  console.log('Profile document.cookie = ', document.cookie);
 
   //Сбор данных из всех input
   const onChange = (e) => {
