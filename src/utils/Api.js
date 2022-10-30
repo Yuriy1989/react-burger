@@ -105,7 +105,6 @@ class Api {
 
   //получение данных о пользователе
   async getUser(accessToken) {
-    console.log('accessToken API',accessToken);
     return await fetch(`${this._url}/auth/user`, {
       method: 'GET',
       headers: {
@@ -117,8 +116,8 @@ class Api {
   }
 
   //обновление данных пользователя
-  patchUser(data, accessToken) {
-    return  fetch(`${this._url}/auth/user`, {
+  async patchUser(data, accessToken) {
+    return await fetch(`${this._url}/auth/user`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

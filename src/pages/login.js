@@ -11,17 +11,15 @@ export function Login () {
   const [data, setData] = useState({email: '', password: ''});
   const history = useHistory();
   const accessToken = getCookie('accessToken');
-  const refreshToken = getCookie('refreshToken');
-  const timeCookie = 1200;
+  const timeCookie = 60;
 
-  console.log('refreshToken LOGIN = ', refreshToken);
-
-  //Если есть accessToken редирект на главную страницу
-  // if (accessToken) {
-  //   return (
-  //     <Redirect to={ state?.from || '/' } />
-  //   )
-  // }
+  // Если есть accessToken редирект на главную страницу
+  if (accessToken) {
+    return (
+      <Redirect to={ '/' } />
+      // <Redirect to={ state?.from || '/' } />
+    )
+  }
 
   //При успешной авторизации переход на главную страницу /
   const loginClick = useCallback(
@@ -45,8 +43,7 @@ export function Login () {
           if(res.success === true) {
             if (res.accessToken.indexOf('Bearer') === 0) {
               let accessToken = res.accessToken.split('Bearer ')[1];
-              setCookie('accessToken', accessToken);
-              setCookie('maxAgeAccessToken', { 'max-age': timeCookie });
+              setCookie('accessToken', accessToken, { 'max-age': timeCookie });
               setCookie('refreshToken', res.refreshToken);
             }
             loginClick();
@@ -57,33 +54,33 @@ export function Login () {
   )
 
   //При успешной обновлении токена переход страницу
-  const redirectRefreshToken = useCallback(
-    () => {
-      history.replace({ pathname: '/profile' });
-    },
-    [history]
-  )
+  // const redirectRefreshToken = useCallback(
+  //   () => {
+  //     history.replace({ pathname: '/profile' });
+  //   },
+  //   [history]
+  // )
 
   //При переходе на страницу Профиля, делаем запрос к серверу и сохраняем данные в Store
-  useEffect(() => {
-    if (!accessToken) {
-      if (refreshToken) {
-        api.refreshToken(refreshToken)
-          .then(res => {
-            if (res.success === true) {
-              let newAccessToken = res.accessToken.split('Bearer ')[1];
-              setCookie('accessToken', newAccessToken, { 'max-age': timeCookie });
-              setCookie('refreshToken', res.refreshToken);
-              redirectRefreshToken();
-            }
-          })
-      } else {
-        return (
-          <Redirect to={{ pathname: '/login' }} />
-        )
-      }
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (!accessToken) {
+  //     if (refreshToken) {
+  //       api.refreshToken(refreshToken)
+  //         .then(res => {
+  //           if (res.success === true) {
+  //             let newAccessToken = res.accessToken.split('Bearer ')[1];
+  //             setCookie('accessToken', newAccessToken, { 'max-age': timeCookie });
+  //             setCookie('refreshToken', res.refreshToken);
+  //             redirectRefreshToken();
+  //           }
+  //         })
+  //     } else {
+  //       return (
+  //         <Redirect to={{ pathname: '/login' }} />
+  //       )
+  //     }
+  //   }
+  // }, [])
 
   return (
     <div className={login.login}>

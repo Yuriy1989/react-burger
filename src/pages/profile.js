@@ -5,8 +5,8 @@ import style, { EmailInput, PasswordInput, Input, Button } from '@ya.praktikum/r
 import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import profile from './profile.module.css';
-import { actionRequestGetUser, actionRequestPatchUser } from '../services/actions/actionsAuthorization';
-import { getCookie } from '../utils/cookie';
+import { actionRequestGetUser, actionRefreshAccessToken, actionRequestPatchUser } from '../services/actions/actionsAuthorization';
+import { getCookie, setCookie } from '../utils/cookie';
 
 export function Profile () {
 
@@ -15,12 +15,15 @@ export function Profile () {
   const error = useSelector(state => state.authorization.error);
   const feedFailed = useSelector((state) => state.authorization.feedFailed);
   const feedRequest = useSelector((state) => state.authorization.feedRequest);
+  const status = useSelector((state) => state.authorization.status);
   const [data, setData] = useState({name: '', email: '', password: ''});
+  // const [success, setSuccess] = useState(false);
   const dispatch = useDispatch();
   const accessToken = getCookie('accessToken');
+  const refreshToken = getCookie('refreshToken');
+  // const timeCookie = 60;
 
-  console.log('Profile accessToken = ', accessToken);
-  console.log('Profile document.cookie = ', document.cookie);
+  // console.log('Profile accessToken = ', accessToken);
 
   //Сбор данных из всех input
   const onChange = (e) => {
@@ -45,14 +48,36 @@ export function Profile () {
     [data]
   )
 
+  // console.log('Profile status = ', status);
+
+  const getUserData = () => {
+    dispatch(actionRequestGetUser(accessToken));
+  }
+
+  const refreshAccessToken = () => {
+    dispatch(actionRefreshAccessToken(refreshToken));
+  }
+
   //При переходе на страницу Профиля, делаем запрос к серверу и сохраняем данные в Store
-  useEffect(() => {
-    if (!accessToken) {
-        <Redirect to={{ pathname: '/login' }} />
-    } else {
-        dispatch(actionRequestGetUser(accessToken));
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (accessToken) {
+  //     dispatch(actionRequestGetUser(accessToken));
+  //     console.log('accessToken TRUE = ', status);
+  //     if(!status) {
+  //       dispatch(actionRefreshAccessToken(refreshToken));
+  //       console.log('!status accessToken TRUE = ', status);
+  //     }
+  //   } else if (refreshToken) {
+  //     dispatch(actionRefreshAccessToken(refreshToken));
+  //     console.log('refreshToken TRUE = ', status);
+  //     if(status) {
+  //       dispatch(actionRequestGetUser(accessToken));
+  //       console.log('status refreshToken TRUE = ', status);
+  //     }
+  //   } else {
+  //     <Redirect to={{ pathname: '/login' }} />
+  //   }
+  // }, [])
 
   useEffect( () => {
     setData( {name: name ? name : '', email: email ? email : '', password: ''} );
@@ -60,9 +85,9 @@ export function Profile () {
 
   return (
     <>
-      {feedFailed && <h2 className={`text text_type_main-large`}>Произошла ошибка при получении данных</h2>}
-      {feedRequest && <h2 className={`text text_type_main-large`}>Загрузка...</h2>}
-      {!feedFailed && !feedRequest &&
+      {/* {feedFailed && <h2 className={`text text_type_main-large`}>Произошла ошибка при получении данных</h2>} */}
+      {/* {feedRequest && <h2 className={`text text_type_main-large`}>Загрузка...</h2>} */}
+      {/* {!feedFailed && !feedRequest && */}
         <>
           <div className={profile.profile}>
             <MenuProfile />
@@ -99,7 +124,7 @@ export function Profile () {
             </div>
           </div>
         </>
-      }
+      {/* } */}
     </>
   )
 }
