@@ -14,10 +14,11 @@ export function Login () {
   const timeCookie = 60;
   const { state } = useLocation();
 
-  // Если есть accessToken редирект на главную страницу
+  console.log('state', state);
+
+  // Если есть accessToken редирект на ранее открытую страницу
   if (accessToken) {
     return (
-      // <Redirect to={ '/' } />
       <Redirect to={ state?.from || '/' } />
     )
   }
@@ -53,35 +54,6 @@ export function Login () {
     },
     [data]
   )
-
-  //При успешной обновлении токена переход страницу
-  // const redirectRefreshToken = useCallback(
-  //   () => {
-  //     history.replace({ pathname: '/profile' });
-  //   },
-  //   [history]
-  // )
-
-  //При переходе на страницу Профиля, делаем запрос к серверу и сохраняем данные в Store
-  // useEffect(() => {
-  //   if (!accessToken) {
-  //     if (refreshToken) {
-  //       api.refreshToken(refreshToken)
-  //         .then(res => {
-  //           if (res.success === true) {
-  //             let newAccessToken = res.accessToken.split('Bearer ')[1];
-  //             setCookie('accessToken', newAccessToken, { 'max-age': timeCookie });
-  //             setCookie('refreshToken', res.refreshToken);
-  //             redirectRefreshToken();
-  //           }
-  //         })
-  //     } else {
-  //       return (
-  //         <Redirect to={{ pathname: '/login' }} />
-  //       )
-  //     }
-  //   }
-  // }, [])
 
   return (
     <div className={login.login}>

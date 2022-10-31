@@ -6,7 +6,9 @@ import {
   REFRESH_ACCESS_TOKEN_REQUEST,
   REFRESH_ACCESS_TOKEN_REQUEST_SUCCESS,
   REFRESH_ACCESS_TOKEN_REQUEST_FAILED,
+  EXIT_REQUEST,
   EXIT_REQUEST_SUCCESS,
+  EXIT_REQUEST_FAILED,
   CANCEL_EDIT_USER,
   PATCH_USER_REQUEST,
   PATCH_USER_REQUEST_SUCCESS,
@@ -15,9 +17,7 @@ import {
 
 const defaultState = {
   feedRequest: false,
-  feedFailed: false,
   feedRequestPatchUser: false,
-  feedFailedPatchUser: false,
   isAuth: false,
   error: null,
   user: {
@@ -46,7 +46,7 @@ export const authorization = ( state = defaultState, action ) => {
     case GET_USER_REQUEST_FAILED: {
       return { ...state,
         feedRequest: false,
-        feedFailed: true
+        isAuth: false
       }
     }
     case SUCCESS_AUTH: {
@@ -68,14 +68,13 @@ export const authorization = ( state = defaultState, action ) => {
     case REFRESH_ACCESS_TOKEN_REQUEST_FAILED: {
       return { ...state,
         feedRequest: false,
-        feedFailed: true
+        isAuth: false
       }
     }
 
     case PATCH_USER_REQUEST: {
       return { ...state,
         feedRequestPatchUser: true,
-        feedFailedPatchUser: false
       }
     }
     case PATCH_USER_REQUEST_SUCCESS: {
@@ -97,21 +96,30 @@ export const authorization = ( state = defaultState, action ) => {
         ...state,
         error: data,
         feedRequestPatchUser: false,
-        feedFailedPatchUser: true,
       }
     }
     case CANCEL_EDIT_USER: {
       return { ...state }
     }
+
+    case EXIT_REQUEST: {
+      return { ...state };
+    }
     case EXIT_REQUEST_SUCCESS: {
+      console.log();
       return { ...state,
         user: {
           ...state.user,
           email: '',
           name: ''
         },
+        isAuth: false
       };
     }
+    case EXIT_REQUEST_FAILED: {
+      return { ...state };
+    }
+
     default:
       return state
   }

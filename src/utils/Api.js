@@ -93,7 +93,6 @@ class Api {
 
   //обновление токена
   async refreshToken(refreshToken) {
-    console.log("API refreshToken =", refreshToken);
     return await fetch(`${this._url}/auth/token`, {
       method: 'POST',
       headers: this._headers,

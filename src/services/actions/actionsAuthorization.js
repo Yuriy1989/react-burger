@@ -1,4 +1,3 @@
-
 export const GET_REQUEST = 'GET_REQUEST';
 export const SUCCESS_AUTH = 'SUCCESS_AUTH';
 export const GET_USER_REQUEST_SUCCESS = 'GET_USER_REQUEST_SUCCESS';
@@ -9,10 +8,12 @@ export const REFRESH_ACCESS_TOKEN_REQUEST_FAILED = 'REFRESH_ACCESS_TOKEN_REQUEST
 export const PATCH_USER_REQUEST = 'PATCH_USER_REQUEST';
 export const PATCH_USER_REQUEST_SUCCESS = 'PATCH_USER_REQUEST_SUCCESS';
 export const PATCH_USER_REQUEST_FAILED = 'PATCH_USER_REQUEST_FAILED';
+export const EXIT_REQUEST = 'EXIT_REQUEST';
 export const EXIT_REQUEST_SUCCESS = 'EXIT_REQUEST_SUCCESS';
+export const EXIT_REQUEST_FAILED = 'EXIT_REQUEST_FAILED';
 export const CANCEL_EDIT_USER = 'CANCEL_USER_EDIT';
 
-import { setCookie } from '../../utils/cookie';
+import { setCookie, deleteCookie } from '../../utils/cookie';
 import { api } from '../../utils/Api';
 
 export const actionRequestGetUser = (accessToken, refreshToken) => {
@@ -21,13 +22,8 @@ export const actionRequestGetUser = (accessToken, refreshToken) => {
       type: GET_REQUEST
     })
     api.getUser(accessToken)
-      .catch((err) => {
-        if(err && (err.success === false)) {
-          dispatch(actionRefreshAccessToken(refreshToken));
-        }
-      })
       .then(res => {
-        if(res && res.success) {
+        if (res && res.success) {
           dispatch({
             type: GET_USER_REQUEST_SUCCESS,
             payload: res.user
@@ -39,15 +35,17 @@ export const actionRequestGetUser = (accessToken, refreshToken) => {
           })
         }
       })
-      .finally(() => {
-        dispatch({
-          type: SUCCESS_AUTH
-        })
-      })
-      .catch(err => {
-        dispatch({
-          type: GET_USER_REQUEST_FAILED
-        })
+      .catch((err) => {
+        console.log('getUser err', err);
+        if ((err === 405)) {
+          console.log('TRUE refresh');
+          // dispatch(actionRefreshAccessToken(refreshToken));
+        } else {
+          console.log('false refresh');
+          // dispatch({
+          //   type: GET_USER_REQUEST_FAILED
+          // })
+        }
       })
   }
 }
@@ -63,7 +61,6 @@ export const actionRefreshAccessToken = (refreshToken) => {
     api.refreshToken(refreshToken)
       .then(res => {
         if(res && res.success) {
-          console.log('actionRefreshAccessToken ', res);
           newAccessToken = res.accessToken.split('Bearer ')[1];
           setCookie('accessToken', newAccessToken, { 'max-age': timeCookie });
           setCookie('refreshToken', res.refreshToken);
@@ -72,6 +69,7 @@ export const actionRefreshAccessToken = (refreshToken) => {
           })
         }
         else {
+          console.log('FALSE actionRefreshAccessToken =', refreshToken);
           dispatch({
             type: REFRESH_ACCESS_TOKEN_REQUEST_FAILED
           })
@@ -80,6 +78,7 @@ export const actionRefreshAccessToken = (refreshToken) => {
       .then(() => {
         api.getUser(newAccessToken)
           .then(res => {
+            console.log('newAccessToken =', newAccessToken);
             if(res && res.success) {
               dispatch({
                 type: GET_USER_REQUEST_SUCCESS,
@@ -88,12 +87,14 @@ export const actionRefreshAccessToken = (refreshToken) => {
             }
           })
       })
-      .finally(() => {
-        dispatch({
-          type: SUCCESS_AUTH
-        })
-      })
+      // .finally(() => {
+      //   console.log('finally');
+      //   dispatch({
+      //     type: SUCCESS_AUTH
+      //   })
+      // })
       .catch(err => {
+        console.log('err', err);
         dispatch({
           type: REFRESH_ACCESS_TOKEN_REQUEST_FAILED
         })
@@ -137,10 +138,31 @@ export const actionRequestCancelEditUser = () => {
   }
 }
 
-export const actionRequestExit = () => {
+export const actionRequestExit = (refreshToken) => {
+  console.log('actionRequestExit', refreshToken);
   return (dispatch) => {
     dispatch({
-      type: EXIT_REQUEST_SUCCESS
+      type: EXIT_REQUEST
     })
+    api.logout(refreshToken)
+      .then(res => {
+        if(res && res.success) {
+          deleteCookie('refreshToken');
+          deleteCookie('accessToken');
+          dispatch({
+            type: EXIT_REQUEST_SUCCESS,
+          })
+        }
+        else {
+          dispatch({
+            type: EXIT_REQUEST_FAILED,
+          })
+        }
+      })
+      .catch(err => {
+        dispatch({
+          type: EXIT_REQUEST_FAILED
+        })
+      })
   }
 }
