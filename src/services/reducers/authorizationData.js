@@ -1,5 +1,6 @@
 import {
-  GET_USER_REQUEST,
+  GET_REQUEST,
+  SUCCESS_AUTH,
   GET_USER_REQUEST_FAILED,
   GET_USER_REQUEST_SUCCESS,
   REFRESH_ACCESS_TOKEN_REQUEST,
@@ -17,7 +18,7 @@ const defaultState = {
   feedFailed: false,
   feedRequestPatchUser: false,
   feedFailedPatchUser: false,
-  status: false,
+  isAuth: false,
   error: null,
   user: {
     email: null,
@@ -27,7 +28,7 @@ const defaultState = {
 
 export const authorization = ( state = defaultState, action ) => {
   switch(action.type) {
-    case GET_USER_REQUEST: {
+    case GET_REQUEST: {
       return { ...state, feedRequest: true, feedFailed: false }
     }
     case GET_USER_REQUEST_SUCCESS: {
@@ -39,15 +40,19 @@ export const authorization = ( state = defaultState, action ) => {
           email: data.email,
           name: data.name
         },
-        status: true,
         feedRequest: false,
       }
     }
     case GET_USER_REQUEST_FAILED: {
       return { ...state,
-        status: false,
         feedRequest: false,
         feedFailed: true
+      }
+    }
+    case SUCCESS_AUTH: {
+      return {
+        ...state,
+        isAuth: true
       }
     }
 
@@ -57,13 +62,11 @@ export const authorization = ( state = defaultState, action ) => {
     case REFRESH_ACCESS_TOKEN_REQUEST_SUCCESS: {
       return {
         ...state,
-        status: true,
-        // feedRequest: true,
+        feedRequest: true,
       }
     }
     case REFRESH_ACCESS_TOKEN_REQUEST_FAILED: {
       return { ...state,
-        status: false,
         feedRequest: false,
         feedFailed: true
       }

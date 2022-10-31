@@ -1,7 +1,8 @@
 
-export const GET_USER_REQUEST = 'LOGIN_REQUEST';
-export const GET_USER_REQUEST_SUCCESS = 'LOGIN_REQUEST_SUCCESS';
-export const GET_USER_REQUEST_FAILED = 'LOGIN_REQUEST_FAILED';
+export const GET_REQUEST = 'GET_REQUEST';
+export const SUCCESS_AUTH = 'SUCCESS_AUTH';
+export const GET_USER_REQUEST_SUCCESS = 'GET_USER_REQUEST_SUCCESS';
+export const GET_USER_REQUEST_FAILED = 'GET_USER_REQUEST_FAILED';
 export const REFRESH_ACCESS_TOKEN_REQUEST = 'REFRESH_ACCESS_TOKEN_REQUEST';
 export const REFRESH_ACCESS_TOKEN_REQUEST_SUCCESS = 'REFRESH_ACCESS_TOKEN_REQUEST_SUCCESS';
 export const REFRESH_ACCESS_TOKEN_REQUEST_FAILED = 'REFRESH_ACCESS_TOKEN_REQUEST_FAILED';
@@ -14,16 +15,19 @@ export const CANCEL_EDIT_USER = 'CANCEL_USER_EDIT';
 import { setCookie } from '../../utils/cookie';
 import { api } from '../../utils/Api';
 
-export const actionRequestGetUser = (accessToken) => {
-  console.log('actionRequestGetUser');
+export const actionRequestGetUser = (accessToken, refreshToken) => {
   return (dispatch) => {
     dispatch({
-      type: GET_USER_REQUEST
+      type: GET_REQUEST
     })
     api.getUser(accessToken)
+      .catch((err) => {
+        if(err && (err.success === false)) {
+          dispatch(actionRefreshAccessToken(refreshToken));
+        }
+      })
       .then(res => {
         if(res && res.success) {
-          console.log('actionRequestGetUser ', res);
           dispatch({
             type: GET_USER_REQUEST_SUCCESS,
             payload: res.user
@@ -35,6 +39,11 @@ export const actionRequestGetUser = (accessToken) => {
           })
         }
       })
+      .finally(() => {
+        dispatch({
+          type: SUCCESS_AUTH
+        })
+      })
       .catch(err => {
         dispatch({
           type: GET_USER_REQUEST_FAILED
@@ -45,6 +54,7 @@ export const actionRequestGetUser = (accessToken) => {
 
 export const actionRefreshAccessToken = (refreshToken) => {
   const timeCookie = 60;
+  let newAccessToken = null;
 
   return (dispatch) => {
     dispatch({
@@ -53,12 +63,10 @@ export const actionRefreshAccessToken = (refreshToken) => {
     api.refreshToken(refreshToken)
       .then(res => {
         if(res && res.success) {
-          // console.log('actionRefreshAccessToken ', res);
-          let newAccessToken = res.accessToken.split('Bearer ')[1];
+          console.log('actionRefreshAccessToken ', res);
+          newAccessToken = res.accessToken.split('Bearer ')[1];
           setCookie('accessToken', newAccessToken, { 'max-age': timeCookie });
           setCookie('refreshToken', res.refreshToken);
-          // actionRequestGetUser(newAccessToken);
-          console.log('newAccessToken ', newAccessToken);
           dispatch({
             type: REFRESH_ACCESS_TOKEN_REQUEST_SUCCESS,
           })
@@ -68,6 +76,22 @@ export const actionRefreshAccessToken = (refreshToken) => {
             type: REFRESH_ACCESS_TOKEN_REQUEST_FAILED
           })
         }
+      })
+      .then(() => {
+        api.getUser(newAccessToken)
+          .then(res => {
+            if(res && res.success) {
+              dispatch({
+                type: GET_USER_REQUEST_SUCCESS,
+                payload: res.user
+              })
+            }
+          })
+      })
+      .finally(() => {
+        dispatch({
+          type: SUCCESS_AUTH
+        })
       })
       .catch(err => {
         dispatch({

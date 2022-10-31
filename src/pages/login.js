@@ -1,7 +1,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import style, { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, useHistory, Redirect } from 'react-router-dom';
+import { Link, useHistory, Redirect, useLocation } from 'react-router-dom';
 import login from './login.module.css';
 import { getCookie, setCookie } from '../utils/cookie';
 import { api } from '../utils/Api';
@@ -12,12 +12,13 @@ export function Login () {
   const history = useHistory();
   const accessToken = getCookie('accessToken');
   const timeCookie = 60;
+  const { state } = useLocation();
 
   // Если есть accessToken редирект на главную страницу
   if (accessToken) {
     return (
-      <Redirect to={ '/' } />
-      // <Redirect to={ state?.from || '/' } />
+      // <Redirect to={ '/' } />
+      <Redirect to={ state?.from || '/' } />
     )
   }
 

@@ -1,58 +1,22 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCookie, setCookie } from '../../utils/cookie';
+import { getCookie } from '../../utils/cookie';
 import { actionRequestGetUser, actionRefreshAccessToken, actionRequestPatchUser } from '../../services/actions/actionsAuthorization';
-import { api } from '../../utils/Api';
-
 
 export function ProtectedRoute ({ children, ...rest }) {
 
-  const timeCookie = 60;
   const accessToken = getCookie('accessToken');
   const refreshToken = getCookie('refreshToken');
-  // const [feedFailed, setFeedFailed] = useState(false);
-  // const [feedRequest, setFeedRequest] = useState(true);
-  const feedFailed = useSelector((state) => state.authorization.feedFailed);
-  const feedRequest = useSelector((state) => state.authorization.feedRequest);
-  const dispatch = useDispatch();
-  console.log('первая загрузка setFeedFailed ', feedFailed);
-  console.log('первая загрузка setFeedRequest ', feedRequest);
+
   console.log('КУКИ accessToken,', accessToken);
   console.log('КУКИ refreshToken,', refreshToken);
-  // const feedFailed = useSelector((state) => state.authorization.feedFailed);
-  // const feedRequest = useSelector((state) => state.authorization.feedRequest);
-  // const status = useSelector((state) => state.authorization.status);
-  // const dispatch = useDispatch();
-  // console.log('ProtectedRoute status = ', status);
 
-  // async function getUserData () {
-  //   dispatch(actionRequestGetUser(accessToken));
-  // };
+  const feedRequest = useSelector((state) => state.authorization.feedRequest);
+  const isAuth = useSelector((state) => state.authorization.isAuth);
 
-  //При переходе на страницу Профиля, делаем запрос к серверу и сохраняем данные в Store
-  // useEffect(() => {
-  //   if (accessToken) {
-  //     dispatch(actionRequestGetUser(accessToken));
-  //     console.log('accessToken TRUE = ', status);
-  //     <Redirect to={{ pathname: '/profile' }} />
-  //     if (!status && refreshToken) {
-  //       dispatch(actionRefreshAccessToken(refreshToken));
-  //       console.log('!status accessToken TRUE = ', status);
-  //       <Redirect to={{ pathname: '/profile' }} />
-  //     }
-  //   } else if (!status && refreshToken) {
-  //     dispatch(actionRefreshAccessToken(refreshToken));
-  //     console.log('refreshToken TRUE = ', status);
-  //     if (status) {
-  //       dispatch(actionRequestGetUser(accessToken));
-  //       console.log('status refreshToken TRUE = ', status);
-  //       <Redirect to={{ pathname: '/profile' }} />
-  //     }
-  //   } else {
-  //     <Redirect to={{ pathname: '/login' }} />
-  //   }
-  // }, [])
+  const dispatch = useDispatch();
+
 
   // async function test () {
   //   return await setTimeout(() => {
@@ -61,70 +25,107 @@ export function ProtectedRoute ({ children, ...rest }) {
   //       api.getUser(accessToken)
   //         .then(res => {
   //           if(res && (res.success === true)) {
-  //             setFeedFailed(false);
   //             setFeedRequest(false);
-  //             console.log('Получили данные о пользователе ', res);
-  //             console.log('2 setFeedFailed ', feedFailed);
-  //             console.log('2 setFeedRequest ', feedRequest);
+  //             setToken(true);
+  //             console.log('2.1 setFeedRequest ', feedRequest);
+  //             console.log('2.1 token ', token);
+  //           } else if (refreshToken && feedRequest) {
+  //             console.log('2.2 setFeedRequest ', feedRequest);
+  //               api.refreshToken(refreshToken)
+  //                 .then(res => {
+  //                   if (res && (res.success === true)) {
+  //                     console.log('res = ', res);
+  //                     let newAccessToken = res.accessToken.split('Bearer ')[1];
+  //                     setCookie('accessToken', newAccessToken, { 'max-age': timeCookie });
+  //                     setCookie('refreshToken', res.refreshToken);
+  //                     console.log('2.2.1 setFeedRequest ', feedRequest);
+  //                     api.getUser(newAccessToken)
+  //                       .then(res => {
+  //                         if (res && (res.success === true)) {
+  //                           setFeedRequest(false);
+  //                           setToken(true);
+  //                           console.log('2.2.1.1 setFeedRequest ', feedRequest);
+  //                         }
+  //                       })
+  //                   } else {
+  //                     setFeedRequest(false);
+  //                     setToken(false);
+  //                     console.log('2.2.2 setFeedRequest ', feedRequest);
+  //                   }
+  //                 })
   //           } else {
-  //             setFeedFailed(true);
   //             setFeedRequest(false);
-  //             console.log('2 setFeedFailed ', feedFailed);
-  //             console.log('2 setFeedRequest ', feedRequest);
+  //             setToken(false);
+  //             console.log('2.3 setFeedRequest ', feedRequest);
   //           }
   //         })
-  //     } else {
-  //       setFeedFailed(true);
-  //       console.log('2 setFeedFailed ', feedFailed);
-  //       console.log('2 setFeedRequest ', feedRequest);
-  //     }
-  //     console.log('2 setFeedFailed ', feedFailed);
-  //     console.log('2 setFeedRequest ', feedRequest);
-  //     if (refreshToken && feedFailed) {
-  //     console.log('Погнали обновлять токен');
-  //     setTimeout(() => {
+  //     } else if (refreshToken && feedRequest) {
+  //       console.log('2.4 setFeedRequest ', feedRequest);
   //       api.refreshToken(refreshToken)
   //         .then(res => {
   //           if (res && (res.success === true)) {
-  //             setFeedFailed(false);
-  //             setFeedRequest(false);
+  //             console.log('refreshToken 2 = ', res);
+  //             let newAccessToken = res.accessToken.split('Bearer ')[1];
   //             setCookie('accessToken', newAccessToken, { 'max-age': timeCookie });
   //             setCookie('refreshToken', res.refreshToken);
-  //             console.log('Обновление токена ', res);
-  //             console.log('3 setFeedFailed ', feedFailed);
-  //             console.log('3 setFeedRequest ', feedRequest);
+  //             console.log('2.4.1 setFeedRequest ', feedRequest);
+  //             api.getUser(newAccessToken)
+  //               .then(res => {
+  //                 if (res && (res.success === true)) {
+  //                   setFeedRequest(false);
+  //                   setToken(true);
+  //                   console.log('2.4.1.1 setFeedRequest ', feedRequest);
+  //                 }
+  //               })
   //           } else {
-  //             setFeedFailed(true);
   //             setFeedRequest(false);
-  //             <Redirect to={{ pathname: '/login' }} />
+  //             setToken(false);
+  //             console.log('2.4.2 setFeedRequest ', feedRequest);
   //           }
   //         })
-  //     }, "1000")
-  //   }
+  //     } else {
+  //       setFeedRequest(false);
+  //       setToken(false);
+  //       console.log('2.5 setFeedRequest ', feedRequest);
+  //     }
   //   }, "1000")
   // }
 
-  useEffect(() => {
-    if(accessToken) {
-      dispatch(actionRequestGetUser(accessToken));
-    }
+  // test();
 
-    if(!accessToken && refreshToken) {
-      dispatch(actionRefreshAccessToken(refreshToken));
-    }
-  }, [accessToken]
-  )
+  // useEffect(() => {
+  //   test();
+  // }, [accessToken]
+  // )
+
+  useEffect(() => {
+    dispatch(actionRequestGetUser(accessToken, refreshToken))
+  }, [dispatch])
+    // if(accessToken) {
+    //   dispatch(actionRequestGetUser);
+    // }
+    // if (refreshToken) {
+    //   api.refreshToken(refreshToken)
+    //     .then(res => {
+    //       if (res && (res.success === true)) {
+    //         console.log('refreshToken = ', res);
+    //         dispatch(actionRequestGetUser);
+    //         // let newAccessToken = res.accessToken.split('Bearer ')[1];
+    //         // setCookie('accessToken', newAccessToken, { 'max-age': timeCookie });
+    //         // setCookie('refreshToken', res.refreshToken);
+    //       }
+
 
   return (
     <>
-      {feedFailed && <h2 className={`text text_type_main-large`}>Произошла ошибка при получении данных</h2>}
+      {/* {feedFailed && <h2 className={`text text_type_main-large`}>Произошла ошибка при получении данных</h2>} */}
       {feedRequest && <h2 className={`text text_type_main-large`}>Загрузка...</h2>}
       {
-        !feedFailed && !feedRequest &&
+        !feedRequest &&
         <Route
           {...rest}
           render={({ location }) =>
-            accessToken ? (
+            isAuth ? (
               children
             ) : (
               <Redirect

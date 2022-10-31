@@ -93,6 +93,7 @@ class Api {
 
   //обновление токена
   async refreshToken(refreshToken) {
+    console.log("API refreshToken =", refreshToken);
     return await fetch(`${this._url}/auth/token`, {
       method: 'POST',
       headers: this._headers,
@@ -100,7 +101,7 @@ class Api {
         "token": refreshToken
       })
     })
-      .then(res => this._getResponse(res))
+      .then(res => res.ok ? res.json() : res.json())
   }
 
   //получение данных о пользователе
@@ -112,7 +113,7 @@ class Api {
         "authorization": 'Bearer ' + accessToken
       },
     })
-      .then(res => res.ok ? res.json() : Promise.reject(res.status))
+      .then(res => this._getResponse(res))
   }
 
   //обновление данных пользователя

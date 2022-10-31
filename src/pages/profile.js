@@ -23,7 +23,7 @@ export function Profile () {
   const refreshToken = getCookie('refreshToken');
   // const timeCookie = 60;
 
-  // console.log('Profile accessToken = ', accessToken);
+  console.log('Profile accessToken = ', accessToken);
 
   //Сбор данных из всех input
   const onChange = (e) => {
