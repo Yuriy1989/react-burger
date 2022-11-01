@@ -47,34 +47,36 @@ export function Profile () {
     <>
       <div className={profile.profile}>
         <MenuProfile />
-        <form className={profile.form}>
-          <div className={`${profile.input} ${profile.input_margin}`}>
-            <Input
-              type={'text'}
-              placeholder={'имя'}
-              icon={'EditIcon'}
-              onChange={onChange}
-              value={data.name}
-              name={'name'}
-              error={false}
-              errorText={'Ошибка'}
-              size={'default'}
-            />
-            <div className={profile.email}>
-              <EmailInput onChange={onChange} value={data.email} placeholder={'имя'} name={'email'} />
-              {error && <p className={`input__error text_type_main-default`}>ошибка: {error} </p>}
+        <div className={profile.editForm}>
+          <form className={profile.form}>
+            <div className={`${profile.input} ${profile.input_margin}`}>
+              <Input
+                type={'text'}
+                placeholder={'имя'}
+                icon={'EditIcon'}
+                onChange={onChange}
+                value={data.name}
+                name={'name'}
+                error={false}
+                errorText={'Ошибка'}
+                size={'default'}
+              />
+              <div className={profile.email}>
+                <EmailInput onChange={onChange} value={data.email} placeholder={'имя'} name={'email'} />
+                {error && <p className={`input__error text_type_main-default`}>ошибка: {error} </p>}
+              </div>
+              <PasswordInput onChange={onChange} value={data.password} name={'password'} />
             </div>
-            <PasswordInput onChange={onChange} value={data.password} name={'password'} />
-          </div>
-          <div className={profile.button}>
-            <Button disabled={data.buttonActive ? false : true} onClick={handleClickSave} type="primary" size="medium">
-              Сохранить
-            </Button>
-            <Button disabled={data.buttonActive ? false : true} onClick={handleClickCancel} type="primary" size="medium">
-              Отмена
-            </Button>
-          </div>
-        </form>
+            <div className={profile.button}>
+              <Button disabled={data.buttonActive ? false : true} onClick={handleClickSave} type="primary" size="medium">
+                Сохранить
+              </Button>
+              <Button disabled={data.buttonActive ? false : true} onClick={handleClickCancel} type="primary" size="medium">
+                Отмена
+              </Button>
+            </div>
+          </form>
+        </div>
         <div className={`${profile.paragraf} text text_type_main-default text_color_inactive`}>
           <p >В этом разделе вы можете изменить свои персональные данные</p>
         </div>

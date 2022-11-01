@@ -31,9 +31,9 @@ export default function AppHeader() {
         <div className={appHeaderStyles.logo}><Logo /></div>
         <button className={` ${appHeaderStyles.profile} ${appHeaderStyles.button} text text_type_main-default`}>
           <div className="p-2">
-            <ProfileIcon type={ history.location.pathname === '/profile' ? 'primary' : 'secondary' } />
+            <ProfileIcon type={ history.location.pathname === '/profile' || history.location.pathname ==='/profile/orders' ? 'primary' : 'secondary' } />
           </div>
-          <NavLink activeClassName={` ${appHeaderStyles.linkActive} `} className={` ${appHeaderStyles.link} text text_type_main-default text_color_inactive`} to="/profile" exact={true}>Личный кабинет</NavLink>
+          <NavLink activeClassName={` ${appHeaderStyles.linkActive} `} className={` ${appHeaderStyles.link} text text_type_main-default text_color_inactive`} to="/profile" >Личный кабинет</NavLink>
         </button>
       </nav>
     </header>

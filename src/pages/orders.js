@@ -8,10 +8,12 @@ export function Orders () {
   return (
     <>
       <div className={orders.orders}>
-        <MenuProfile />
-      <ul className={orders.cardOrder}>
-        <CardOrder/>
-      </ul>
+        <div className={orders.menuProfile}>
+          <MenuProfile />
+        </div>
+        <ul className={orders.cardOrder}>
+          <CardOrder />
+        </ul>
       </div>
     </>
   )

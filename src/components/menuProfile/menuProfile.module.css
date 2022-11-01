@@ -6,6 +6,8 @@
 }
 
 .link {
+  display: flex;
+  align-items: center;
   height: 64px;
   text-decoration: none;
   cursor: pointer;
