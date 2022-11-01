@@ -6,5 +6,6 @@ import { Profile } from './profile';
 import { Ingredients } from './ingredients';
 import { Feed } from './feed';
 import { Orders } from './orders';
+import { NotFoundPage } from './notFoundPage';
 
-export { Login, Register, ForgotPassword, ResetPassword, Profile, Ingredients, Feed, Orders };
+export { Login, Register, ForgotPassword, ResetPassword, Profile, Ingredients, Feed, Orders, NotFoundPage };

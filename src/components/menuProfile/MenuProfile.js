@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import style from '@ya.praktikum/react-developer-burger-ui-components';
 import { NavLink } from 'react-router-dom';
 import menuProfile from './menuProfile.module.css';
@@ -13,7 +12,7 @@ export default function MenuProfile () {
 
   //Запрос к серверу для выхода и удаления всех токинов из кук
   const handleClickExit = () => {
-      dispatch(actionRequestExit(refreshToken));
+    dispatch(actionRequestExit(refreshToken));
   }
 
   return (

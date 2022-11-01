@@ -1,6 +1,8 @@
 import {
-  GET_REQUEST,
   SUCCESS_AUTH,
+  GET_REQUEST,
+  AUTH_REQUEST_SUCCESS,
+  AUTH_REQUEST_FAILED,
   GET_USER_REQUEST_FAILED,
   GET_USER_REQUEST_SUCCESS,
   REFRESH_ACCESS_TOKEN_REQUEST,
@@ -29,8 +31,29 @@ const defaultState = {
 export const authorization = ( state = defaultState, action ) => {
   switch(action.type) {
     case GET_REQUEST: {
-      return { ...state, feedRequest: true, feedFailed: false }
+      return { ...state, feedRequest: true }
     }
+    case AUTH_REQUEST_SUCCESS: {
+      const data = action.payload;
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          email: data.email,
+          name: data.name
+        },
+        feedRequest: false,
+        isAuth: true
+      }
+    }
+    case AUTH_REQUEST_FAILED: {
+      return {
+        ...state,
+        feedRequest: false,
+        isAuth: false
+      }
+    }
+
     case GET_USER_REQUEST_SUCCESS: {
       const data = action.payload;
       return {
@@ -41,6 +64,7 @@ export const authorization = ( state = defaultState, action ) => {
           name: data.name
         },
         feedRequest: false,
+        isAuth: true,
       }
     }
     case GET_USER_REQUEST_FAILED: {
@@ -57,7 +81,7 @@ export const authorization = ( state = defaultState, action ) => {
     }
 
     case REFRESH_ACCESS_TOKEN_REQUEST: {
-      return { ...state, feedRequest: true, feedFailed: false }
+      return { ...state, feedRequest: true }
     }
     case REFRESH_ACCESS_TOKEN_REQUEST_SUCCESS: {
       return {
@@ -106,7 +130,6 @@ export const authorization = ( state = defaultState, action ) => {
       return { ...state };
     }
     case EXIT_REQUEST_SUCCESS: {
-      console.log();
       return { ...state,
         user: {
           ...state.user,

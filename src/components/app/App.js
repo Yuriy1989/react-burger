@@ -15,7 +15,7 @@ import Modal from '../modal/Modal';
 import OrderDetails from '../orderDetails/OrderDetails';
 import OrderMessage from '../orderMessage/OrderMessage';
 import IngredientDetails from '../ingredientDetails/IngredientDetails';
-import { Login, Register, ForgotPassword, ResetPassword, Profile, Ingredients, Feed, Orders } from '../../pages';
+import { Login, Register, ForgotPassword, ResetPassword, Profile, Ingredients, Feed, Orders, NotFoundPage } from '../../pages';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -74,6 +74,9 @@ export default function App() {
                   <BurgerConstructor />
                 </div>
               </DndProvider>
+            </Route>
+            <Route path='*'>
+              <NotFoundPage />
             </Route>
           </Switch>
           {isOpenModalIngredient && (<Route path={`/ingredients/:id`} exact={true}>

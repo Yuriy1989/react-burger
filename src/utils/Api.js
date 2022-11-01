@@ -100,7 +100,8 @@ class Api {
         "token": refreshToken
       })
     })
-      .then(res => res.ok ? res.json() : res.json())
+      // .then(res => res.ok ? res.json() : res.json())
+      .then(res => this._getResponse(res))
   }
 
   //получение данных о пользователе
