@@ -5,8 +5,9 @@ import style from '@ya.praktikum/react-developer-burger-ui-components';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { useLocation, Redirect } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { ProtectedRoute } from '../protectedRoute/ProtectedRoute';
+import { OnlyUnAuthRoute } from '../onlyUnAuthRoute/OnlyUnAuthRoute';
 import { getIngredients } from '../../services/actions/ingredients';
 import AppHeader from '../appHeader/AppHeader';
 import BurgerIngredients from '../burgerIngredients/BurgerIngredients';
@@ -43,18 +44,18 @@ export default function App() {
             <AppHeader />
           </div>
           <Switch location={isOpenModalDetails || isOpenModalError || isOpenModalIngredient || location}>
-            <Route path="/login" exact={true}>
+            <OnlyUnAuthRoute path="/login" exact={true}>
               <Login />
-            </Route>
-            <Route path="/register" exact={true}>
+            </OnlyUnAuthRoute>
+            <OnlyUnAuthRoute path="/register" exact={true}>
               <Register />
-            </Route>
-            <Route path="/forgot-password" exact={true}>
+            </OnlyUnAuthRoute>
+            <OnlyUnAuthRoute path="/forgot-password" exact={true}>
               <ForgotPassword />
-            </Route>
-            <Route path="/reset-password" exact={true}>
+            </OnlyUnAuthRoute>
+            <OnlyUnAuthRoute path="/reset-password" exact={true}>
               <ResetPassword />
-            </Route>
+            </OnlyUnAuthRoute>
             <Route path={`/ingredients/:id`} >
               <Ingredients />
             </Route>

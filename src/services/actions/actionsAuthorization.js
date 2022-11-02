@@ -15,11 +15,10 @@ export const EXIT_REQUEST_SUCCESS = 'EXIT_REQUEST_SUCCESS';
 export const EXIT_REQUEST_FAILED = 'EXIT_REQUEST_FAILED';
 export const CANCEL_EDIT_USER = 'CANCEL_USER_EDIT';
 
-import { setCookie, deleteCookie } from '../../utils/cookie';
+import { setCookie, deleteCookie, timeCookie } from '../../utils/cookie';
 import { api } from '../../utils/Api';
 
 export const actionRequestAuth = (data) => {
-  const timeCookie = 60;
 
   return (dispatch) => {
     dispatch({
@@ -27,9 +26,9 @@ export const actionRequestAuth = (data) => {
     })
     api.login(data)
       .then(res => {
-        if (res.success === true) {
+        if (res && res.success) {
           if (res.accessToken.indexOf('Bearer') === 0) {
-            let accessToken = res.accessToken.split('Bearer ')[1];
+            const accessToken = res.accessToken.split('Bearer ')[1];
             setCookie('accessToken', accessToken, { 'max-age': timeCookie });
             setCookie('refreshToken', res.refreshToken);
           }
@@ -60,7 +59,7 @@ export const actionRequestGetUser = (accessToken, refreshToken) => {
     })
     api.getUser(accessToken)
       .then(res => {
-        if (res && (res.success === true)) {
+        if (res && res.success) {
           dispatch({
             type: GET_USER_REQUEST_SUCCESS,
             payload: res.user
@@ -85,7 +84,6 @@ export const actionRequestGetUser = (accessToken, refreshToken) => {
 }
 
 export const actionRefreshAccessToken = (refreshToken) => {
-  const timeCookie = 60;
   let newAccessToken = null;
 
   return (dispatch) => {
@@ -138,7 +136,7 @@ export const actionRequestPatchUser = (data, accessToken) => {
     })
     api.patchUser(data, accessToken)
       .then(res => {
-        if(res.success === true) {
+        if(res && res.success) {
           dispatch({
             type: PATCH_USER_REQUEST_SUCCESS,
             payload: res

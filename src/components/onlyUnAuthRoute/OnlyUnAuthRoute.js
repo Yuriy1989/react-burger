@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCookie } from '../../utils/cookie';
 import { actionRequestGetUser } from '../../services/actions/actionsAuthorization';
 
-export function ProtectedRoute ({ children, ...rest }) {
+export function OnlyUnAuthRoute ({ children, ...rest }) {
 
   const accessToken = getCookie('accessToken');
   const refreshToken = getCookie('refreshToken');
@@ -26,12 +26,12 @@ export function ProtectedRoute ({ children, ...rest }) {
         <Route
           {...rest}
           render={({ location }) =>
-            isAuth ? (
+            !isAuth ? (
               children
             ) : (
               <Redirect
                 to={{
-                  pathname: '/login',
+                  pathname: '/',
                   state: { from: location }
                 }}
               />

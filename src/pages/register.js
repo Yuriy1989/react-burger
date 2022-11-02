@@ -11,7 +11,6 @@ export function Register () {
 
   const [data, setData] = useState({email: '', password: '', name: ''});
   const inputRef = useRef(null)
-  const accessToken = getCookie('accessToken');
   const history = useHistory();
 
   //При успешной регистрации, делаем редирект на страницу атворизации
@@ -20,13 +19,6 @@ export function Register () {
   },
     [history]
   );
-
-  //Если accessToken существует в куках, то делаем редирект на главную страницу /
-  if (accessToken) {
-    return (
-      <Redirect to={{ pathname: '/' }} />
-    )
-  }
 
   const onChange = (e) => {
     setData( {...data, [e.target.name]: e.target.value} );

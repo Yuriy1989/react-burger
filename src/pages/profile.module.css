@@ -7,7 +7,11 @@
   min-width: 480px;
   background-color: #131316;
   margin: 0 auto;
-  margin-top: 80px;
+  margin-top: 120px;
+}
+
+.menuProfile {
+  grid-area: nav;
 }
 
 .editForm {
@@ -40,7 +44,10 @@
 }
 
 .paragraf {
+  width: 320px;
+  color: #8585AD;
+  opacity: 40%;
   grid-area: text;
-  margin: 16px 0 0 0;
+  margin: 56px 0 0 0;
   padding: 0;
 }

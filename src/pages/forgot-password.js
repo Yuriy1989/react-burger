@@ -11,14 +11,6 @@ export function ForgotPassword () {
 
   const [email, setEmail] = useState('');
   const history = useHistory();
-  const accessToken = getCookie('accessToken');
-
-  //Если accessToken существует в куках, то делаем редирект на главную страницу /
-  if (accessToken) {
-    return (
-      <Redirect to={{ pathname: '/' }} />
-    )
-  }
 
   //При успешном отправке запроса на восстановление
   //пароль делаем редирект на ввода нового пароля и ключа

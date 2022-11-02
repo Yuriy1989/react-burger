@@ -55,7 +55,12 @@ export function Profile () {
       {feedRequestPatchUser && <h2 className={`text text_type_main-large`}>Загрузка...</h2>}
       {!feedRequestPatchUser &&
         <div className={profile.profile}>
-          <MenuProfile />
+          <div className={profile.menuProfile}>
+            <MenuProfile />
+            <div className={`${profile.paragraf} text text_type_main-default text_color_inactive`}>
+              <p >В этом разделе вы можете изменить свои персональные данные</p>
+            </div>
+          </div>
           <div className={profile.editForm}>
             <form className={profile.form}>
               <div className={`${profile.input} ${profile.input_margin}`}>
@@ -85,9 +90,6 @@ export function Profile () {
                 </Button>
               </div>
             </form>
-          </div>
-          <div className={`${profile.paragraf} text text_type_main-default text_color_inactive`}>
-            <p >В этом разделе вы можете изменить свои персональные данные</p>
           </div>
         </div>
       }

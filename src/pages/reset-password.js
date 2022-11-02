@@ -10,15 +10,7 @@ export function ResetPassword() {
 
   const [data, setData] = useState( {password: '', token: ''} );
   const history = useHistory();
-  const accessToken = getCookie('accessToken');
   const forgotPassword = getCookie('forgotPassword');
-
-  //Если accessToken существует в куках, то делаем редирект на главную страницу /
-  if (accessToken) {
-    return (
-      <Redirect to={{ pathname: '/' }} />
-    )
-  }
 
   //Если forgotPassword не существует в куках, то делаем редирект на forgot-password для ввода email
   if (!forgotPassword) {

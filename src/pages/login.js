@@ -11,7 +11,7 @@ export function Login () {
   const [data, setData] = useState({email: '', password: ''});
   const dispatch = useDispatch();
   const { state } = useLocation();
-  const isAuth = useSelector(state => state.authorization.isAuth );
+  const isAuth = useSelector(state => state.authorization.isAuth);
 
   // Если авторизация прошла успешно редирект на ранее открытую страницу
   if (isAuth) {

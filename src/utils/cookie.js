@@ -1,3 +1,5 @@
+export const timeCookie = 1200;
+
 export function getCookie(name) {
   const matches = document.cookie.match(
     new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
@@ -6,7 +8,10 @@ export function getCookie(name) {
 }
 
 export function setCookie(name, value, options = {}) {
-  options = {...options};
+  options = {
+    path: '/',
+    ...options
+  };
   if (options.expires instanceof Date) {
     options.expires = options.expires.toUTCString();
   }

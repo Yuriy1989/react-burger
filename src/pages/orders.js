@@ -10,6 +10,9 @@ export function Orders () {
       <div className={orders.orders}>
         <div className={orders.menuProfile}>
           <MenuProfile />
+          <div className={`${orders.paragraf} text text_type_main-default text_color_inactive`}>
+            <p >В этом разделе вы можете просмотреть свою историю заказов</p>
+          </div>
         </div>
         <ul className={orders.cardOrder}>
           <CardOrder />
