@@ -22,5 +22,5 @@ export function setCookie(name, value, options = {}) {
 }
 
 export function deleteCookie(name) {
-  setCookie(name, null, { expires: -1 });
+  setCookie(name, '', { expires: -1 });
 }

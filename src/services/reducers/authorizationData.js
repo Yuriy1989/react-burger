@@ -24,7 +24,7 @@ const defaultState = {
   error: null,
   user: {
     email: null,
-    name: null,
+    name: null
   },
 }
 
@@ -134,7 +134,7 @@ export const authorization = ( state = defaultState, action ) => {
         user: {
           ...state.user,
           email: '',
-          name: ''
+          name: '',
         },
         isAuth: false
       };

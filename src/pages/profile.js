@@ -12,6 +12,7 @@ export function Profile () {
   const email = useSelector(state => state.authorization.user.email);
   const name = useSelector(state => state.authorization.user.name);
   const error = useSelector(state => state.authorization.error);
+  const feedRequestPatchUser = useSelector(state => state.authorization.feedRequestPatchUser);
   const [data, setData] = useState({name: '', email: '', password: '', buttonActive: false});
   const dispatch = useDispatch();
   const accessToken = getCookie('accessToken');
@@ -25,6 +26,7 @@ export function Profile () {
   const handleClickSave = useCallback(
     e => {
       e.preventDefault();
+      setData( { ...data, buttonActive: false} );
       dispatch(actionRequestPatchUser(data, accessToken));
     },
     [data]
@@ -40,47 +42,55 @@ export function Profile () {
   )
 
   useEffect( () => {
-    setData( {name: name ? name : '', email: email ? email : '', password: '', buttonActive: false} );
+    setData( {
+      name: name ? name : '',
+      email: email ? email : '',
+      password: '',
+      buttonActive: false
+    } );
   }, [ email, name ] )
 
   return (
     <>
-      <div className={profile.profile}>
-        <MenuProfile />
-        <div className={profile.editForm}>
-          <form className={profile.form}>
-            <div className={`${profile.input} ${profile.input_margin}`}>
-              <Input
-                type={'text'}
-                placeholder={'имя'}
-                icon={'EditIcon'}
-                onChange={onChange}
-                value={data.name}
-                name={'name'}
-                error={false}
-                errorText={'Ошибка'}
-                size={'default'}
-              />
-              <div className={profile.email}>
-                <EmailInput onChange={onChange} value={data.email} placeholder={'имя'} name={'email'} />
-                {error && <p className={`input__error text_type_main-default`}>ошибка: {error} </p>}
+      {feedRequestPatchUser && <h2 className={`text text_type_main-large`}>Загрузка...</h2>}
+      {!feedRequestPatchUser &&
+        <div className={profile.profile}>
+          <MenuProfile />
+          <div className={profile.editForm}>
+            <form className={profile.form}>
+              <div className={`${profile.input} ${profile.input_margin}`}>
+                <Input
+                  type={'text'}
+                  placeholder={'имя'}
+                  icon={'EditIcon'}
+                  onChange={onChange}
+                  value={data.name}
+                  name={'name'}
+                  error={false}
+                  errorText={'Ошибка'}
+                  size={'default'}
+                />
+                <div className={profile.email}>
+                  <EmailInput onChange={onChange} value={data.email} placeholder={'имя'} name={'email'} />
+                  {error && <p className={`input__error text_type_main-default`}>ошибка: {error} </p>}
+                </div>
+                <PasswordInput onChange={onChange} value={data.password} name={'password'} />
               </div>
-              <PasswordInput onChange={onChange} value={data.password} name={'password'} />
-            </div>
-            <div className={profile.button}>
-              <Button disabled={data.buttonActive ? false : true} onClick={handleClickSave} type="primary" size="medium">
-                Сохранить
-              </Button>
-              <Button disabled={data.buttonActive ? false : true} onClick={handleClickCancel} type="primary" size="medium">
-                Отмена
-              </Button>
-            </div>
-          </form>
+              <div className={profile.button}>
+                <Button disabled={data.buttonActive ? false : true} onClick={handleClickSave} type="primary" size="medium">
+                  Сохранить
+                </Button>
+                <Button disabled={data.buttonActive ? false : true} onClick={handleClickCancel} type="primary" size="medium">
+                  Отмена
+                </Button>
+              </div>
+            </form>
+          </div>
+          <div className={`${profile.paragraf} text text_type_main-default text_color_inactive`}>
+            <p >В этом разделе вы можете изменить свои персональные данные</p>
+          </div>
         </div>
-        <div className={`${profile.paragraf} text text_type_main-default text_color_inactive`}>
-          <p >В этом разделе вы можете изменить свои персональные данные</p>
-        </div>
-      </div>
+      }
     </>
   )
 }

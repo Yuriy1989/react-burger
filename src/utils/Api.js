@@ -127,6 +127,7 @@ class Api {
       body: JSON.stringify({
         "email" : data.email,
         "name": data.name,
+        "password": data.password
       }),
     })
       .then(res => res.ok ? res.json() : res.json())
