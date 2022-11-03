@@ -60,7 +60,9 @@ export default function App() {
               <Ingredients />
             </Route>
             <Route path="/feed" exact={true}>
-              <Feed />
+              <div className={app.section}>
+                <Feed />
+              </div>
             </Route>
             <ProtectedRoute path="/profile/orders" exact={true}>
               <Orders />
