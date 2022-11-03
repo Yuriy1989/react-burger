@@ -82,10 +82,10 @@ export function Profile () {
                 <PasswordInput onChange={onChange} value={data.password} name={'password'} />
               </div>
               <div className={profile.button}>
-                <Button disabled={data.buttonActive ? false : true} onClick={handleClickSave} type="primary" size="medium">
+                <Button disabled={!data.buttonActive} onClick={handleClickSave} type="primary" size="medium">
                   Сохранить
                 </Button>
-                <Button disabled={data.buttonActive ? false : true} onClick={handleClickCancel} type="primary" size="medium">
+                <Button disabled={!data.buttonActive} onClick={handleClickCancel} type="primary" size="medium">
                   Отмена
                 </Button>
               </div>
