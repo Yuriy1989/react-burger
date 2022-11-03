@@ -1,0 +1,23 @@
+.nav {
+  grid-area: nav;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  height: 64px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 1s linear;
+}
+
+.link:hover {
+  color: #F2F2F3;
+}
+
+.link_activе {
+  color: #F2F2F3;
+}

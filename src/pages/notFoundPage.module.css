@@ -1,0 +1,9 @@
+.notFoundPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100vw;
+  min-width: 480px;
+  background-color: #131316;
+  margin-top: 180px;
+}

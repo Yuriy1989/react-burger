@@ -3,6 +3,7 @@ export const CLOSE_MODALS = 'CLOSE_SELECTED_INRGEDIENT';
 export const OPEN_ORDER_DETAILS = 'OPEN_ORDER_DETAILS';
 export const OPEN_ORDER_ERROR = 'OPEN_ORDER_ERROR';
 
+
 export const openInfoSelectedInrgedient = (data) => {
   return (dispatch) => {
     dispatch({

@@ -4,21 +4,25 @@ import style, { CloseIcon, } from '@ya.praktikum/react-developer-burger-ui-compo
 import ModalOverlay from '../modalOverlay/ModalOverlay';
 import modal from './modal.module.css';
 import { text, component } from '../../utils/types';
-import { useDispatch } from 'react-redux';
-import { closeModal } from '../../services/actions/getIngredientforOpenModal';
+import { useHistory } from 'react-router-dom';
 
 const modalsContainer = document.querySelector('#modals');
 
 const Modal = ({ title, children }) => {
 
-  const dispatch = useDispatch();
-
-  const closeModals = () => dispatch(closeModal());
+  const history = useHistory();
 
   // Обработка нажатия Esc
   const handleEscKeydown = useCallback((event) => {
-    event.key === "Escape" && dispatch(closeModal());
+    event.key === "Escape" && closeModals();
   }, []);
+
+  // Закрытие модалки - возврат на предыдущую страницу
+  const closeModals = useCallback(
+    () => {
+      history.goBack();
+    }, []
+  )
 
   useEffect(() => {
     document.addEventListener('keydown', handleEscKeydown);

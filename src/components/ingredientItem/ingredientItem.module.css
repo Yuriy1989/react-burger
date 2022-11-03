@@ -1,3 +1,7 @@
+.link {
+  text-decoration: none;
+}
+
 .item {
   display: flex;
   flex-direction: column;
@@ -28,10 +32,12 @@
 
 .cost {
   margin-right: 9px;
+  color: #ffffff;
 }
 
 .name {
   text-align: center;
   vertical-align: top;
   margin-bottom: 30px;
+  color: #ffffff;
 }

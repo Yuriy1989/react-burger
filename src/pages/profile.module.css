@@ -1,0 +1,53 @@
+.profile {
+  display: grid;
+  grid-template-areas: "nav input item-1"
+                       "text item-2 item-3";
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 1240px;
+  min-width: 480px;
+  background-color: #131316;
+  margin: 0 auto;
+  margin-top: 120px;
+}
+
+.menuProfile {
+  grid-area: nav;
+}
+
+.editForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form {
+  max-width: 320px;
+}
+
+.input {
+  grid-area: input;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+}
+
+.email {
+  margin: 24px 0;
+}
+
+.button {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 24px 0 80px 0;
+}
+
+.paragraf {
+  width: 320px;
+  color: #8585AD;
+  opacity: 40%;
+  grid-area: text;
+  margin: 56px 0 0 0;
+  padding: 0;
+}

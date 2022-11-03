@@ -1,11 +1,29 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState, useCallback, useEffect } from 'react';
 import ingredientDetails from './ingredientDetails.module.css';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams, Redirect } from 'react-router-dom';
+import { getCookie } from '../../utils/cookie';
+import { openInfoSelectedInrgedient } from '../../services/actions/getIngredientforOpenModal';
 
 export default function IngredientDetails() {
 
-  const ingredient = useSelector((state) => state.getInfoSelectedIngredient.openModalIngredient);
+  const { id }  = useParams();
+  const accessToken = getCookie('accessToken');
+  const ingredientData = useSelector(state => state.getIngredientsApi.ingredientsGetApi);
+  const [ingredient, setIngredient] = useState({});
+  const dispatch = useDispatch();
+
+  //Ищем ингредиент из общего массива ингредиентов по определенному id из ссылки
+  const selectedIngredients = useCallback(
+    () => {
+      setIngredient(ingredientData.find(item => item.id === id));
+    }, [ingredientData]
+  )
+
+  useEffect(() => {
+    selectedIngredients();
+    dispatch(openInfoSelectedInrgedient(ingredient));
+  }, [])
 
   return (
     <>
