@@ -132,6 +132,15 @@ class Api {
     })
       .then(res => res.ok ? res.json() : res.json())
   }
+
+  //получение 50 последних заказов
+  async getOrders() {
+    return await fetch(`${this._url}/orders/all`, {
+      method: 'GET',
+      headers: this._headers,
+    })
+    .then(res => this._getResponse(res))
+  }
 }
 
 export const api = new Api({

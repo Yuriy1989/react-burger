@@ -16,6 +16,7 @@ import Modal from '../modal/Modal';
 import OrderDetails from '../orderDetails/OrderDetails';
 import OrderMessage from '../orderMessage/OrderMessage';
 import IngredientDetails from '../ingredientDetails/IngredientDetails';
+import FeedIdDetails from '../feedIdDetails/FeedIdDetails';
 import {
   Login,
   Register,
@@ -35,6 +36,7 @@ export default function App() {
   const isOpenModalIngredient = location.state?.isOpenModalIngredient;
   const isOpenModalError = location.state?.isOpenModalError;
   const isOpenModalDetails = location.state?.isOpenModalDetails;
+  const isOpenModalFeed = location.state?.isOpenModalFeed;
 
   //делаем запрос к серверу для получения всех ингредиентов
   useEffect(() => {
@@ -79,6 +81,9 @@ export default function App() {
             <ProtectedRoute path="/profile/orders" exact={true}>
               <Orders />
             </ProtectedRoute>
+            <ProtectedRoute path={'/profile/orders/:id'} exact={true}>
+              <FeedId />
+            </ProtectedRoute>
             <ProtectedRoute path="/profile" exact={true}>
               <Profile />
             </ProtectedRoute>
@@ -97,6 +102,12 @@ export default function App() {
           {isOpenModalIngredient && (<Route path={`/ingredients/:id`} exact={true}>
             <Modal title="Детали ингредиента" >
               <IngredientDetails />
+            </Modal>
+          </Route>)
+          }
+          {isOpenModalFeed && (<Route path={`/profile/orders/:id`} exact={true}>
+            <Modal title="" >
+              <FeedIdDetails />
             </Modal>
           </Route>)
           }

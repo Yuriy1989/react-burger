@@ -1,8 +1,11 @@
 import React from "react";
 import style from '@ya.praktikum/react-developer-burger-ui-components';
 import stats from './stats.module.css';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Stats() {
+
+  const data = useSelector(state => state.orders.orders);
 
   return (
     <section className={stats.stats} >
@@ -25,9 +28,9 @@ export default function Stats() {
         </div>
       </div>
       <h3 className={` ${stats.text} text text_type_main-medium `}>Выполнено за все время:</h3>
-      <p className={` ${stats.numberOrder} text text_type_digits-large `}>28752</p>
+      <p className={` ${stats.numberOrder} text text_type_digits-large `}>{data?.total}</p>
       <h3 className={` ${stats.text} text text_type_main-medium `}>Выполнено за сегодня:</h3>
-      <p className={` ${stats.numberOrder} text text_type_digits-large `}>138</p>
+      <p className={` ${stats.numberOrder} text text_type_digits-large `}>{data?.totalToday}</p>
     </section>
   );
 }

@@ -2,9 +2,9 @@ import { useState, useCallback, useEffect } from 'react';
 import style, { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useParams, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import feedId from './feedId.module.css';
+import feedIdDetails from './feedIdDetails.module.css';
 
-export function FeedId () {
+export default function FeedIdDetails () {
 
   let todayDate = new Date();
   let currentTimeZoneOffsetInHours  = todayDate.getTimezoneOffset() / 60;
