@@ -1,0 +1,50 @@
+.stats {
+  max-width: 580px;
+  justify-self: start;
+  box-sizing: border-box;
+}
+
+.ordersStatus {
+  display: grid;
+  grid-template-columns: repeat(2, 272px);
+  column-gap: 36px;
+}
+
+.statusOrders {
+  display: flex;
+  flex-direction: column;
+}
+
+.statusTitle {
+  color: #F2F2F3;
+  margin-bottom: 24px;
+}
+
+.item {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.idOrder {
+  margin: 0 0 8px 0;
+}
+
+.idOrder_Green {
+  color: #00CCCC;
+}
+
+.idOrder_White {
+  color: #F2F2F3;
+}
+
+.text {
+  margin-top: 60px;
+  color: #F2F2F3;
+}
+
+.numberOrder {
+  color:#F2F2F3;
+  filter: drop-shadow(0 4px 32px rgba(51, 51, 255, 0.5));
+  padding: 0;
+}

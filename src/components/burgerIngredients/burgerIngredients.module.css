@@ -3,6 +3,10 @@
   justify-self: end;
 }
 
+.title {
+  margin-bottom: 20px;
+}
+
 .ingredients {
   max-height: calc(100vh - 310px);
   overflow-y: scroll;
@@ -19,10 +23,6 @@
 
 .ingredients::-webkit-scrollbar-thumb {
   background-color: #8585AD;
-}
-
-.title {
-  margin-bottom: 20px;
 }
 
 .tab {

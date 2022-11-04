@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import style, { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import cardOrder from './cardOrder.module.css';
 
