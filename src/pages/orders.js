@@ -5,18 +5,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import orders from './orders.module.css';
 import MenuProfile from '../components/menuProfile/MenuProfile';
 import CardOrder from '../components/cardOrder/CardOrder';
-import { getUserOrders } from '../services/actions/actionsOrders';
+import { WS_CONNECTION_START, WS_CONNECTION_CLOSE } from '../services/actions/actionUserOrders';
 
 export function Orders () {
 
   const dispatch = useDispatch();
-  const data = useSelector(state => state.orders.userOrders);
-
-  console.log('data', data);
 
   useEffect(() => {
-    dispatch(getUserOrders());
-  }, [dispatch])
+    dispatch({ type: WS_CONNECTION_START });
+    return () => {
+      dispatch({ type: WS_CONNECTION_CLOSE });
+    }
+  }, [])
 
   return (
     <>
