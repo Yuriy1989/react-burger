@@ -22,8 +22,9 @@ export const wsConnectionsClose = () => {
   };
 }
 
-export const wsGetUserOrders = () => {
+export const wsGetUserOrders = (message) => {
   return {
-    type: WS_GET_USER_ORDERS
+    type: WS_GET_USER_ORDERS,
+    payload: message,
   };
 }

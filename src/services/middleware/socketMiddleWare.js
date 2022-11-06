@@ -19,11 +19,10 @@ export const socketMiddleware = (wsUrl, wsActions) => {
       const accessToken = getCookie('accessToken');
 
       if(type === wsInit) {
-        console.log('socketMiddleware accessToken=', accessToken);
         socket = new WebSocket(`${wsUrl}/?token=${accessToken}`);
       }
       if(socket) {
-        console.log('socketMiddleware accessToken=', accessToken);
+        console.log('socketMiddleware socket=', socket);
         socket.onopen = event => {
           dispatch({ type: onOpen, payload: event });
         };
