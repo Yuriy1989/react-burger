@@ -24,7 +24,7 @@
 }
 
 .ingredient {
-  /* max-height: calc(100vh - 310px); */
+  max-height: calc(100vh - 310px);
   overflow-y: scroll;
 }
 

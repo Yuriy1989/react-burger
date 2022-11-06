@@ -1,10 +1,23 @@
 
+import React, { useEffect } from 'react';
 import style from '@ya.praktikum/react-developer-burger-ui-components';
+import { useDispatch, useSelector } from 'react-redux';
 import orders from './orders.module.css';
 import MenuProfile from '../components/menuProfile/MenuProfile';
 import CardOrder from '../components/cardOrder/CardOrder';
+import { getUserOrders } from '../services/actions/actionsOrders';
 
 export function Orders () {
+
+  const dispatch = useDispatch();
+  const data = useSelector(state => state.orders.userOrders);
+
+  console.log('data', data);
+
+  useEffect(() => {
+    dispatch(getUserOrders());
+  }, [dispatch])
+
   return (
     <>
       <div className={orders.orders}>

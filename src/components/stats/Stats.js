@@ -1,7 +1,7 @@
 import React from "react";
 import style from '@ya.praktikum/react-developer-burger-ui-components';
 import stats from './stats.module.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 export default function Stats() {
 
@@ -13,17 +13,21 @@ export default function Stats() {
         <div className={stats.statusOrders}>
           <h2 className={` ${stats.statusTitle} text text_type_main-medium `}>Готовы: </h2>
           <ul className={stats.item}>
-            <li className={` ${stats.idOrder} ${stats.idOrder_Green} text text_type_digits-default `}>
-              123456
-            </li>
+            {data.orders?.filter(card => card.status === 'done').map(item => (
+              <li key={item._id} className={` ${stats.idOrder} ${stats.idOrder_Green} text text_type_digits-default `}>
+                {item.number}
+              </li>
+            ))}
           </ul>
         </div>
         <div className={stats.statusOrders}>
           <h2 className={` ${stats.statusTitle} text text_type_main-medium `}>В работе: </h2>
           <ul className={stats.item}>
-            <li className={` ${stats.idOrder} ${stats.idOrder_White} text text_type_digits-default `}>
-              654321
-            </li>
+            {data.orders?.filter(card => card.status != 'done').map(item => (
+              <li key={item._id} className={` ${stats.idOrder} ${stats.idOrder_White} text text_type_digits-default `}>
+                {item.number}
+              </li>
+            ))}
           </ul>
         </div>
       </div>

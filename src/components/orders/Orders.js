@@ -2,68 +2,71 @@
 import { useSelector } from 'react-redux';
 import style, { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import orders from './orders.module.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import OrderElement from '../orderElement/OrderElement';
+import uuid from 'react-uuid';
 
 export default function Orders ( {card} ) {
 
-  console.log('cards = ', card);
+  const [cellOrder, setCellOrder] = useState(0);
+  const [countData, setCountData] = useState([]);
   const ingredientsData = useSelector((state) => state.getIngredientsApi.ingredientsGetApi);
-  console.log('ingredientsData = ', ingredientsData);
 
-  let cellOrder = 0;
-
-  const cell = () => {
-    card.ingredients.map(item => {
-      let n = 0;
-
-      ingredients.map(ingredient => {
-        if (item[n] === ingredient.id) {
-          cellOrder = cellOrder + ingredient.price;
-        }
-        n++;
-      })
-    })
+  //Фильтруем массив ингредиентов в заказе по уникальным значениям
+  const foo = (arr) => {
+    let map = new Map();
+    for (let elem of arr) {
+        let counter = map.get(elem);
+        map.set(elem, counter ? counter + 1 : 1);
+    }
+    let res = [];
+    for (let [elem, counter] of map.entries())
+        if (counter >= 1)
+            res.push(elem);
+    return (res);
   }
 
-  console.log('card.ingredients.length', card.ingredients.length);
-  const cell2 = () => {
+  //сбор данных об ингредиенте в заказе
+  const calcCell = () => {
+    let summa = 0;
+    let arrImage = [];
+    let igredientsData = [];
     let n = 0;
-    while(n <= card.ingredients.length) {
-      console.log('n',card.ingredients[n]);
+    while (n <= card.ingredients.length) {
       ingredientsData.map(item => {
-        console.log('ingredientsData.price', item.price);
         if (item.id === card.ingredients[n]) {
-          cellOrder = cellOrder + ingredientsData.price;
+          summa += item.price;
+          arrImage.push(item.image_mobile);
+          igredientsData.push(item);
         }
       })
       n++;
+      setCellOrder(summa);
+      setCountData(igredientsData);
     }
   }
 
-  console.log('cellOrder =', cellOrder);
-
-  let todayDate = new Date();
-  let currentTimeZoneOffsetInHours  = todayDate.getTimezoneOffset() / 60;
-
   useEffect(() => {
-    cell2();
+    calcCell();
   }, [ingredientsData])
 
   return (
     <li className={orders.orders}>
         <div className={orders.numberOrder}>
           <h2 className={` ${orders.idOrder} text text_type_digits-default `}># {card.number}</h2>
-          <p className={` text text_type_main-default text_color_inactive `}>Сегодня, {todayDate.getHours()}:{todayDate.getMinutes()} i-GMT{currentTimeZoneOffsetInHours}</p>
+          <p className={` text text_type_main-default text_color_inactive `}>{card.createdAt}</p>
         </div>
         <p className={` ${orders.burgerName} text text_type_main-medium `}>{card.name}</p>
         <div className={orders.ingredients}>
-          <ul className={orders.filling}>
-            <li className={orders.filling}>
-              <img></img>
-            </li>
+          <ul className={orders.fillings}>
+            {
+              foo(countData).map(item => (
+                <OrderElement item={item} countData={countData} key={uuid()} />
+              ))
+            }
           </ul>
           <div className={orders.cellPrice}>
-            <p className={`${orders.cell} text text_type_digits-medium`}>100</p>
+            <p className={`${orders.cell} text text_type_digits-medium mr-2`}>{cellOrder}</p>
             <CurrencyIcon type="primary" />
           </div>
         </div>
