@@ -9,10 +9,17 @@ import { WS_CONNECTION_START, WS_CONNECTION_CLOSE } from '../services/actions/ac
 
 export function Orders () {
 
+  const wsUrl = 'wss://norma.nomoreparties.space/orders';
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: WS_CONNECTION_START });
+    dispatch({
+      type: WS_CONNECTION_START,
+      payload: {
+        wsUrl
+      }
+    });
     return () => {
       dispatch({ type: WS_CONNECTION_CLOSE });
     }

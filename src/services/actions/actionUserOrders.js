@@ -4,9 +4,10 @@ export const WS_CONNECTION_ERROR = 'WS_CONNECTION_ERROR';
 export const WS_CONNECTION_CLOSE = 'WS_CONNECTION_CLOSE';
 export const WS_GET_USER_ORDERS = 'WS_GET_USER_ORDERS';
 
-export const wsConnectionsSuccess = () => {
+export const wsConnectionsSuccess = (wsUrl) => {
   return {
-    type: WS_CONNECTION_SUCCESS
+    type: WS_CONNECTION_SUCCESS,
+    wsUrl
   };
 }
 
@@ -22,9 +23,9 @@ export const wsConnectionsClose = () => {
   };
 }
 
-export const wsGetUserOrders = (message) => {
+export const wsGetUserOrders = (data) => {
   return {
     type: WS_GET_USER_ORDERS,
-    payload: message,
+    payload: data,
   };
 }
