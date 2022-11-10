@@ -6,10 +6,13 @@ import orders from './orders.module.css';
 import MenuProfile from '../components/menuProfile/MenuProfile';
 import CardOrder from '../components/cardOrder/CardOrder';
 import { WS_CONNECTION_START, WS_CONNECTION_CLOSE } from '../services/actions/actionUserOrders';
+import uuid from 'react-uuid';
 
 export function Orders () {
 
   const wsUrl = 'wss://norma.nomoreparties.space/orders';
+  const userOrders = useSelector(state => state.userOrders.messages);
+  console.log('userOrders', userOrders);
 
   const dispatch = useDispatch();
 
@@ -35,7 +38,12 @@ export function Orders () {
           </div>
         </div>
         <ul className={orders.cardOrder}>
-          <CardOrder />
+          {
+            userOrders.map(item => (
+              <CardOrder key={uuid()} item={item}/>
+            ))
+          }
+
         </ul>
       </div>
     </>

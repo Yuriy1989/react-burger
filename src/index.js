@@ -18,7 +18,7 @@ import {
   WS_GET_USER_ORDERS
 } from './services/actions/actionUserOrders';
 
-const wsUrl = 'wss://norma.nomoreparties.space/orders';
+// const wsUrl = 'wss://norma.nomoreparties.space/orders';
 
 
 const wsActions = {
@@ -34,7 +34,7 @@ const composeEnhancers =
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
     : compose;
 
-const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsUrl, wsActions)));
+const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsActions)));
 
 const store = createStore(rootReducers, enhancer);
 

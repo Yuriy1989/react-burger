@@ -14,7 +14,6 @@ const defaultState = {
 export const userOrders = (state = defaultState, action) => {
   switch(action.type) {
     case WS_CONNECTION_SUCCESS: {
-      // console.log('action.payload', action.payload);
       return {
         ...state,
         error: undefined,
@@ -22,7 +21,6 @@ export const userOrders = (state = defaultState, action) => {
       };
     }
     case WS_CONNECTION_ERROR: {
-      // console.log('action.payload', action.payload);
       const data = action.payload;
       return {
         ...state,

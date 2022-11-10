@@ -6,7 +6,7 @@ export const socketMiddleware = (wsActions) => {
 
     return next => action => {
       const { dispatch, getState } = store;
-      const { type, payload, wsUrl } = action;
+      const { type, payload } = action;
       const {
         wsInit,
         onOpen,
@@ -16,12 +16,12 @@ export const socketMiddleware = (wsActions) => {
       } = wsActions;
 
       const accessToken = getCookie('accessToken');
-      console.log('wsUrl', wsUrl);
+      // console.log('getState', store.getState());
       console.log('payload', payload);
-      console.log('type', type);
+      // console.log('type', type);
 
       if(type === wsInit) {
-        socket = new WebSocket(`${wsUrl}?token=${accessToken}`);
+        socket = new WebSocket(`${payload.wsUrl}?token=${accessToken}`);
       }
       if(socket) {
         socket.onopen = event => {
@@ -38,6 +38,7 @@ export const socketMiddleware = (wsActions) => {
           const { data } = event;
           const parsedData = JSON.parse(data);
           const { success, ...restParsedData } = parsedData;
+          console.log('data', data);
           dispatch({ type: onMessage, payload: restParsedData })
         };
 
