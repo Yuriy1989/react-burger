@@ -7,12 +7,13 @@ import MenuProfile from '../components/menuProfile/MenuProfile';
 import CardOrder from '../components/cardOrder/CardOrder';
 import { WS_CONNECTION_START, WS_CONNECTION_CLOSE } from '../services/actions/actionUserOrders';
 import uuid from 'react-uuid';
+import { getCookie } from '../utils/cookie';
 
 export function Orders () {
 
-  const wsUrl = 'wss://norma.nomoreparties.space/orders';
-  const userOrders = useSelector(state => state.userOrders.messages);
-  console.log('userOrders', userOrders);
+  const wsUrlUsers = 'wss://norma.nomoreparties.space/orders';
+  const accessToken = getCookie('accessToken');
+  const data = useSelector(state => state.orders.orders);
 
   const dispatch = useDispatch();
 
@@ -20,7 +21,8 @@ export function Orders () {
     dispatch({
       type: WS_CONNECTION_START,
       payload: {
-        wsUrl
+        wsUrlUsers,
+        accessToken
       }
     });
     return () => {
@@ -39,7 +41,7 @@ export function Orders () {
         </div>
         <ul className={orders.cardOrder}>
           {
-            userOrders.map(item => (
+            data.map(item => (
               <CardOrder key={uuid()} item={item}/>
             ))
           }

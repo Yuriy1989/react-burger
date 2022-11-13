@@ -15,18 +15,15 @@ import {
   WS_CONNECTION_SUCCESS,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_CLOSE,
-  WS_GET_USER_ORDERS
+  WS_GET_ORDERS
 } from './services/actions/actionUserOrders';
-
-// const wsUrl = 'wss://norma.nomoreparties.space/orders';
-
 
 const wsActions = {
   wsInit: WS_CONNECTION_START,
   onOpen: WS_CONNECTION_SUCCESS,
   onClose: WS_CONNECTION_CLOSE,
   onError: WS_CONNECTION_ERROR,
-  onMessage: WS_GET_USER_ORDERS
+  onOrders: WS_GET_ORDERS
 };
 
 const composeEnhancers =

@@ -17,6 +17,7 @@ import OrderDetails from '../orderDetails/OrderDetails';
 import OrderMessage from '../orderMessage/OrderMessage';
 import IngredientDetails from '../ingredientDetails/IngredientDetails';
 import FeedIdDetails from '../feedIdDetails/FeedIdDetails';
+import Loader from '../loader/Loader';
 import {
   Login,
   Register,
@@ -45,6 +46,7 @@ export default function App() {
 
   const feedFailed = useSelector((state) => state.getIngredientsApi.feedFailed);
   const feedRequest = useSelector((state) => state.getIngredientsApi.feedRequest);
+  const feedRequest_feed = useSelector(state => state.orders.feedRequest); //лоадер загрузки страниц
 
   return (
     <>
@@ -88,6 +90,7 @@ export default function App() {
               <Profile />
             </ProtectedRoute>
             <Route path="/" exact={true}>
+            {/* <Loader /> */}
               <DndProvider backend={HTML5Backend}>
                 <div className={app.section}>
                   <BurgerIngredients />
@@ -122,6 +125,9 @@ export default function App() {
               <OrderMessage />
             </Modal>
           </Route>)
+          }
+          {feedRequest_feed &&
+            <Loader />
           }
         </main>
         </>

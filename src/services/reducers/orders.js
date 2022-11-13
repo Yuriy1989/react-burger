@@ -1,35 +1,52 @@
 import {
-  GET_ORDERS_API,
-  GET_ORDERS_API_SUCCESS,
-  GET_ORDERS_API_FAILED
-} from '../actions/actionsOrders';
+  WS_CONNECTION_SUCCESS,
+  WS_CONNECTION_ERROR,
+  WS_CONNECTION_CLOSE,
+  WS_GET_ORDERS
+} from '../actions/actionUserOrders';
 
 const defaultState = {
+  wsConnected: false,
+  orders: [],
+  error: undefined,
   feedRequest: false,
-  feedFailed: false,
-  orders: []
-}
+  feedFailed: false
+};
 
 export const orders = (state = defaultState, action) => {
-  switch (action.type) {
-    case GET_ORDERS_API: {
+  switch(action.type) {
+    case WS_CONNECTION_SUCCESS: {
       return {
-        ...state, feedRequest: true, feedFailed: false
+        ...state,
+        error: undefined,
+        wsConnected: true,
+        feedRequest: true
       };
     }
-    case GET_ORDERS_API_SUCCESS: {
+    case WS_CONNECTION_ERROR: {
       const data = action.payload;
       return {
         ...state,
-        feedRequest: false,
-        orders: data
-      };
-    }
-    case GET_ORDERS_API_FAILED: {
-      return {
-        ...state,
+        error: data,
+        wsConnected: false,
         feedRequest: false,
         feedFailed: true
+      };
+    }
+    case WS_CONNECTION_CLOSE: {
+      return {
+        ...state,
+        error: undefined,
+        wsConnected: false,
+        feedRequest: false
+      };
+    }
+    case WS_GET_ORDERS : {
+      return {
+        ...state,
+        error: undefined,
+        orders: [action.payload],
+        feedRequest: false,
       };
     }
     default:
