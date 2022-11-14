@@ -51,7 +51,7 @@ export default function App() {
   return (
     <>
       {feedFailed && <h2 className={`text text_type_main-large`}>Произошла ошибка при получении данных</h2>}
-      {feedRequest && <h2 className={`text text_type_main-large`}>Загрузка...</h2>}
+      {feedRequest &&  <Loader />}
       {!feedFailed && !feedRequest &&
         <>
         <main className={app.app}>
@@ -90,7 +90,6 @@ export default function App() {
               <Profile />
             </ProtectedRoute>
             <Route path="/" exact={true}>
-            {/* <Loader /> */}
               <DndProvider backend={HTML5Backend}>
                 <div className={app.section}>
                   <BurgerIngredients />
@@ -125,9 +124,6 @@ export default function App() {
               <OrderMessage />
             </Modal>
           </Route>)
-          }
-          {feedRequest_feed &&
-            <Loader />
           }
         </main>
         </>

@@ -9,20 +9,42 @@ export function FeedId () {
   let todayDate = new Date();
   let currentTimeZoneOffsetInHours  = todayDate.getTimezoneOffset() / 60;
 
-  // const { id }  = useParams();
-  // const ingredientsData = useSelector(state => state.getIngredientsApi.ingredientsGetApi);
-  // const [data, setData] = useState({});
+  const { id }  = useParams();
+  const card = useSelector(state => state.orders.orders);
+  const ingredientsData = useSelector(state => state.getIngredientsApi.ingredientsGetApi);
+  const [cellOrder, setCellOrder] = useState(0);
+  const [data, setData] = useState([]);
 
-  //  //Ищем ингредиент из общего массива ингредиентов по определенному id из ссылки
-  // const selectedIngredients = useCallback(
-  //   () => {
-  //     setData(ingredientsData.find(item => item.id === id));
-  //   }, [ingredientsData]
-  // )
+   //Ищем ингредиент из общего массива ингредиентов по определенному id из ссылки
+  const selectedIngredients = useCallback(
+    () => {
+      setData(ingredientsData.find(item => item.id === id));
+    }, [ingredientsData]
+  )
 
-  // useEffect(() => {
-  //   selectedIngredients();
-  // }, [])
+  //сбор данных об ингредиенте в заказе
+  const calcCell = () => {
+    let summa = 0;
+    let arrImage = [];
+    let igredientsData = [];
+    let n = 0;
+    while (n <= card.ingredients.length) {
+      ingredientsData.map(item => {
+        if (item.id === card.ingredients[n]) {
+          summa += item.price;
+          arrImage.push(item.image_mobile);
+          igredientsData.push(item);
+        }
+      })
+      n++;
+      setCellOrder(summa);
+      setData(igredientsData);
+    }
+  }
+
+  useEffect(() => {
+    selectedIngredients();
+  }, [])
 
   return (
     <div className={feedId.feedId}>

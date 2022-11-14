@@ -5,9 +5,12 @@ import Orders from '../components/orders/Orders';
 import Stats from '../components/stats/Stats';
 import feed from './feed.module.css';
 import { WS_CONNECTION_START, WS_CONNECTION_CLOSE } from '../services/actions/actionUserOrders';
+import Loader from '../components/loader/Loader';
 
 export function Feed() {
 
+  const feedRequest = useSelector(state => state.orders.feedRequest);
+  const feedFailed = useSelector(state => state.orders.feedFailed);
   const wsUrl = 'wss://norma.nomoreparties.space/orders/all';
   const dispatch = useDispatch();
   const data = useSelector(state => state.orders.orders);
@@ -24,12 +27,10 @@ export function Feed() {
     }
   }, [])
 
-  const feedRequest = useSelector(state => state.orders.feedRequest);
-  const feedFailed = useSelector(state => state.orders.feedFailed);
-
   return (
     <>
       {feedFailed && <h2 className={`text text_type_main-large`}>Произошла ошибка при получении данных</h2>}
+      {feedRequest && <Loader />}
       {!feedRequest && !feedFailed &&
         <>
           <div className={feed.header}>

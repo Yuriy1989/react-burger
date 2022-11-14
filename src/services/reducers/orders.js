@@ -9,6 +9,7 @@ const defaultState = {
   wsConnected: false,
   orders: [],
   error: undefined,
+  request: false,
   feedRequest: false,
   feedFailed: false
 };
@@ -19,6 +20,7 @@ export const orders = (state = defaultState, action) => {
       return {
         ...state,
         error: undefined,
+        request: false,
         wsConnected: true,
         feedRequest: true
       };
@@ -37,8 +39,9 @@ export const orders = (state = defaultState, action) => {
       return {
         ...state,
         error: undefined,
-        wsConnected: false,
-        feedRequest: false
+        request: true,
+        feedRequest: false,
+        wsConnected: true,
       };
     }
     case WS_GET_ORDERS : {

@@ -5,8 +5,6 @@ export default function CardOrder ({ item }) {
 
   let todayDate = new Date();
   let currentTimeZoneOffsetInHours  = todayDate.getTimezoneOffset() / 60;
-  console.log('CardOrder item', item);
-  console.log('CardOrder item', item.length);
 
   return (
     <>

@@ -3,6 +3,7 @@ import { Route, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCookie } from '../../utils/cookie';
 import { actionRequestGetUser } from '../../services/actions/actionsAuthorization';
+import Loader from '../loader/Loader';
 
 export function OnlyUnAuthRoute ({ children, ...rest }) {
 
@@ -20,7 +21,7 @@ export function OnlyUnAuthRoute ({ children, ...rest }) {
 
   return (
     <>
-      {feedRequest && <h2 className={`text text_type_main-large`}>Загрузка...</h2>}
+      {feedRequest && <Loader />}
       {
         !feedRequest &&
         <Route

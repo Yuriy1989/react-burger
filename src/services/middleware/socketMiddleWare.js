@@ -34,10 +34,7 @@ export const socketMiddleware = (wsActions) => {
           const { data } = event;
           const parsedData = JSON.parse(data);
           const { success, ...restParsedData } = parsedData;
-          setTimeout(() => {
-            dispatch({ type: onOrders, payload: restParsedData })
-          }, 2000)
-
+          dispatch({ type: onOrders, payload: restParsedData })
         };
 
         socket.onclose = event => {

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { actionRequestPatchUser } from '../services/actions/actionsAuthorization';
 import profile from './profile.module.css';
 import { getCookie } from '../utils/cookie';
+import Loader from '../components/loader/Loader';
 
 export function Profile () {
 
@@ -52,7 +53,7 @@ export function Profile () {
 
   return (
     <>
-      {feedRequestPatchUser && <h2 className={`text text_type_main-large`}>Загрузка...</h2>}
+      {feedRequestPatchUser && <Loader />}
       {!feedRequestPatchUser &&
         <div className={profile.profile}>
           <div className={profile.menuProfile}>

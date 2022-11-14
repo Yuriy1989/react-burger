@@ -4,16 +4,18 @@ import style, { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-com
 import orders from './orders.module.css';
 import { useEffect, useState } from 'react';
 import OrderElement from '../orderElement/OrderElement';
+import { Link, useLocation } from 'react-router-dom';
 import uuid from 'react-uuid';
 
 export default function Orders ( {card} ) {
 
   const [cellOrder, setCellOrder] = useState(0);
   const [countData, setCountData] = useState([]);
+  const location = useLocation();
   const ingredientsData = useSelector((state) => state.getIngredientsApi.ingredientsGetApi);
 
   //Фильтруем массив ингредиентов в заказе по уникальным значениям
-  const foo = (arr) => {
+  const filterIndividualInrgedients = (arr) => {
     let map = new Map();
     for (let elem of arr) {
         let counter = map.get(elem);
@@ -51,25 +53,32 @@ export default function Orders ( {card} ) {
   }, [ingredientsData])
 
   return (
-    <li className={orders.orders}>
-        <div className={orders.numberOrder}>
-          <h2 className={` ${orders.idOrder} text text_type_digits-default `}># {card.number}</h2>
-          <p className={` text text_type_main-default text_color_inactive `}>{card.createdAt}</p>
-        </div>
-        <p className={` ${orders.burgerName} text text_type_main-medium `}>{card.name}</p>
-        <div className={orders.ingredients}>
-          <ul className={orders.fillings}>
-            {
-              foo(countData).map(item => (
-                <OrderElement item={item} countData={countData} key={uuid()} />
-              ))
-            }
-          </ul>
-          <div className={orders.cellPrice}>
-            <p className={`${orders.cell} text text_type_digits-medium mr-2`}>{cellOrder}</p>
-            <CurrencyIcon type="primary" />
+    <Link className={orders.link}
+          to={{
+            pathname: `/feed/${card._id}`,
+            state: { isOpenModalFeed: location }
+          }}
+    >
+      <li className={orders.orders}>
+          <div className={orders.numberOrder}>
+            <h2 className={` ${orders.idOrder} text text_type_digits-default `}># {card.number}</h2>
+            <p className={` text text_type_main-default text_color_inactive `}>{card.createdAt}</p>
           </div>
-        </div>
-      </li>
+          <p className={` ${orders.burgerName} text text_type_main-medium `}>{card.name}</p>
+          <div className={orders.ingredients}>
+            <ul className={orders.fillings}>
+              {
+                filterIndividualInrgedients(countData).map(item => (
+                  <OrderElement item={item} countData={countData} key={uuid()} />
+                ))
+              }
+            </ul>
+            <div className={orders.cellPrice}>
+              <p className={`${orders.cell} text text_type_digits-medium mr-2`}>{cellOrder}</p>
+              <CurrencyIcon type="primary" />
+            </div>
+          </div>
+        </li>
+      </Link>
   )
 }
