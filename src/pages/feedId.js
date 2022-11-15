@@ -3,6 +3,7 @@ import style, { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-com
 import { useParams, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import feedId from './feedId.module.css';
+import uuid from 'react-uuid';
 
 export function FeedId () {
 
@@ -14,12 +15,19 @@ export function FeedId () {
   const ingredientsData = useSelector(state => state.getIngredientsApi.ingredientsGetApi);
   const [cellOrder, setCellOrder] = useState(0);
   const [data, setData] = useState([]);
+  const [filterData, setFilterData] = useState([]);
+
+  console.log('ingredientsData', ingredientsData);
+  console.log('card', card);
+  console.log('id', id);
+  console.log('filterData', filterData);
 
    //Ищем ингредиент из общего массива ингредиентов по определенному id из ссылки
-  const selectedIngredients = useCallback(
+  const selectedCard = useCallback(
     () => {
-      setData(ingredientsData.find(item => item.id === id));
-    }, [ingredientsData]
+      setData(card[0]?.orders.find(item => item._id === id));
+      calcCell();
+    }, [card]
   )
 
   //сбор данных об ингредиенте в заказе
@@ -28,9 +36,13 @@ export function FeedId () {
     let arrImage = [];
     let igredientsData = [];
     let n = 0;
-    while (n <= card.ingredients.length) {
+    setData(card[0]?.orders.find(item => item._id === id));
+    const datax = card[0]?.orders.find(item => item._id === id);
+    console.log('calcCell data', data);
+
+    while (n <= datax?.ingredients?.length) {
       ingredientsData.map(item => {
-        if (item.id === card.ingredients[n]) {
+        if (item.id === datax.ingredients[n]) {
           summa += item.price;
           arrImage.push(item.image_mobile);
           igredientsData.push(item);
@@ -38,24 +50,29 @@ export function FeedId () {
       })
       n++;
       setCellOrder(summa);
-      setData(igredientsData);
+      setFilterData(igredientsData);
     }
   }
 
   useEffect(() => {
-    selectedIngredients();
+    selectedCard();
+    // calcCell();
   }, [])
 
   return (
     <div className={feedId.feedId}>
-      <h2 className={` ${feedId.idOrder} text text_type_digits-default `}># 123456</h2>
-      <p className={` ${feedId.name} text text_type_main-medium `}>Black Hole Singularity острый бургер</p>
-      <p className={` ${feedId.status} text text_type_main-default `}>Выполнено</p>
+      <h2 className={` ${feedId.idOrder} text text_type_digits-default `}># {data?.number}</h2>
+      <p className={` ${feedId.name} text text_type_main-medium `}>{data?.name}</p>
+      <p className={` ${feedId.status} text text_type_main-default `}>{data?.status}</p>
       <p className={` ${feedId.ingredients} text text_type_main-medium `}>Состав:</p>
       <ul className={` ${feedId.ingredient} `}>
         <li className={` ${feedId.items} `}>
-          <img className={feedId.image} src='sdfsdg' alt='sdfsdg'></img>
-          <p className='text text_type_main-default'>Флюоресцентная булка R2-D3</p>
+          {filterData.map(item => (
+            <>
+              <img key={uuid()} className={feedId.image} src={filterData?.image_mobile} alt={filterData?.image_mobile} ></img>
+              {/* <p className='text text_type_main-default' key={uuid()}>{item}</p> */}
+            </>
+          ))}
           <div className={` ${feedId.item} `}>
             <p className='text text_type_digits-default'>2 x</p>
             <p className='text text_type_digits-default mr-2'>20</p>
