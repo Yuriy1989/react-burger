@@ -21,6 +21,8 @@
   top: 32px;
   left: 32px;
   transform: translate(-50%, -50%);
+  color: #F2F2F3;
+  z-index: 10;
 }
 
 .image {
@@ -28,4 +30,19 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  z-index: 1;
+}
+
+.imageFilter {
+  width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: #1C1C21;
+	opacity: 0.6;
+  border-radius:50px;
+  z-index: 5;
 }

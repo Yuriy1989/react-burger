@@ -1,6 +1,6 @@
 
 import { useSelector } from 'react-redux';
-import style, { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import style, { ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import orders from './orders.module.css';
 import { useEffect, useState } from 'react';
 import OrderElement from '../orderElement/OrderElement';
@@ -9,47 +9,42 @@ import uuid from 'react-uuid';
 
 export default function Orders ( {card} ) {
 
-  const [cellOrder, setCellOrder] = useState(0);
+  const [cellOrder, setCellOrder] = useState(0); //цена за бургер
   const [countData, setCountData] = useState([]);
+  const [burger, setBurger] = useState([]); //готовый бургер
   const location = useLocation();
-  const ingredientsData = useSelector((state) => state.getIngredientsApi.ingredientsGetApi);
+  const ingredientsData = useSelector((state) => state.getIngredientsApi.ingredientsGetApi); //все ингредиенты
 
-  //Фильтруем массив ингредиентов в заказе по уникальным значениям
-  const filterIndividualInrgedients = (arr) => {
-    let map = new Map();
-    for (let elem of arr) {
-        let counter = map.get(elem);
-        map.set(elem, counter ? counter + 1 : 1);
-    }
-    let res = [];
-    for (let [elem, counter] of map.entries())
-        if (counter >= 1)
-            res.push(elem);
-    return (res);
-  }
-
-  //сбор данных об ингредиенте в заказе
-  const calcCell = () => {
-    let summa = 0;
+  //сбор данных об ингредиентах бургера в заказе
+  const createBurger = () => {
+    let summa = 0; //цена за бургер
     let arrImage = [];
-    let igredientsData = [];
+    let igredientsDetails = []; //ингредиенты с подробной информацией
     let n = 0;
+    //собираем из бургера всю подбробную информацию по каждому ингредиенту
     while (n <= card.ingredients.length) {
       ingredientsData.map(item => {
         if (item.id === card.ingredients[n]) {
           summa += item.price;
           arrImage.push(item.image_mobile);
-          igredientsData.push(item);
+          igredientsDetails.push(item);
         }
       })
       n++;
-      setCellOrder(summa);
-      setCountData(igredientsData);
+      setCellOrder(summa); //передаем цену за бургер в state
+      setCountData(igredientsDetails);
     }
+
+    const nSet = new Set(igredientsDetails); //создаем конструктор
+    const uniqueMas = Array.from(nSet); //создаем массим уникальный значений из конструктора
+    const bun = uniqueMas.filter(item => item.type == 'bun'); //находим булочку
+    const createBurger = [...uniqueMas, ...bun]; //добавляем булку в конец массива
+
+    setBurger(createBurger); //передаем ингредиенты с подробной информацией в state
   }
 
   useEffect(() => {
-    calcCell();
+    createBurger();
   }, [ingredientsData])
 
   return (
@@ -68,8 +63,8 @@ export default function Orders ( {card} ) {
           <div className={orders.ingredients}>
             <ul className={orders.fillings}>
               {
-                filterIndividualInrgedients(countData).map(item => (
-                  <OrderElement item={item} countData={countData} key={uuid()} />
+                burger.map(item => (
+                  <OrderElement burger={burger} item={item} countData={countData} key={uuid()} />
                 ))
               }
             </ul>
