@@ -1,53 +1,108 @@
 import { useState, useCallback, useEffect } from 'react';
 import style, { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useParams, Redirect } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import feedIdDetails from './feedIdDetails.module.css';
+import { timeCreateBurger } from '../../utils/time';
+import { openBurgerDetails } from '../../services/actions/getIngredientforOpenModal';
+import uuid from 'react-uuid';
 
 export default function FeedIdDetails () {
 
-  let todayDate = new Date();
-  let currentTimeZoneOffsetInHours  = todayDate.getTimezoneOffset() / 60;
+  const dispatch = useDispatch();
+  const { id }  = useParams(); //id бургера
+  const card = useSelector(state => state.orders.orders); //последние 50 заказов
+  const ingredientsData = useSelector(state => state.getIngredientsApi.ingredientsGetApi); //все возможные ингредиенты
+  const [cellOrder, setCellOrder] = useState(0); //цена за бургер
+  const [data, setData] = useState([]); //название, номер и цена бургера
+  const [burger, setBurger] = useState([]); //готовый бургер с фильтром по уникальным ингредиентам
+  const [count, setCount] = useState({}); //объект типа {ID:количество} в массиве countData
+  const [createTimeBurger, setCreateTimeBurger] = useState(); //время создания бургера
 
-  // const { id }  = useParams();
-  // const ingredientsData = useSelector(state => state.getIngredientsApi.ingredientsGetApi);
-  // const [data, setData] = useState({});
+  //сбор данных об ингредиентах бургера в заказе
+  const createBurger = useCallback(
+    () => {
+    const itemBurger = card[0]?.orders.find(item => item._id === id); //ищем из последних 50 заказов наш по id
+    setData(itemBurger);
 
-  //  //Ищем ингредиент из общего массива ингредиентов по определенному id из ссылки
-  // const selectedIngredients = useCallback(
-  //   () => {
-  //     setData(ingredientsData.find(item => item.id === id));
-  //   }, [ingredientsData]
-  // )
+    let summa = 0; //цена за бургер
+    let arrImage = [];
+    let igredientsDetails = []; //ингредиенты с подробной информацией
+    let n = 0;
+    //собираем из бургера всю подбробную информацию по каждому ингредиенту
+    while (n <= itemBurger?.ingredients.length) {
+      ingredientsData.map(item => {
+        if (item.id === itemBurger.ingredients[n]) {
+          summa += item.price;
+          arrImage.push(item.image_mobile);
+          igredientsDetails.push(item);
+        }
+      })
+      n++;
+      setCellOrder(summa); //передаем цену за бургер в state
+    }
 
-  // useEffect(() => {
-  //   selectedIngredients();
-  // }, [])
+    let result = {};
+    for (let i = 0; i < igredientsDetails.length; ++i) {
+      let a = igredientsDetails[i].id;
+      if (result[a] != undefined) {
+        ++result[a];
+      }
+      else
+        result[a] = 1;
+    }
+    setCount(result);
+
+    const nSet = new Set(igredientsDetails); //создаем конструктор
+    const uniqueMas = Array.from(nSet); //создаем массим уникальный значений из конструктора
+    const bun = uniqueMas.filter(item => item.type == 'bun'); //находим булочку
+    const createBurger = [...uniqueMas, ...bun]; //добавляем булку в конец массива
+
+    setBurger(createBurger); //передаем ингредиенты с подробной информацией в state
+
+    //расчет времени создания бургера
+    setCreateTimeBurger(timeCreateBurger(itemBurger?.createdAt));
+  }, [card]
+  )
+
+  useEffect(() => {
+    createBurger();
+    dispatch(openBurgerDetails());
+  }, [])
 
   return (
-    <div className={feedId.feedId}>
-      <h2 className={` ${feedId.idOrder} text text_type_digits-default `}># 123456</h2>
-      <p className={` ${feedId.name} text text_type_main-medium `}>Black Hole Singularity острый бургер</p>
-      <p className={` ${feedId.status} text text_type_main-default `}>Выполнено</p>
-      <p className={` ${feedId.ingredients} text text_type_main-medium `}>Состав:</p>
-      <ul className={` ${feedId.ingredient} `}>
-        <li className={` ${feedId.items} `}>
-          <img className={feedId.image} src='sdfsdg' alt='sdfsdg'></img>
-          <p className='text text_type_main-default'>Флюоресцентная булка R2-D3</p>
-          <div className={` ${feedId.item} `}>
-            <p className='text text_type_digits-default'>2 x</p>
-            <p className='text text_type_digits-default mr-2'>20</p>
-            <CurrencyIcon type="primary" />
+    <>
+      <div className={feedIdDetails.feedId}>
+        <h2 className={` ${feedIdDetails.idOrder} text text_type_digits-default `}># {data?.number}</h2>
+        <p className={` ${feedIdDetails.name} text text_type_main-medium `}>{data?.name}</p>
+        <p className={` ${feedIdDetails.status} text text_type_main-default `}>{(data?.status === 'done') ? 'Выполнен' : 'В работе'}</p>
+        <p className={` ${feedIdDetails.ingredients} text text_type_main-medium `}>Состав:</p>
+        <ul className={` ${feedIdDetails.ingredient} `}>
+          {burger.map(item => (
+            <li key={uuid()} className={` ${feedIdDetails.items} mb-5`}>
+              <div className={feedIdDetails.nameIngredient}>
+                <div className={` ${feedIdDetails.borderImage} `}>
+                  <img className={feedIdDetails.image} src={item?.image_mobile} alt={item?.image_mobile} ></img>
+                </div>
+                <p className='text text_type_main-default mr-4 ml-4'>{item.name}</p>
+              </div>
+              <div className={` ${feedIdDetails.item} `}>
+                <p className={`text text_type_digits-default`}>{(count[item.id] > 1 && item.type != 'bun') ? (count[item.id]) : '1'}</p>
+                <p className='text text_type_digits-default mr-2'>&nbsp;x</p>
+                <p className='text text_type_digits-default mr-2'>{`${item.price}`}</p>
+                <CurrencyIcon type="primary" />
+              </div>
+            </li>
+          ))}
+        </ul>
+        <div className={feedIdDetails.cellPrice}>
+            <p className={`text text_type_main-default text_color_inactive`}>{createTimeBurger}</p>
+            <div className={feedIdDetails.cell}>
+              <p className={`text text_type_digits-default mr-2`}>{cellOrder}</p>
+              <CurrencyIcon type="primary" />
+            </div>
           </div>
-        </li>
-      </ul>
-      <div className={feedId.cellPrice}>
-          <p className={`text text_type_main-default text_color_inactive`}>Сегодня, {todayDate.getHours()}:{todayDate.getMinutes()} i-GMT{currentTimeZoneOffsetInHours}</p>
-          <div className={feedId.cell}>
-            <p className={`text text_type_digits-default mr-2`}>510</p>
-            <CurrencyIcon type="primary" />
-          </div>
-        </div>
-    </div>
+      </div>
+    </>
   )
 }

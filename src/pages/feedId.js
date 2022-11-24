@@ -4,31 +4,17 @@ import { useParams, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import feedId from './feedId.module.css';
 import uuid from 'react-uuid';
+import { timeCreateBurger } from '../utils/time';
 
 export function FeedId () {
-
-  // let todayDate = new Date();
-  // let currentTimeZoneOffsetInHours  = todayDate.getTimezoneOffset() / 60;
-  // let test = todayDate.toISOString();
-  // console.log('toda', test);
-
   const { id }  = useParams(); //id бургера
   const card = useSelector(state => state.orders.orders); //последние 50 заказов
   const ingredientsData = useSelector(state => state.getIngredientsApi.ingredientsGetApi); //все возможные ингредиенты
   const [cellOrder, setCellOrder] = useState(0); //цена за бургер
   const [data, setData] = useState([]); //название, номер и цена бургера
-  const [filterData, setFilterData] = useState([]); //бургер со всеми ингредиентами и подробной информацией
   const [burger, setBurger] = useState([]); //готовый бургер с фильтром по уникальным ингредиентам
   const [count, setCount] = useState({}); //объект типа {ID:количество} в массиве countData
-
-  // console.log('ingredientsData', ingredientsData);
-  // console.log('card', card);
-  // console.log('id', id);
-  // console.log('filterData', filterData);
-  // console.log('burger', burger);
-
-
-  //Ищем ингредиент из общего массива ингредиентов по определенному id из ссылки
+  const [createTimeBurger, setCreateTimeBurger] = useState(); //время создания бургера
 
   //сбор данных об ингредиентах бургера в заказе
   const createBurger = () => {
@@ -50,7 +36,6 @@ export function FeedId () {
       })
       n++;
       setCellOrder(summa); //передаем цену за бургер в state
-      setFilterData(igredientsDetails);
     }
 
     let result = {};
@@ -71,50 +56,8 @@ export function FeedId () {
 
     setBurger(createBurger); //передаем ингредиенты с подробной информацией в state
 
-
-    //расчет времени
-    const minute = 1000 * 60;
-    const hour = minute * 60;
-    const day = hour * 24;
-    const year = day * 365;
-    let timeCreate = null;
-
-    let todayDate = new Date();
-
-    let currentTimeZoneOffsetInHours  = todayDate.getTimezoneOffset() / 60;
-    let test = todayDate.toISOString();
-    // console.log('today', Date.parse(test));
-    const t = Date.parse(itemBurger?.createdAt);
-    const d = Date.parse(test);
-    let days = Math.round((d-t) / day);
-    console.log('days',  days);
-    console.log('t', d-t);
-    console.log('d', d);
-
-    days = 1 ? 'Сегодня' : 'Вчера';
-
-    const event = new Date(todayDate);
-    const createBurg = new Date(itemBurger?.createdAt);
-
-    const r = createBurg;
-    console.log('r', r);
-    var pos = r.indexOf("locate");
-
-
-    console.log('time = ', pos);
-
-    console.log('event', event);
-    (itemBurger?.createdAt) ? console.log('createBurg', createBurg) : '';
-    console.log(createBurg.getHours());
-    console.log(createBurg.getMinutes());
-    console.log(createBurg.getTimezoneOffset() / 60);
-
-    timeCreate = days = 1 ? 'Сегодня' : 'Вчера';
-
-
-    console.log('timeCreate', timeCreate + ', ' + createBurg.getHours() + ':' + createBurg.getMinutes());
-    // console.log('itemBurger', itemBurger?.createdAt);
-
+    //расчет времени создания бургера
+    setCreateTimeBurger(timeCreateBurger(itemBurger?.createdAt));
   }
 
   useEffect(() => {
@@ -146,7 +89,7 @@ export function FeedId () {
         ))}
       </ul>
       <div className={feedId.cellPrice}>
-          {/* <p className={`text text_type_main-default text_color_inactive`}>Сегодня, {todayDate.getHours()}:{todayDate.getMinutes()} i-GMT{currentTimeZoneOffsetInHours}</p> */}
+          <p className={`text text_type_main-default text_color_inactive`}>{createTimeBurger}</p>
           <div className={feedId.cell}>
             <p className={`text text_type_digits-default mr-2`}>{cellOrder}</p>
             <CurrencyIcon type="primary" />

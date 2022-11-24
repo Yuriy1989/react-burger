@@ -1,14 +1,12 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import ingredientDetails from './ingredientDetails.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams, Redirect } from 'react-router-dom';
-import { getCookie } from '../../utils/cookie';
+import { useParams } from 'react-router-dom';
 import { openInfoSelectedInrgedient } from '../../services/actions/getIngredientforOpenModal';
 
 export default function IngredientDetails() {
 
   const { id }  = useParams();
-  const accessToken = getCookie('accessToken');
   const ingredientData = useSelector(state => state.getIngredientsApi.ingredientsGetApi);
   const [ingredient, setIngredient] = useState({});
   const dispatch = useDispatch();

@@ -46,7 +46,6 @@ export default function App() {
 
   const feedFailed = useSelector((state) => state.getIngredientsApi.feedFailed);
   const feedRequest = useSelector((state) => state.getIngredientsApi.feedRequest);
-  const feedRequest_feed = useSelector(state => state.orders.feedRequest); //лоадер загрузки страниц
 
   return (
     <>
@@ -58,7 +57,7 @@ export default function App() {
           <div className={app.header}>
             <AppHeader />
           </div>
-          <Switch location={isOpenModalDetails || isOpenModalError || isOpenModalIngredient || location}>
+          <Switch location={isOpenModalDetails || isOpenModalError || isOpenModalIngredient || isOpenModalFeed || location}>
             <OnlyUnAuthRoute path="/login" exact={true}>
               <Login />
             </OnlyUnAuthRoute>
@@ -107,7 +106,7 @@ export default function App() {
             </Modal>
           </Route>)
           }
-          {isOpenModalFeed && (<Route path={`/profile/orders/:id`} exact={true}>
+          {isOpenModalFeed && (<Route path={`/feed/:id`} exact={true}>
             <Modal title="" >
               <FeedIdDetails />
             </Modal>

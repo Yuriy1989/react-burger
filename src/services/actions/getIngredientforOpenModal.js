@@ -1,6 +1,7 @@
 export const OPEN_SELECTED_INRGEDIENT = 'OPEN_SELECTED_INRGEDIENTS';
 export const CLOSE_MODALS = 'CLOSE_SELECTED_INRGEDIENT';
 export const OPEN_ORDER_DETAILS = 'OPEN_ORDER_DETAILS';
+export const OPEN_BURGER_DETAILS = 'OPEN_BURGER_DETAILS';
 export const OPEN_ORDER_ERROR = 'OPEN_ORDER_ERROR';
 
 
@@ -17,6 +18,14 @@ export const openOrderDetails = () => {
   return (dispatch) => {
     dispatch({
       type: OPEN_ORDER_DETAILS,
+    })
+  }
+}
+
+export const openBurgerDetails = () => {
+  return (dispatch) => {
+    dispatch({
+      type: OPEN_BURGER_DETAILS,
     })
   }
 }

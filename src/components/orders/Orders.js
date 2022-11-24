@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import OrderElement from '../orderElement/OrderElement';
 import { Link, useLocation } from 'react-router-dom';
 import uuid from 'react-uuid';
+import { timeCreateBurger } from '../../utils/time';
 
 export default function Orders ( {card} ) {
 
@@ -14,6 +15,7 @@ export default function Orders ( {card} ) {
   const [burger, setBurger] = useState([]); //готовый бургер
   const location = useLocation();
   const ingredientsData = useSelector((state) => state.getIngredientsApi.ingredientsGetApi); //все ингредиенты
+  const [createTimeBurger, setCreateTimeBurger] = useState(); //время создания бургера
 
   //сбор данных об ингредиентах бургера в заказе
   const createBurger = () => {
@@ -41,6 +43,7 @@ export default function Orders ( {card} ) {
     const createBurger = [...uniqueMas, ...bun]; //добавляем булку в конец массива
 
     setBurger(createBurger); //передаем ингредиенты с подробной информацией в state
+    setCreateTimeBurger(timeCreateBurger(card.createdAt));//расчет времени создания бургера
   }
 
   useEffect(() => {
@@ -57,7 +60,7 @@ export default function Orders ( {card} ) {
       <li className={orders.orders}>
           <div className={orders.numberOrder}>
             <h2 className={` ${orders.idOrder} text text_type_digits-default `}># {card.number}</h2>
-            <p className={` text text_type_main-default text_color_inactive `}>{card.createdAt}</p>
+            <p className={` text text_type_main-default text_color_inactive `}>{createTimeBurger}</p>
           </div>
           <p className={` ${orders.burgerName} text text_type_main-medium `}>{card.name}</p>
           <div className={orders.ingredients}>
