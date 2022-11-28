@@ -1,13 +1,16 @@
 import { useState, useCallback, useEffect } from 'react';
 import style, { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useParams, Redirect } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import feedId from './feedId.module.css';
 import uuid from 'react-uuid';
 import { timeCreateBurger } from '../utils/time';
+import { WS_CONNECTION_START, WS_CONNECTION_CLOSE } from '../services/actions/actionUserOrders';
 
 export function FeedId () {
   const { id }  = useParams(); //id бургера
+  const dispatch = useDispatch();
+  const wsUrl = 'wss://norma.nomoreparties.space/orders/all';
   const card = useSelector(state => state.orders.orders); //последние 50 заказов
   const ingredientsData = useSelector(state => state.getIngredientsApi.ingredientsGetApi); //все возможные ингредиенты
   const [cellOrder, setCellOrder] = useState(0); //цена за бургер
@@ -60,8 +63,21 @@ export function FeedId () {
     setCreateTimeBurger(timeCreateBurger(itemBurger?.createdAt));
   }
 
-  useEffect(() => {
+  console.log('card', card[0]?.orders.length > 1);
+  if(card[0]?.orders.length > 1) {
     createBurger();
+  }
+
+  useEffect(() => {
+    dispatch({
+      type: WS_CONNECTION_START,
+      payload: {
+        wsUrl
+      }
+    });
+    return () => {
+      dispatch({ type: WS_CONNECTION_CLOSE });
+    }
   }, [])
 
   return (

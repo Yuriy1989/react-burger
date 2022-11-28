@@ -82,9 +82,9 @@ export default function App() {
             <ProtectedRoute path="/profile/orders" exact={true}>
               <Orders />
             </ProtectedRoute>
-            <ProtectedRoute path={'/profile/orders/:id'} exact={true}>
+            {/* <ProtectedRoute path={'/profile/orders/:id'} exact={true}>
               <FeedId />
-            </ProtectedRoute>
+            </ProtectedRoute> */}
             <ProtectedRoute path="/profile" exact={true}>
               <Profile />
             </ProtectedRoute>
