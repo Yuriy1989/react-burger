@@ -1,5 +1,3 @@
-import { getCookie } from '../../utils/cookie';
-
 export const socketMiddleware = (wsActions) => {
   return store => {
     let socket = null;
@@ -13,6 +11,7 @@ export const socketMiddleware = (wsActions) => {
         onClose,
         onError,
         onOrders,
+        wsSendData
       } = wsActions;
 
       if(type === wsInit && payload.wsUrlUsers) {
@@ -36,6 +35,8 @@ export const socketMiddleware = (wsActions) => {
           const { success, ...restParsedData } = parsedData;
           dispatch({ type: onOrders, payload: restParsedData })
         };
+
+        console.log('type', type);
 
         socket.onclose = event => {
           dispatch({ type: onClose, payload: event })

@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import style, { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import uuid from 'react-uuid';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -15,6 +15,9 @@ function BurgerConstructor() {
   const history = useHistory();
   const dispatch = useDispatch();
   const onDropHandler = (itemId) => dispatch(selectedIngredientsForBurgerAction(itemId));
+  const isAuth = useSelector(state => state.authorization.isAuth);
+  console.log('isAuth', isAuth);
+  const [ button, setButton ] = useState();
 
   const [ {isHover}, dropTarget] = useDrop({
     accept: 'ingredients',
@@ -113,7 +116,7 @@ function BurgerConstructor() {
           <div className={burgerConstructor.cellPrice}>
             <CurrencyIcon type="primary" className="p-4" />
           </div>
-          <Button onClick={handleClick} type="primary" size="large">
+          <Button disabled={!isAuth} onClick={handleClick} type="primary" size="large">
             Оформить заказ
           </Button>
         </div>
