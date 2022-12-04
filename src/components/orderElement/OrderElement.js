@@ -5,7 +5,7 @@ import style from '@ya.praktikum/react-developer-burger-ui-components';
 import orderElement from './orderElement.module.css';
 import uuid from 'react-uuid';
 
-export default function OrderElement({ item, burger, countData }) {
+export default function OrderElement({ item, burger, countData , indexStyle}) {
 
   const [count, setCount] = useState({}); //объект типа {ID:количество} в массиве countData
 
@@ -27,10 +27,15 @@ export default function OrderElement({ item, burger, countData }) {
     caclCount();
   }, [countData])
 
+  const styleIndex = {
+    margin: "0 0 0 -20px",
+    zIndex: indexStyle
+  }
+
   return (
-    <li>
-      <div className={orderElement.filling}>
-        {/* выводи кол-во ингредиентов если их более 1 в бургере */}
+    <li style={styleIndex}>
+      <div  className={orderElement.filling}>
+        {/* выводим кол-во ингредиентов если их более 1 в бургере */}
         {
           burger.filter(card => card.type != 'bun').map(check => (check.id === item.id &&
             <p key={uuid()} className={`${orderElement.count} text text_type_digits-default`}>{count[item.id] > 1 ? '+' + (count[item.id]) : ''}</p>

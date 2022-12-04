@@ -20,12 +20,17 @@
   margin-bottom: 24px;
 }
 
+.numberOrder {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .item {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  display: flex;
+  flex-direction: column;
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 5px;
 }
 
 .idOrder {

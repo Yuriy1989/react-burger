@@ -2,26 +2,17 @@ import React, { useEffect } from 'react';
 import style, { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import orderDetails from './orderDetails.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { WS_SEND_DATA } from '../../services/actions/actionUserOrders';
-// import { getOrderDetails } from '../../services/actions/getOrderDetails';
+import { getOrderDetails } from '../../services/actions/getOrderDetails';
 
 
 export default function OrderDetails() {
 
   const selectedId = useSelector(state => state.getOrderDetails.selectedIdIgredients);
   const dispatch = useDispatch();
-  const wsUrl = 'wss://norma.nomoreparties.space/orders';
-  console.log('selectedId', selectedId);
 
   useEffect(() => {
-    // dispatch(getOrderDetails(selectedId));
-    dispatch({
-      type: WS_SEND_DATA,
-      payload: {
-        wsUrl
-      }
-    });
-  }, [dispatch])
+    dispatch(getOrderDetails(selectedId));
+  }, [])
 
   const feedFailed = useSelector((state) => state.getOrderDetails.feedFailed);
   const feedRequest = useSelector((state) => state.getOrderDetails.feedRequest);

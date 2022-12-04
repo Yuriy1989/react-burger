@@ -28,9 +28,9 @@ export function Orders () {
         accessToken
       }
     });
-    return () => {
-      dispatch({ type: WS_CONNECTION_CLOSE });
-    }
+    // return () => {
+    //   dispatch({ type: WS_CONNECTION_CLOSE });
+    // }
   }, [])
 
   return (

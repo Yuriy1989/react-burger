@@ -16,6 +16,7 @@ class Api {
       .then(res => this._getResponse(res))
   }
 
+  //отправка заказа на сервер
   setOrderDetails(data) {
     return fetch(`${this._url}/orders`, {
       method: 'POST',

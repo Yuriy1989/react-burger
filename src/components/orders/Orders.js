@@ -66,8 +66,8 @@ export default function Orders ( {card} ) {
           <div className={orders.ingredients}>
             <ul className={orders.fillings}>
               {
-                burger.map(item => (
-                  <OrderElement burger={burger} item={item} countData={countData} key={uuid()} />
+                burger.map((item, index) => (
+                  <OrderElement indexStyle={burger.length - index} burger={burger} item={item} countData={countData} key={uuid()} />
                 ))
               }
             </ul>

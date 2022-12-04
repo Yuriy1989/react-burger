@@ -41,6 +41,11 @@ export const socketMiddleware = (wsActions) => {
         socket.onclose = event => {
           dispatch({ type: onClose, payload: event })
         };
+
+        if(type === wsSendData) {
+          const data = { ...payload, token: payload.accessToken};
+          socket.send(JSON.stringify(data));
+        }
       }
 
       next(action);
