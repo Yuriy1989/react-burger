@@ -28,6 +28,15 @@ class Api {
       .then(res => this._getResponse(res))
   }
 
+  //получение информации о заказе с сервера
+    getOrderUserDetails(id) {
+      return fetch(`${this._url}/orders/${id}`, {
+        method: 'GET',
+        headers: this._headers,
+      })
+        .then(res => this._getResponse(res))
+    }
+
   //проверка, зарегистрирован ли пользователь в системе
   getEmails(data) {
     return fetch(`${this._url}/password-reset`, {

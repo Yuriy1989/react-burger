@@ -10,6 +10,8 @@ import { timeCreateBurger } from '../../utils/time';
 
 export default function Orders ( {card} ) {
 
+  console.log('Orders card = ', card);
+
   const [cellOrder, setCellOrder] = useState(0); //цена за бургер
   const [countData, setCountData] = useState([]);
   const [burger, setBurger] = useState([]); //готовый бургер
@@ -53,7 +55,7 @@ export default function Orders ( {card} ) {
   return (
     <Link className={orders.link}
           to={{
-            pathname: `/feed/${card._id}`,
+            pathname: `/feed/${card.number}`,
             state: { isOpenModalFeed: location }
           }}
     >
