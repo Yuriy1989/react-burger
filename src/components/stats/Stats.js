@@ -11,7 +11,7 @@ export default function Stats() {
   let n = 0; //счетчик всех заказов
   let y = 0; //счетчих текущего заказа
   let mass = []; //общий массив заказов разбитый на массив по 10 элементом
-  while(n < data[0]?.orders.length) {
+  while(n < data[0]?.orders?.length) {
     let x = 0; //внутренний счетчик
     let inMass = []; //массив заказов из 10 элементов
     while(x < 10) {

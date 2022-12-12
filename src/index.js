@@ -16,7 +16,7 @@ import {
   WS_CONNECTION_ERROR,
   WS_CONNECTION_CLOSE,
   WS_GET_ORDERS,
-  WS_SEND_DATA
+  // WS_SEND_DATA
 } from './services/actions/actionUserOrders';
 
 const wsActions = {
@@ -25,7 +25,7 @@ const wsActions = {
   onClose: WS_CONNECTION_CLOSE,
   onError: WS_CONNECTION_ERROR,
   onOrders: WS_GET_ORDERS,
-  wsSendData: WS_SEND_DATA
+  // wsSendData: WS_SEND_DATA
 };
 
 const composeEnhancers =

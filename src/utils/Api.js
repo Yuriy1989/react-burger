@@ -8,6 +8,7 @@ class Api {
     return res.ok ? res.json() : Promise.reject(res.status);
   }
 
+  //получение всех ингредиентов
   getIngridients() {
     return fetch(`${this._url}/ingredients`, {
       method: 'GET',
@@ -17,12 +18,13 @@ class Api {
   }
 
   //отправка заказа на сервер
-  setOrderDetails(data) {
+  setOrderDetails(data, accessToken) {
     return fetch(`${this._url}/orders`, {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
-        "ingredients": data
+        "ingredients": data,
+        "token": accessToken
       })
     })
       .then(res => this._getResponse(res))
@@ -110,7 +112,6 @@ class Api {
         "token": refreshToken
       })
     })
-      // .then(res => res.ok ? res.json() : res.json())
       .then(res => this._getResponse(res))
   }
 

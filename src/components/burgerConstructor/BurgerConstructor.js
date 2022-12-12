@@ -16,8 +16,6 @@ function BurgerConstructor() {
   const dispatch = useDispatch();
   const onDropHandler = (itemId) => dispatch(selectedIngredientsForBurgerAction(itemId));
   const isAuth = useSelector(state => state.authorization.isAuth);
-  console.log('isAuth', isAuth);
-  const [ button, setButton ] = useState();
 
   const [ {isHover}, dropTarget] = useDrop({
     accept: 'ingredients',

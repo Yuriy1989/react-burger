@@ -11,11 +11,13 @@ export const socketMiddleware = (wsActions) => {
         onClose,
         onError,
         onOrders,
-        wsSendData
+        // wsSendData
       } = wsActions;
 
       if(type === wsInit && payload.wsUrlUsers) {
         socket = new WebSocket(`${payload.wsUrlUsers}?token=${payload.accessToken}`);
+        console.log('accessToken', payload.accessToken);
+        // socket = new WebSocket(`${payload.wsUrlUsers}?token=43534f34f`);
       }
       if(type === wsInit && payload.wsUrl) {
         socket = new WebSocket(`${payload.wsUrl}`);
@@ -36,16 +38,14 @@ export const socketMiddleware = (wsActions) => {
           dispatch({ type: onOrders, payload: restParsedData })
         };
 
-        console.log('type', type);
-
         socket.onclose = event => {
           dispatch({ type: onClose, payload: event })
         };
 
-        if(type === wsSendData) {
-          const data = { ...payload, token: payload.accessToken};
-          socket.send(JSON.stringify(data));
-        }
+        // if(type === wsSendData) {
+        //   const data = { ...payload, token: payload.accessToken};
+        //   socket.send(JSON.stringify(data));
+        // }
       }
 
       next(action);

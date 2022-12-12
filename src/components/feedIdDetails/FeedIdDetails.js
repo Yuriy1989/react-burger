@@ -22,7 +22,7 @@ export default function FeedIdDetails () {
   //сбор данных об ингредиентах бургера в заказе
   const createBurger = useCallback(
     () => {
-    const itemBurger = card[0]?.orders.find(item => item._id === id); //ищем из последних 50 заказов наш по id
+    const itemBurger = card[0]?.orders.find(item => item.number === Number(id)); //ищем из последних 50 заказов наш по id
     setData(itemBurger);
 
     let summa = 0; //цена за бургер

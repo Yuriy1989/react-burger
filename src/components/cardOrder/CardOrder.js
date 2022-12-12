@@ -5,11 +5,12 @@ export default function CardOrder ({ item }) {
 
   let todayDate = new Date();
   let currentTimeZoneOffsetInHours  = todayDate.getTimezoneOffset() / 60;
+  console.log('item', item);
 
   return (
     <>
-      {(item.orders.length == 0) && <h2 className={`text text_type_main-large`}>У вас нет заказов</h2> }
-      {(item.orders.length > 0) &&
+      {(item.orders?.length == 0) && <h2 className={`text text_type_main-large`}>У вас нет заказов</h2> }
+      {(item.orders?.length > 0) &&
         <li className={cardOrder.cardOrder}>
           <div className={cardOrder.numberOrder}>
             <h2 className={`${cardOrder.idOrder} text text_type_digits-default`}># 123456</h2>

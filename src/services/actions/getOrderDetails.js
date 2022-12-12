@@ -9,12 +9,14 @@ export const GET_USER_ORDER_DETAILS_SUCCESS_FAILED = 'GET_USER_ORDER_DETAILS_SUC
 
 import { api } from '../../utils/Api';
 
-export const getOrderDetails = (data) => {
+export const getOrderDetails = (data, accessToken) => {
+  console.log(data);
+  console.log(accessToken);
   return(dispatch) => {
     dispatch({
       type: GET_ORDER_DETAILS,
     })
-    api.setOrderDetails(data)
+    api.setOrderDetails(data, accessToken)
       .then(res => {
         if(res && res.success) {
           dispatch({
