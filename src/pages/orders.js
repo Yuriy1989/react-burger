@@ -18,6 +18,11 @@ export function Orders () {
   const accessToken = getCookie('accessToken');
   const data = useSelector(state => state.orders.orders);
 
+  const copyData = data[0] ? Array.from(data[0]?.orders) : [];
+  let reverseData = copyData.reverse();
+  console.log('reverseData', reverseData);
+  console.log('data orders', data);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -45,14 +50,15 @@ export function Orders () {
               <p >В этом разделе вы можете просмотреть свою историю заказов</p>
             </div>
           </div>
-          <ul className={orders.cardOrder}>
-            {
-              data.map(item => (
-                <CardOrder key={uuid()} item={item} />
-              ))
-            }
-
-          </ul>
+          <div className={orders.ordersList}>
+            <ul className={orders.cardOrder}>
+              {
+                reverseData.map(item => (
+                  <CardOrder key={uuid()} card={item} />
+                ))
+              }
+            </ul>
+          </div>
         </div>
       }
     </>

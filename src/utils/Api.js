@@ -21,10 +21,12 @@ class Api {
   setOrderDetails(data, accessToken) {
     return fetch(`${this._url}/orders`, {
       method: 'POST',
-      headers: this._headers,
+      headers: {
+        'Content-Type': 'application/json',
+        "authorization": 'Bearer ' + accessToken
+      },
       body: JSON.stringify({
         "ingredients": data,
-        "token": accessToken
       })
     })
       .then(res => this._getResponse(res))

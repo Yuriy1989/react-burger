@@ -1,6 +1,6 @@
 
 import { useSelector } from 'react-redux';
-import style, { ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import style, { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import orders from './orders.module.css';
 import { useEffect, useState } from 'react';
 import OrderElement from '../orderElement/OrderElement';

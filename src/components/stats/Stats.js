@@ -31,7 +31,7 @@ export default function Stats() {
           <div className={` ${stats.numberOrder} `}>
             {mass.map(item => (
               <ul key={uuid()} className={stats.item}>
-                {item.filter(card => card.status === 'done').map(itemI => (
+                {item.filter(card => card?.status === 'done').map(itemI => (
                   <li key={uuid()} className={` ${stats.idOrder} ${stats.idOrder_Green} text text_type_digits-default `}>
                     {itemI.number}
                   </li>
@@ -43,7 +43,7 @@ export default function Stats() {
         <div className={stats.statusOrders}>
           <h2 className={` ${stats.statusTitle} text text_type_main-medium `}>В работе: </h2>
           <ul className={stats.item}>
-            {data[0]?.orders?.filter(card => card.status != 'done').map(item => (
+            {data[0]?.orders?.filter(card => card?.status != 'done').map(item => (
               <li key={item._id} className={` ${stats.idOrder} ${stats.idOrder_White} text text_type_digits-default `}>
                 {item.number}
               </li>
