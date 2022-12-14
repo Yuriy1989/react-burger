@@ -56,8 +56,8 @@ export default function CardOrder({ card }) {
       {card &&
         <Link className={cardOrder.link}
           to={{
-            pathname: `/orders/${card.number}`,
-            state: { isOpenModalFeed: location }
+            pathname: `/profile/orders/${card.number}`,
+            state: { isOpenModalOrder: location }
           }}
         >
           <li className={` ${cardOrder.cardOrder} mb-6`}>

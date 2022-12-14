@@ -4,7 +4,7 @@ import app from './app.module.css';
 import style from '@ya.praktikum/react-developer-burger-ui-components';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { ProtectedRoute } from '../protectedRoute/ProtectedRoute';
 import { OnlyUnAuthRoute } from '../onlyUnAuthRoute/OnlyUnAuthRoute';
@@ -38,6 +38,7 @@ export default function App() {
   const isOpenModalError = location.state?.isOpenModalError;
   const isOpenModalDetails = location.state?.isOpenModalDetails;
   const isOpenModalFeed = location.state?.isOpenModalFeed;
+  const isOpenModalOrder = location.state?.isOpenModalOrder;
 
   //делаем запрос к серверу для получения всех ингредиентов
   useEffect(() => {
@@ -57,7 +58,7 @@ export default function App() {
           <div className={app.header}>
             <AppHeader />
           </div>
-          <Switch location={isOpenModalDetails || isOpenModalError || isOpenModalIngredient || isOpenModalFeed || location}>
+          <Switch location={isOpenModalDetails || isOpenModalError || isOpenModalIngredient || isOpenModalFeed || isOpenModalOrder|| location}>
             <OnlyUnAuthRoute path="/login" exact={true}>
               <Login />
             </OnlyUnAuthRoute>
@@ -82,9 +83,9 @@ export default function App() {
             <ProtectedRoute path="/profile/orders" exact={true}>
               <Orders />
             </ProtectedRoute>
-            {/* <ProtectedRoute path={'/profile/orders/:id'} exact={true}>
+            <ProtectedRoute path={'/profile/orders/:id'} exact={true}>
               <FeedId />
-            </ProtectedRoute> */}
+            </ProtectedRoute>
             <ProtectedRoute path="/profile" exact={true}>
               <Profile />
             </ProtectedRoute>
@@ -107,6 +108,12 @@ export default function App() {
           </Route>)
           }
           {isOpenModalFeed && (<Route path={`/feed/:id`} exact={true}>
+            <Modal title="" >
+              <FeedIdDetails />
+            </Modal>
+          </Route>)
+          }
+          {isOpenModalOrder && (<Route path={`/profile/orders/:id`} exact={true}>
             <Modal title="" >
               <FeedIdDetails />
             </Modal>

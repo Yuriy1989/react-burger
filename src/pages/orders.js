@@ -17,12 +17,7 @@ export function Orders () {
   const wsUrlUsers = 'wss://norma.nomoreparties.space/orders';
   const accessToken = getCookie('accessToken');
   const data = useSelector(state => state.orders.orders);
-
-  const copyData = data[0] ? Array.from(data[0]?.orders) : [];
-  let reverseData = copyData.reverse();
-  console.log('reverseData', reverseData);
-  console.log('data orders', data);
-
+  let reverseData = data[0] ? Array.from(data[0]?.orders).reverse() : []; //реверс заказов пользователя
   const dispatch = useDispatch();
 
   useEffect(() => {

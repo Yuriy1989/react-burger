@@ -9,9 +9,9 @@ export function ProtectedRoute ({ children, ...rest }) {
 
   const accessToken = getCookie('accessToken');
   const refreshToken = getCookie('refreshToken');
-
   const feedRequest = useSelector((state) => state.authorization.feedRequest);
   const isAuth = useSelector((state) => state.authorization.isAuth);
+  console.log('isAuth', isAuth);
 
   const dispatch = useDispatch();
 
