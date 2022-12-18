@@ -23,6 +23,7 @@ export function FeedId() {
   const createBurger = () => {
     if (cardData.success) {
       const itemBurger = card?.orders[0];
+      
       setData(itemBurger);
 
       let summa = 0; //цена за бургер
@@ -67,12 +68,13 @@ export function FeedId() {
 
   useEffect(() => {
     dispatch(getOrderUserDetails(id));
+    console.log('id', id);
   }, [])
 
   useEffect(() => {
     setCardData(card);
     createBurger();
-  }, [card])
+  }, [dispatch])
 
   return (
     <div className={feedId.feedId}>

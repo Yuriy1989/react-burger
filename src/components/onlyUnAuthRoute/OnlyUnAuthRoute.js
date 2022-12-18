@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCookie } from '../../utils/cookie';
 import { actionRequestGetUser } from '../../services/actions/actionsAuthorization';
@@ -12,12 +12,16 @@ export function OnlyUnAuthRoute ({ children, ...rest }) {
 
   const feedRequest = useSelector((state) => state.authorization.feedRequest);
   const isAuth = useSelector((state) => state.authorization.isAuth);
+  const location = useLocation();
 
-  const dispatch = useDispatch();
+  console.log('isAuth OnlyUnAuthRoute', isAuth);
+  console.log('location OnlyUnAuthRoute', location);
 
-  useEffect(() => {
-    dispatch(actionRequestGetUser(accessToken, refreshToken))
-  }, [dispatch])
+  // const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   dispatch(actionRequestGetUser(accessToken, refreshToken))
+  // }, [dispatch])
 
   return (
     <>

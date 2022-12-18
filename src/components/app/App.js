@@ -5,7 +5,7 @@ import style from '@ya.praktikum/react-developer-burger-ui-components';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Switch, Route } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { Redirect, useHistory, useLocation } from 'react-router-dom';
 import { ProtectedRoute } from '../protectedRoute/ProtectedRoute';
 import { OnlyUnAuthRoute } from '../onlyUnAuthRoute/OnlyUnAuthRoute';
 import { getIngredients } from '../../services/actions/ingredients';
@@ -18,6 +18,8 @@ import OrderMessage from '../orderMessage/OrderMessage';
 import IngredientDetails from '../ingredientDetails/IngredientDetails';
 import FeedIdDetails from '../feedIdDetails/FeedIdDetails';
 import Loader from '../loader/Loader';
+import { getCookie } from '../../utils/cookie';
+import { actionRequestGetUser } from '../../services/actions/actionsAuthorization';
 import {
   Login,
   Register,
@@ -34,16 +36,31 @@ import {
 export default function App() {
   const dispatch = useDispatch();
   const location = useLocation();
+  const history = useHistory();
   const isOpenModalIngredient = location.state?.isOpenModalIngredient;
   const isOpenModalError = location.state?.isOpenModalError;
   const isOpenModalDetails = location.state?.isOpenModalDetails;
   const isOpenModalFeed = location.state?.isOpenModalFeed;
   const isOpenModalOrder = location.state?.isOpenModalOrder;
+  const accessToken = getCookie('accessToken');
+  const refreshToken = getCookie('refreshToken');
+  const isAuth = useSelector((state) => state.authorization.isAuth);
+  console.log('App isAuth', isAuth);
+  console.log('APP location', location);
 
   //делаем запрос к серверу для получения всех ингредиентов
   useEffect(() => {
     dispatch(getIngredients());
+    dispatch(actionRequestGetUser(accessToken, refreshToken))
   }, [])
+
+  // Если авторизация прошла успешно редирект на ранее открытую страницу
+  useEffect(() => {
+    if (isAuth && location.state?.from) {
+      console.log('редирект');
+      history.replace(location?.state?.from);
+    }
+  }, [isAuth])
 
   const feedFailed = useSelector((state) => state.getIngredientsApi.feedFailed);
   const feedRequest = useSelector((state) => state.getIngredientsApi.feedRequest);
@@ -80,13 +97,13 @@ export default function App() {
             <Route path={`/feed/:id`} exact={true}>
               <FeedId />
             </Route>
-            <ProtectedRoute path="/profile/orders" exact={true}>
+            <ProtectedRoute path="/profile/orders" exact={true} isAuth={isAuth}>
               <Orders />
             </ProtectedRoute>
-            <ProtectedRoute path={'/profile/orders/:id'} exact={true}>
+            <ProtectedRoute path={'/profile/orders/:id'} isAuth={isAuth}>
               <FeedId />
             </ProtectedRoute>
-            <ProtectedRoute path="/profile" exact={true}>
+            <ProtectedRoute path="/profile" isAuth={isAuth} exact={true}>
               <Profile />
             </ProtectedRoute>
             <Route path="/" exact={true}>

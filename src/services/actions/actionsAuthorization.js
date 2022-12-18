@@ -19,7 +19,6 @@ import { setCookie, deleteCookie, timeCookie } from '../../utils/cookie';
 import { api } from '../../utils/Api';
 
 export const actionRequestAuth = (data) => {
-
   return (dispatch) => {
     dispatch({
       type: GET_REQUEST
@@ -53,6 +52,7 @@ export const actionRequestAuth = (data) => {
 }
 
 export const actionRequestGetUser = (accessToken, refreshToken) => {
+  console.log('actionRequestGetUser');
   return (dispatch) => {
     dispatch({
       type: GET_REQUEST
@@ -85,7 +85,6 @@ export const actionRequestGetUser = (accessToken, refreshToken) => {
 
 export const actionRefreshAccessToken = (refreshToken) => {
   let newAccessToken = null;
-
   return (dispatch) => {
     dispatch({
       type: REFRESH_ACCESS_TOKEN_REQUEST
