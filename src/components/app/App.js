@@ -45,8 +45,6 @@ export default function App() {
   const accessToken = getCookie('accessToken');
   const refreshToken = getCookie('refreshToken');
   const isAuth = useSelector((state) => state.authorization.isAuth);
-  console.log('App isAuth', isAuth);
-  console.log('APP location', location);
 
   //делаем запрос к серверу для получения всех ингредиентов
   useEffect(() => {
@@ -57,7 +55,6 @@ export default function App() {
   // Если авторизация прошла успешно редирект на ранее открытую страницу
   useEffect(() => {
     if (isAuth && location.state?.from) {
-      console.log('редирект');
       history.replace(location?.state?.from);
     }
   }, [isAuth])

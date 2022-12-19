@@ -17,15 +17,13 @@ export function FeedId() {
   const [burger, setBurger] = useState([]); //готовый бургер с фильтром по уникальным ингредиентам
   const [count, setCount] = useState({}); //объект типа {ID:количество} в массиве countData
   const [createTimeBurger, setCreateTimeBurger] = useState(); //время создания бургера
-  const [cardData, setCardData] = useState({}); //информация о заказе
+  const [cardData, setCardData] = useState({}); //информация о заказеfd
 
   //сбор данных об ингредиентах бургера в заказе
   const createBurger = () => {
     if (cardData.success) {
       const itemBurger = card?.orders[0];
-      
       setData(itemBurger);
-
       let summa = 0; //цена за бургер
       let arrImage = [];
       let igredientsDetails = []; //ингредиенты с подробной информацией
@@ -54,7 +52,7 @@ export function FeedId() {
       }
       setCount(result);
 
-      const nSet = new Set(igredientsDetails); //создаем конструктор
+      const nSet = new Set(igredientsDetails); //создаем конструкторds
       const uniqueMas = Array.from(nSet); //создаем массим уникальный значений из конструктора
       const bun = uniqueMas.filter(item => item.type == 'bun'); //находим булочку
       const createBurger = [...uniqueMas, ...bun]; //добавляем булку в конец массива
@@ -68,13 +66,12 @@ export function FeedId() {
 
   useEffect(() => {
     dispatch(getOrderUserDetails(id));
-    console.log('id', id);
   }, [])
 
   useEffect(() => {
     setCardData(card);
     createBurger();
-  }, [dispatch])
+  }, [ cardData, card])
 
   return (
     <div className={feedId.feedId}>
