@@ -18,9 +18,8 @@ export function Feed() {
   useEffect(() => {
     dispatch({
       type: WS_CONNECTION_START,
-      payload: {
-        wsUrl
-      }
+      payload: wsUrl
+
     });
     return () => {
       dispatch({ type: WS_CONNECTION_CLOSE });

@@ -8,18 +8,21 @@ class Api {
     return res.ok ? res.json() : Promise.reject(res.status);
   }
 
+  _request(url, options) {
+    return fetch(url, options).then(this._getResponse)
+  }
+
   //получение всех ингредиентов
   getIngridients() {
-    return fetch(`${this._url}/ingredients`, {
+    return this._request(`${this._url}/ingredients`, {
       method: 'GET',
       headers: this._headers
     })
-      .then(res => this._getResponse(res))
   }
 
   //отправка заказа на сервер
   setOrderDetails(data, accessToken) {
-    return fetch(`${this._url}/orders`, {
+    return this._request(`${this._url}/orders`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -29,33 +32,30 @@ class Api {
         "ingredients": data,
       })
     })
-      .then(res => this._getResponse(res))
   }
 
   //получение информации о заказе с сервера
     getOrderUserDetails(id) {
-      return fetch(`${this._url}/orders/${id}`, {
+      return this._request(`${this._url}/orders/${id}`, {
         method: 'GET',
         headers: this._headers,
       })
-        .then(res => this._getResponse(res))
     }
 
   //проверка, зарегистрирован ли пользователь в системе
   getEmails(data) {
-    return fetch(`${this._url}/password-reset`, {
+    return this._request(`${this._url}/password-reset`, {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
         "email": data
       })
     })
-      .then(res => this._getResponse(res))
   }
 
   //восстановление пароля
   resetPassword(data) {
-    return fetch(`${this._url}/password-reset/reset`, {
+    return this._request(`${this._url}/password-reset/reset`, {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
@@ -63,12 +63,11 @@ class Api {
         "token": data.token
       })
     })
-      .then(res => this._getResponse(res))
   }
 
   //авторизацмя в системе
   async login(data) {
-    return await fetch(`${this._url}/auth/login`, {
+    return await this._request(`${this._url}/auth/login`, {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
@@ -76,12 +75,11 @@ class Api {
         "password": data.password
       })
     })
-      .then(res => this._getResponse(res))
   }
 
   //регистрация в системе
   async register(data) {
-    return await fetch(`${this._url}/auth/register`, {
+    return await this._request(`${this._url}/auth/register`, {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
@@ -90,43 +88,39 @@ class Api {
         "name": data.name
       })
     })
-      .then(res => this._getResponse(res))
   }
 
   //выход из системы
   async logout(data) {
-    return await fetch(`${this._url}/auth/logout`, {
+    return await this._request(`${this._url}/auth/logout`, {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
         "token": data
       })
     })
-      .then(res => this._getResponse(res))
   }
 
   //обновление токена
   async refreshToken(refreshToken) {
-    return await fetch(`${this._url}/auth/token`, {
+    return await this._request(`${this._url}/auth/token`, {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
         "token": refreshToken
       })
     })
-      .then(res => this._getResponse(res))
   }
 
   //получение данных о пользователе
   async getUser(accessToken) {
-    return await fetch(`${this._url}/auth/user`, {
+    return await this._request(`${this._url}/auth/user`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         "authorization": 'Bearer ' + accessToken
       },
     })
-      .then(res => this._getResponse(res))
   }
 
   //обновление данных пользователя

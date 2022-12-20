@@ -13,11 +13,8 @@ export const socketMiddleware = (wsActions) => {
         onOrders,
       } = wsActions;
 
-      if(type === wsInit && payload.wsUrlUsers) {
-        socket = new WebSocket(`${payload.wsUrlUsers}?token=${payload.accessToken}`);
-      }
-      if(type === wsInit && payload.wsUrl) {
-        socket = new WebSocket(`${payload.wsUrl}`);
+      if(type === wsInit) {
+        socket = new WebSocket(`${payload}`);
       }
       if(socket) {
         socket.onopen = event => {

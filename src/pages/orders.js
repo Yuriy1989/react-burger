@@ -14,8 +14,8 @@ export function Orders () {
 
   const feedRequest = useSelector(state => state.orders.feedRequest);
   const feedFailed = useSelector(state => state.orders.feedFailed);
-  const wsUrlUsers = 'wss://norma.nomoreparties.space/orders';
   const accessToken = getCookie('accessToken');
+  const wsUrl = `wss://norma.nomoreparties.space/orders?token=${accessToken}`;
   const data = useSelector(state => state.orders.orders);
   let reverseData = data[0] ? Array.from(data[0]?.orders).reverse() : []; //реверс заказов пользователя
   const dispatch = useDispatch();
@@ -23,11 +23,9 @@ export function Orders () {
   useEffect(() => {
     dispatch({
       type: WS_CONNECTION_START,
-      payload: {
-        wsUrlUsers,
-        accessToken
-      }
-    });
+      payload: wsUrl
+    }
+    );
     return () => {
       dispatch({ type: WS_CONNECTION_CLOSE });
     }

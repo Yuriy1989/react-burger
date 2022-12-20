@@ -1,14 +1,13 @@
-
-import { useState } from 'react';
 import style, { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import login from './login.module.css';
 import { actionRequestAuth } from '../services/actions/actionsAuthorization';
+import { useForm } from '../hooks/useForm';
 
 export function Login () {
 
-  const [data, setData] = useState({email: '', password: ''});
+  const {values, handleChange, setValues} = useForm({});
   const dispatch = useDispatch();
   const location = useLocation();
   const isAuth = useSelector(state => state.authorization.isAuth);
@@ -20,14 +19,9 @@ export function Login () {
     )
   }
 
-  //Сбор все данных с input
-  const onChange = (e) => {
-    setData( { ...data, [e.target.name]: e.target.value} );
-  }
-
   const handleClick = (e) => {
     e.preventDefault();
-    dispatch(actionRequestAuth(data));
+    dispatch(actionRequestAuth(values));
   }
 
   return (
@@ -38,15 +32,15 @@ export function Login () {
           <Input
             type={'email'}
             placeholder={'E-mail'}
-            onChange={onChange}
-            value={data.email}
+            onChange={handleChange}
+            value={values?.email ? values?.email : ''}
             name={'email'}
             error={false}
             errorText={'Ошибка'}
             size={'default'}
           />
         </div>
-        <PasswordInput onChange={onChange} value={data.password} name={'password'} />
+        <PasswordInput onChange={handleChange} value={values?.password ? values?.password : ''} name={'password'} />
         <div className={login.button}>
           <Button onClick={handleClick} type="primary" size="medium">
             Войти
