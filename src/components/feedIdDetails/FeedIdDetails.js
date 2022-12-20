@@ -1,11 +1,10 @@
 import { useState, useCallback, useEffect } from 'react';
 import style, { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useParams, Redirect } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import feedIdDetails from './feedIdDetails.module.css';
 import { timeCreateBurger } from '../../utils/time';
 import { openBurgerDetails } from '../../services/actions/getIngredientforOpenModal';
-import uuid from 'react-uuid';
 
 export default function FeedIdDetails () {
 
@@ -78,8 +77,8 @@ export default function FeedIdDetails () {
         <p className={` ${feedIdDetails.status} text text_type_main-default `}>{(data?.status === 'done') ? 'Выполнен' : 'В работе'}</p>
         <p className={` ${feedIdDetails.ingredients} text text_type_main-medium `}>Состав:</p>
         <ul className={` ${feedIdDetails.ingredient} `}>
-          {burger.map(item => (
-            <li key={uuid()} className={` ${feedIdDetails.items} mb-5`}>
+          {burger.map((item, index) => (
+            <li key={index} className={` ${feedIdDetails.items} mb-5`}>
               <div className={feedIdDetails.nameIngredient}>
                 <div className={` ${feedIdDetails.borderImage} `}>
                   <img className={feedIdDetails.image} src={item?.image_mobile} alt={item?.image_mobile} ></img>

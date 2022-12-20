@@ -68,7 +68,7 @@ export default function App() {
       {feedRequest &&  <Loader />}
       {!feedFailed && !feedRequest &&
         <>
-        <main className={app.app}>
+        <div className={app.app}>
           <div className={app.header}>
             <AppHeader />
           </div>
@@ -145,7 +145,7 @@ export default function App() {
             </Modal>
           </Route>)
           }
-        </main>
+        </div>
         </>
       }
     </>

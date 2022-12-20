@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
-import uuid from 'react-uuid';
 import style, { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import cardOrder from './cardOrder.module.css';
 import { timeCreateBurger } from '../../utils/time';
@@ -49,7 +48,6 @@ export default function CardOrder({ card }) {
     createBurger();
   }, [ingredientsData])
 
-
   return (
     <>
       {!card && <h2 className={`text text_type_main-large`}>У вас нет заказов</h2>}
@@ -71,7 +69,7 @@ export default function CardOrder({ card }) {
               <ul className={cardOrder.fillings}>
                 {
                   burger.map((item, index) => (
-                    <OrderElement indexStyle={burger.length - index} burger={burger} item={item} countData={countData} key={uuid()} />
+                    <OrderElement indexStyle={burger.length - index} burger={burger} item={item} countData={countData} key={index} />
                   ))
                 }
               </ul>

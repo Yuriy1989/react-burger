@@ -6,7 +6,6 @@ import orders from './orders.module.css';
 import MenuProfile from '../components/menuProfile/MenuProfile';
 import CardOrder from '../components/cardOrder/CardOrder';
 import { WS_CONNECTION_START, WS_CONNECTION_CLOSE } from '../services/actions/actionUserOrders';
-import uuid from 'react-uuid';
 import { getCookie } from '../utils/cookie';
 import Loader from '../components/loader/Loader';
 
@@ -47,7 +46,7 @@ export function Orders () {
             <ul className={orders.cardOrder}>
               {
                 reverseData.map(item => (
-                  <CardOrder key={uuid()} card={item} />
+                  <CardOrder key={item._id} card={item} />
                 ))
               }
             </ul>

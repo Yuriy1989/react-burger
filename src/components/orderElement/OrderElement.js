@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { ingredientTypes } from '../../utils/types';
 import style from '@ya.praktikum/react-developer-burger-ui-components';
 import orderElement from './orderElement.module.css';
-import uuid from 'react-uuid';
 
 export default function OrderElement({ item, burger, countData , indexStyle}) {
 
@@ -34,19 +33,19 @@ export default function OrderElement({ item, burger, countData , indexStyle}) {
 
   return (
     <li style={styleIndex}>
-      <div  className={orderElement.filling}>
+      <div className={orderElement.filling}>
         {/* выводим кол-во ингредиентов если их более 1 в бургере */}
         {
-          burger.filter(card => card.type != 'bun').map(check => (check.id === item.id &&
-            <p key={uuid()} className={`${orderElement.count} text text_type_digits-default`}>{count[item.id] > 1 ? '+' + (count[item.id]) : ''}</p>
+          burger.filter(card => card.type != 'bun').map((check, index) => (check.id === item.id &&
+            <p key={index} className={`${orderElement.count} text text_type_digits-default`}>{count[item.id] > 1 ? '+' + (count[item.id]) : ''}</p>
           ))
         }
         {/* отрисовываем ингредиент бургера */}
-        <img className={orderElement.image} src={item.image} key={uuid()}></img>
+        <img className={orderElement.image} src={item.image} ></img>
         {/* создаем затемнение если ингредиентов более 1 штуки */}
         {
-          burger.filter(card => card.type != 'bun').map(check => (check.id === item.id && count[item.id] > 1 ?
-            <div key={uuid()} className={orderElement.imageFilter}></div> : ''
+          burger.filter(card => card.type != 'bun').map((check, index) => (check.id === item.id && count[item.id] > 1 ?
+            <div key={index + 100} className={orderElement.imageFilter}></div> : ''
           ))
         }
       </div>

@@ -5,7 +5,6 @@ import orders from './orders.module.css';
 import { useEffect, useState } from 'react';
 import OrderElement from '../orderElement/OrderElement';
 import { Link, useLocation } from 'react-router-dom';
-import uuid from 'react-uuid';
 import { timeCreateBurger } from '../../utils/time';
 
 export default function Orders ( {card} ) {
@@ -67,7 +66,7 @@ export default function Orders ( {card} ) {
             <ul className={orders.fillings}>
               {
                 burger.map((item, index) => (
-                  <OrderElement indexStyle={burger.length - index} burger={burger} item={item} countData={countData} key={uuid()} />
+                  <OrderElement indexStyle={burger.length - index} burger={burger} item={item} countData={countData} key={index} />
                 ))
               }
             </ul>

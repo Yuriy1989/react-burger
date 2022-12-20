@@ -3,7 +3,6 @@ import style, { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-com
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import feedId from './feedId.module.css';
-import uuid from 'react-uuid';
 import { timeCreateBurger } from '../utils/time';
 import { getOrderUserDetails } from '../services/actions/getOrderDetails';
 
@@ -80,9 +79,9 @@ export function FeedId() {
       <p className={` ${feedId.status} text text_type_main-default `}>{(data?.status === 'done') ? 'Выполнен' : 'В работе'}</p>
       <p className={` ${feedId.ingredients} text text_type_main-medium `}>Состав:</p>
       <ul className={` ${feedId.ingredient} `}>
-        {burger?.map(item => {
+        {burger?.map((item, index) => {
           return (
-            <li key={uuid()} className={` ${feedId.items} mb-5`}>
+            <li key={index} className={` ${feedId.items} mb-5`}>
               <div className={feedId.nameIngredient}>
                 <div className={` ${feedId.borderImage} `}>
                   <img className={feedId.image} src={item?.image_mobile} alt={item?.image_mobile} ></img>

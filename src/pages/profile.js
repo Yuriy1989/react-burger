@@ -11,13 +11,13 @@ import { useForm } from '../hooks/useForm';
 
 export function Profile () {
 
-  const {values, handleChange, setValues} = useForm({});
+  const {values, handleChange, setValues} = useForm({name: '', email: '', password: '', buttonActive: false});
   const email = useSelector(state => state.authorization.user.email);
   const name = useSelector(state => state.authorization.user.name);
   const error = useSelector(state => state.authorization.error);
   const feedRequestPatchUser = useSelector(state => state.authorization.feedRequestPatchUser);
   // const [data, setData] = useState({name: '', email: '', password: '', buttonActive: false});
-  const [button, setButton] = useState(false);
+  // const [button, setButton] = useState(false);
   const dispatch = useDispatch();
   const accessToken = getCookie('accessToken');
 
@@ -30,8 +30,8 @@ export function Profile () {
   const handleClickSave = useCallback(
     e => {
       e.preventDefault();
-      setValues( { ...values} );
-      setButton(true);
+      setValues( { ...values, buttonActive: true} );
+      // setButton(true);
       dispatch(actionRequestPatchUser(values, accessToken));
     },
     [values]
@@ -41,8 +41,8 @@ export function Profile () {
   const handleClickCancel = useCallback(
     e => {
       e.preventDefault();
-      setValues( {name: name, email: email, password: ''} );
-      setButton(false);
+      setValues( {name: name, email: email, password: '', buttonActive: false} );
+      // setButton(false);
     },
     [values]
   )
@@ -51,16 +51,17 @@ export function Profile () {
     setValues( {
       name: name ? name : '',
       email: email ? email : '',
-      password: ''
+      password: '',
+      buttonActive: false
     } );
-    setButton(false);
+    // setButton(false);
   }, [ email, name ] )
 
-  useEffect( (e) => {
-    // setValues({...values, buttonActive: true});
-    // setValues( {name: name, email: email, password: '', buttonActive: true} );
-    // setButton(true);
-  }, [])
+  // useEffect( (e) => {
+  //   // setValues({...values, buttonActive: true});
+  //   // setValues( {name: name, email: email, password: '', buttonActive: true} );
+  //   // setButton(true);
+  // }, [])
 
   return (
     <>
@@ -74,30 +75,30 @@ export function Profile () {
             </div>
           </div>
           <div className={profile.editForm}>
-            <form name="profileForm" className={profile.form}>
+            <form className={profile.form} onSubmit={handleClickSave}>
               <div className={`${profile.input} ${profile.input_margin}`}>
                 <Input
                   type={'text'}
                   placeholder={'имя'}
                   icon={'EditIcon'}
                   onChange={handleChange}
-                  value={values.name ? values.name : ''}
+                  value={values?.name}
                   name={'name'}
                   error={false}
                   errorText={'Ошибка'}
                   size={'default'}
                 />
                 <div className={profile.email}>
-                  <EmailInput onChange={handleChange} value={values.email ? values.email : ''} placeholder={'имя'} name={'email'} />
+                  <EmailInput onChange={handleChange} value={values?.email} placeholder={'имя'} name={'email'} />
                   {error && <p className={`input__error text_type_main-default`}>ошибка: {error} </p>}
                 </div>
-                <PasswordInput onChange={handleChange} value={values.password ? values.password : ''} name={'password'} />
+                <PasswordInput onChange={handleChange} value={values?.password} name={'password'} />
               </div>
               <div className={profile.button}>
-                <Button disabled={!button} onClick={handleClickSave} type="primary" size="medium">
+                <Button disabled={!values?.buttonActive} type="primary" size="medium">
                   Сохранить
                 </Button>
-                <Button disabled={!button} onClick={handleClickCancel} type="primary" size="medium">
+                <Button disabled={!values?.buttonActive} onClick={handleClickCancel} type="primary" size="medium">
                   Отмена
                 </Button>
               </div>

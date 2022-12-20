@@ -7,7 +7,7 @@ import { useForm } from '../hooks/useForm';
 
 export function Login () {
 
-  const {values, handleChange, setValues} = useForm({});
+  const {values, handleChange} = useForm({email: '', password: ''});
   const dispatch = useDispatch();
   const location = useLocation();
   const isAuth = useSelector(state => state.authorization.isAuth);
@@ -27,22 +27,22 @@ export function Login () {
   return (
     <div className={login.login}>
       <h2 className='text text_type_main-medium'>Вход</h2>
-      <form className={login.form}>
+      <form className={login.form} onSubmit={handleClick}>
         <div className={login.email}>
           <Input
             type={'email'}
             placeholder={'E-mail'}
             onChange={handleChange}
-            value={values?.email ? values?.email : ''}
+            value={values?.email}
             name={'email'}
             error={false}
             errorText={'Ошибка'}
             size={'default'}
           />
         </div>
-        <PasswordInput onChange={handleChange} value={values?.password ? values?.password : ''} name={'password'} />
+        <PasswordInput onChange={handleChange} value={values?.password} name={'password'} />
         <div className={login.button}>
-          <Button onClick={handleClick} type="primary" size="medium">
+          <Button type="primary" size="medium">
             Войти
           </Button>
         </div>

@@ -2,7 +2,6 @@ import React from "react";
 import style from '@ya.praktikum/react-developer-burger-ui-components';
 import stats from './stats.module.css';
 import { useSelector } from 'react-redux';
-import uuid from 'react-uuid';
 
 export default function Stats() {
 
@@ -29,10 +28,10 @@ export default function Stats() {
         <div className={stats.statusOrders}>
           <h2 className={` ${stats.statusTitle} text text_type_main-medium `}>Готовы: </h2>
           <div className={` ${stats.numberOrder} `}>
-            {mass.map(item => (
-              <ul key={uuid()} className={stats.item}>
-                {item.filter(card => card?.status === 'done').map(itemI => (
-                  <li key={uuid()} className={` ${stats.idOrder} ${stats.idOrder_Green} text text_type_digits-default `}>
+            {mass.map((item, index) => (
+              <ul key={index} className={stats.item}>
+                {item.filter(card => card?.status === 'done').map((itemI, index) => (
+                  <li key={index} className={` ${stats.idOrder} ${stats.idOrder_Green} text text_type_digits-default `}>
                     {itemI.number}
                   </li>
                 ))}
