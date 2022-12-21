@@ -6,9 +6,11 @@ export const SET_SELECTED_ID_INGREDIENTS = 'SET_SELECTED_ID_INGREDIENTS';
 export const GET_USER_ORDER_DETAILS = 'GET_USER_ORDER_DETAILS';
 export const GET_USER_ORDER_DETAILS_SUCCESS = 'GET_USER_ORDER_DETAILS_SUCCESS';
 export const GET_USER_ORDER_DETAILS_SUCCESS_FAILED = 'GET_USER_ORDER_DETAILS_SUCCESS_FAILED';
+import { deleteAllIngredientsForBurgerAction } from '../../services/actions/ingredients';
 
 import { api } from '../../utils/Api';
 
+//отправка заказа на космическую базу для приготовления
 export const getOrderDetails = (data, accessToken) => {
   return(dispatch) => {
     dispatch({
@@ -21,6 +23,7 @@ export const getOrderDetails = (data, accessToken) => {
             type: GET_ORDER_DETAILS_SUCCESS,
             payload: res.order
           })
+          dispatch(deleteAllIngredientsForBurgerAction());
         } else {
           dispatch({
             type: GET_ORDER_DETAILS_SUCCESS_FAILED

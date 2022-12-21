@@ -70,7 +70,7 @@ export function FeedId() {
   useEffect(() => {
     setCardData(card);
     createBurger();
-  }, [ cardData, card])
+  }, [cardData, card])
 
   return (
     <div className={feedId.feedId}>

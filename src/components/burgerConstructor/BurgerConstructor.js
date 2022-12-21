@@ -1,6 +1,5 @@
 import React, { useEffect, useCallback, useState } from "react";
 import style, { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import uuid from 'react-uuid';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { calcPrice, setSelectedId } from '../../services/actions/getOrderDetails';
@@ -73,11 +72,10 @@ function BurgerConstructor() {
 
   return (
     <section ref={dropTarget} className={burgerConstructor.burgerConstructor} style={{border}}>
-      {selectedIngredients.bun[0]?.id &&
+      {selectedIngredients?.bun[0]?.id &&
         <div className={burgerConstructor.bun}>
           {
             <ConstructorElement
-              key={uuid()}
               type="top"
               isLocked={true}
               text={` ${selectedIngredients.bun[0]?.name} (верх)`}
@@ -89,16 +87,15 @@ function BurgerConstructor() {
       }
       <ul className={` ${burgerConstructor.list} ${burgerConstructor.ingredients} ` } >
         {
-          selectedIngredients.others.map((item, index) => (
-            <ElementBurger data={item} index={index} key={uuid()}/>
+          selectedIngredients?.others.map((item, index) => (
+            <ElementBurger data={item} index={index} key={index}/>
           ))
         }
       </ul>
-      {selectedIngredients.bun[0]?.id &&
+      {selectedIngredients?.bun[0]?.id &&
         <div className={burgerConstructor.bun}>
           {
             <ConstructorElement
-              key={uuid()}
               type="bottom"
               isLocked={true}
               text={` ${selectedIngredients.bun[0]?.name} (низ)`}

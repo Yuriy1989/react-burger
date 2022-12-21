@@ -1,7 +1,7 @@
 import React from 'react';
 import style, { BurgerIcon, ListIcon, ProfileIcon, Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import appHeaderStyles from './appHeader.module.css';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, useHistory, Link } from 'react-router-dom';
 
 export default function AppHeader() {
 
@@ -28,7 +28,11 @@ export default function AppHeader() {
             </button>
           </li>
         </ul>
-        <div className={appHeaderStyles.logo}><Logo /></div>
+        <div className={appHeaderStyles.logo}>
+          <Link to={{ pathname: `/` }}>
+            <Logo />
+          </Link>
+        </div>
         <button className={` ${appHeaderStyles.profile} ${appHeaderStyles.button} text text_type_main-default`}>
           <div className="p-2">
             <ProfileIcon type={ history.location.pathname === '/profile' || history.location.pathname ==='/profile/orders' ? 'primary' : 'secondary' } />

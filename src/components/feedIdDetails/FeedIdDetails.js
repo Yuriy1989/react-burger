@@ -65,9 +65,12 @@ export default function FeedIdDetails () {
   )
 
   useEffect(() => {
-    createBurger();
     dispatch(openBurgerDetails());
   }, [])
+
+  useEffect(() => {
+    createBurger();
+  }, [card])
 
   return (
     <>

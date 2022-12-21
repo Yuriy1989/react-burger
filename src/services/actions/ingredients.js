@@ -12,6 +12,8 @@ export const INGREDIENTS_IN_BURGER_CONSTRUCTOR = 'INGREDIENTS_IN_BURGER_CONSTRUC
 export const SORT_INGREDIENTS_IN_BURGER_CONSTRUCTOR = 'SORT_INGREDIENTS_IN_BURGER_CONSTRUCTOR';
 //экшен для удаления ингредиента из собираемого бургера
 export const DELETE_INGREDIENTS_IN_BURGER_CONSTRUCTOR = 'DELETE_INGREDIENTS_IN_BURGER_CONSTRUCTOR';
+//экшен для удаления всех ингредиентов из собираемого бургера
+export const DELETE_ALL_INGREDIENTS_IN_BURGER_CONSTRUCTOR = 'DELETE_ALL_INGREDIENTS_IN_BURGER_CONSTRUCTOR';
 
 import { api } from '../../utils/Api';
 
@@ -82,6 +84,15 @@ export const deleteSelectedIngredientsForBurgerAction = (data) => {
     dispatch({
       type: DELETE_INGREDIENTS_IN_BURGER_CONSTRUCTOR,
       payload: data
+    })
+  }
+}
+
+//экшен для удаления всех ингредиентов из собираемого бургера
+export const deleteAllIngredientsForBurgerAction = () => {
+  return(dispatch) => {
+    dispatch({
+      type: DELETE_ALL_INGREDIENTS_IN_BURGER_CONSTRUCTOR,
     })
   }
 }

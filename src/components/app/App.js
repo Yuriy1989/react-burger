@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import app from './app.module.css';
 import style from '@ya.praktikum/react-developer-burger-ui-components';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Switch, Route } from 'react-router-dom';
-import { Redirect, useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { ProtectedRoute } from '../protectedRoute/ProtectedRoute';
 import { OnlyUnAuthRoute } from '../onlyUnAuthRoute/OnlyUnAuthRoute';
 import { getIngredients } from '../../services/actions/ingredients';
@@ -58,6 +58,13 @@ export default function App() {
       history.replace(location?.state?.from);
     }
   }, [isAuth])
+
+   // Закрытие модалки - возврат на предыдущую страницу
+  const closeModals = useCallback(
+    () => {
+      history.goBack();
+    }, []
+  )
 
   const feedFailed = useSelector((state) => state.getIngredientsApi.feedFailed);
   const feedRequest = useSelector((state) => state.getIngredientsApi.feedRequest);
@@ -116,31 +123,31 @@ export default function App() {
             </Route>
           </Switch>
           {isOpenModalIngredient && (<Route path={`/ingredients/:id`} exact={true}>
-            <Modal title="Детали ингредиента" >
+            <Modal title="Детали ингредиента" closeModals={closeModals} >
               <IngredientDetails />
             </Modal>
           </Route>)
           }
           {isOpenModalFeed && (<Route path={`/feed/:id`} exact={true}>
-            <Modal title="" >
+            <Modal title="" closeModals={closeModals} >
               <FeedIdDetails />
             </Modal>
           </Route>)
           }
           {isOpenModalOrder && (<Route path={`/profile/orders/:id`} exact={true}>
-            <Modal title="" >
+            <Modal title="" closeModals={closeModals}>
               <FeedIdDetails />
             </Modal>
           </Route>)
           }
           {isOpenModalDetails && (<Route path={`/orderDetails`} exact={true}>
-            <Modal title="" >
+            <Modal title="" closeModals={closeModals}>
               <OrderDetails />
             </Modal>
           </Route>)
           }
           {isOpenModalError && (<Route path={`/error`} exact={true} >
-            <Modal title="" >
+            <Modal title="" closeModals={closeModals}>
               <OrderMessage />
             </Modal>
           </Route>)

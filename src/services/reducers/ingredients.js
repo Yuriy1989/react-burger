@@ -5,6 +5,7 @@ import {
   INGREDIENTS_IN_BURGER_CONSTRUCTOR,
   SORT_INGREDIENTS_IN_BURGER_CONSTRUCTOR,
   DELETE_INGREDIENTS_IN_BURGER_CONSTRUCTOR,
+  DELETE_ALL_INGREDIENTS_IN_BURGER_CONSTRUCTOR,
 } from '../actions/ingredients';
 
 const defaultState = {
@@ -66,12 +67,21 @@ export const getIngredientsApi = ( state = defaultState, action ) => {
     }
     case DELETE_INGREDIENTS_IN_BURGER_CONSTRUCTOR: {
       const data = action.payload;
-
       return {
         ...state,
         ingredientForConstructor: {
           ...state.ingredientForConstructor,
           others: [...state.ingredientForConstructor.others.filter((item, index) => (index !== data))]
+        }
+      }
+    }
+    case DELETE_ALL_INGREDIENTS_IN_BURGER_CONSTRUCTOR: {
+      return {
+        ...state,
+        ingredientForConstructor: {
+          ...state.ingredientForConstructor,
+          bun: [],
+          others: [],
         }
       }
     }
