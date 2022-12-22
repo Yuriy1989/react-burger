@@ -11,27 +11,25 @@ import { useForm } from '../hooks/useForm';
 
 export function Profile () {
 
-  const {values, handleChange, setValues} = useForm({name: '', email: '', password: '', buttonActive: false});
+  const {values, setValues} = useForm({name: '', email: '', password: '', buttonActive: false});
   const email = useSelector(state => state.authorization.user.email);
   const name = useSelector(state => state.authorization.user.name);
   const error = useSelector(state => state.authorization.error);
   const feedRequestPatchUser = useSelector(state => state.authorization.feedRequestPatchUser);
-  // const [data, setData] = useState({name: '', email: '', password: '', buttonActive: false});
-  // const [button, setButton] = useState(false);
   const dispatch = useDispatch();
   const accessToken = getCookie('accessToken');
 
-  //Сбор данных из всех input
-  // const onChange = (e) => {
-  //   setData( { ...data, [e.target.name]: e.target.value, buttonActive: true} );
-  // }
+  //изменение данных в форме и статуса кнопок
+  const onButtonActive = (event) => {
+    const {value, name} = event.target;
+    setValues( { ...values, [name]: value, buttonActive: true} );
+  }
 
   //Обновление данных о пользователе, с сохранением их в Store
   const handleClickSave = useCallback(
     e => {
       e.preventDefault();
       setValues( { ...values, buttonActive: true} );
-      // setButton(true);
       dispatch(actionRequestPatchUser(values, accessToken));
     },
     [values]
@@ -42,7 +40,6 @@ export function Profile () {
     e => {
       e.preventDefault();
       setValues( {name: name, email: email, password: '', buttonActive: false} );
-      // setButton(false);
     },
     [values]
   )
@@ -54,14 +51,7 @@ export function Profile () {
       password: '',
       buttonActive: false
     } );
-    // setButton(false);
   }, [ email, name ] )
-
-  // useEffect( (e) => {
-  //   // setValues({...values, buttonActive: true});
-  //   // setValues( {name: name, email: email, password: '', buttonActive: true} );
-  //   // setButton(true);
-  // }, [])
 
   return (
     <>
@@ -81,7 +71,7 @@ export function Profile () {
                   type={'text'}
                   placeholder={'имя'}
                   icon={'EditIcon'}
-                  onChange={handleChange}
+                  onChange={onButtonActive}
                   value={values?.name}
                   name={'name'}
                   error={false}
@@ -89,10 +79,10 @@ export function Profile () {
                   size={'default'}
                 />
                 <div className={profile.email}>
-                  <EmailInput onChange={handleChange} value={values?.email} placeholder={'имя'} name={'email'} />
+                  <EmailInput onChange={onButtonActive} value={values?.email} placeholder={'имя'} name={'email'} />
                   {error && <p className={`input__error text_type_main-default`}>ошибка: {error} </p>}
                 </div>
-                <PasswordInput onChange={handleChange} value={values?.password} name={'password'} />
+                <PasswordInput onChange={onButtonActive} value={values?.password} name={'password'} />
               </div>
               <div className={profile.button}>
                 <Button disabled={!values?.buttonActive} type="primary" size="medium">

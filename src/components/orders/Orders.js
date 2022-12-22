@@ -51,10 +51,10 @@ export default function Orders ( {card} ) {
 
   return (
     <Link className={orders.link}
-          to={{
-            pathname: `/feed/${card.number}`,
-            state: { isOpenModalFeed: location }
-          }}
+      to={{
+        pathname: `/feed/${card.number}`,
+        state: { isOpenModalFeed: location }
+      }}
     >
       <li className={orders.orders}>
           <div className={orders.numberOrder}>
