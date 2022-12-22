@@ -16,6 +16,7 @@ export const DELETE_INGREDIENTS_IN_BURGER_CONSTRUCTOR = 'DELETE_INGREDIENTS_IN_B
 export const DELETE_ALL_INGREDIENTS_IN_BURGER_CONSTRUCTOR = 'DELETE_ALL_INGREDIENTS_IN_BURGER_CONSTRUCTOR';
 
 import { api } from '../../utils/Api';
+import uuid from 'react-uuid';
 
 //генератор экшенов - запрос по API для получения всех ингредиентов для бургера
 export const getIngredients = () => {
@@ -59,10 +60,14 @@ export const getIngredients = () => {
 
 //экшен по сбору выбранных ингредиентов для бургера
 export const selectedIngredientsForBurgerAction = (data) => {
+  const indexIngredient = uuid();
   return(dispatch) => {
     dispatch({
       type: INGREDIENTS_IN_BURGER_CONSTRUCTOR,
-      payload: data
+      payload: {
+        data,
+        indexIngredient,
+      }
     })
   }
 }

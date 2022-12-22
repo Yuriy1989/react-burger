@@ -45,9 +45,9 @@ function BurgerConstructor() {
     return setSelectedId;
   };
 
-  const selectedIngredients = useSelector(state => state.getIngredientsApi.ingredientForConstructor)
+  const selectedIngredients = useSelector(state => state.getIngredientsApi.ingredientForConstructor);
   const dataPrice = useSelector(state => state.getOrderDetails.price);
-;
+
   useEffect(() => {
     dispatch(calcPrice(calculatePrice()));
     dispatch(setSelectedId(createOrder()));
@@ -72,35 +72,35 @@ function BurgerConstructor() {
 
   return (
     <section ref={dropTarget} className={burgerConstructor.burgerConstructor} style={{border}}>
-      {selectedIngredients?.bun[0]?.id &&
+      {selectedIngredients?.bun[0]?.data.id &&
         <div className={burgerConstructor.bun}>
           {
             <ConstructorElement
               type="top"
               isLocked={true}
-              text={` ${selectedIngredients.bun[0]?.name} (верх)`}
-              price={selectedIngredients.bun[0]?.price}
-              thumbnail={selectedIngredients.bun[0]?.image_mobile}
+              text={` ${selectedIngredients.bun[0]?.data.name} (верх)`}
+              price={selectedIngredients.bun[0]?.data.price}
+              thumbnail={selectedIngredients.bun[0]?.data.image_mobile}
             />
           }
         </div>
       }
       <ul className={` ${burgerConstructor.list} ${burgerConstructor.ingredients} ` } >
         {
-          selectedIngredients?.others.map((item, index) => (
-            <ElementBurger data={item} index={index} key={index}/>
+          selectedIngredients?.others?.map((item, index) => (
+            <ElementBurger data={item.data} index={index} key={item.indexIngredient}/>
           ))
         }
       </ul>
-      {selectedIngredients?.bun[0]?.id &&
+      {selectedIngredients?.bun[0]?.data.id &&
         <div className={burgerConstructor.bun}>
           {
             <ConstructorElement
               type="bottom"
               isLocked={true}
-              text={` ${selectedIngredients.bun[0]?.name} (низ)`}
-              price={selectedIngredients.bun[0]?.price}
-              thumbnail={selectedIngredients.bun[0]?.image_mobile}
+              text={` ${selectedIngredients.bun[0]?.data.name} (низ)`}
+              price={selectedIngredients.bun[0]?.data.price}
+              thumbnail={selectedIngredients.bun[0]?.data.image_mobile}
             />
           }
         </div>

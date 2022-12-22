@@ -35,7 +35,7 @@ export const getIngredientsApi = ( state = defaultState, action ) => {
     case INGREDIENTS_IN_BURGER_CONSTRUCTOR: {
       const ingredients = action.payload;
       //Ищем булку в текущем добавляемом ингредиенте
-      if (ingredients.type === ingredientsName.bun) { //если добавляем ингредиент Булку
+      if (ingredients.data.type === ingredientsName.bun) { //если добавляем ингредиент Булку
         return {
           ...state,
           ingredientForConstructor: {
