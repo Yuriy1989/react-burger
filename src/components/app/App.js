@@ -46,8 +46,6 @@ export default function App() {
   const refreshToken = getCookie('refreshToken');
   const isAuth = useSelector((state) => state.authorization.isAuth);
 
-  console.log('App location=', location);
-
   //делаем запрос к серверу для получения всех ингредиентов
   useEffect(() => {
     dispatch(getIngredients());
