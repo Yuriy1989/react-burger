@@ -7,7 +7,6 @@ export function ProtectedRoute ({ children, ...rest }) {
   const { isAuth } = rest;
   const feedRequest = useSelector((state) => state.authorization.feedRequest);
   const locations = useLocation();
-  console.log('ProtectedRoute location', location);
 
   return (
     <>
