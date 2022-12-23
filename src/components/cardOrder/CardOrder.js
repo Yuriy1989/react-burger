@@ -15,6 +15,7 @@ export default function CardOrder({ card }) {
   const ingredientsData = useSelector((state) => state.getIngredientsApi.ingredientsGetApi); //все ингредиенты
   const [createTimeBurger, setCreateTimeBurger] = useState(); //время создания бургера
 
+  // console.log('CardOrder location', location);
   //сбор данных об ингредиентах бургера в заказе
   const createBurger = () => {
     let summa = 0; //цена за бургер
