@@ -31,16 +31,16 @@ function BurgerConstructor() {
 
   //вычисляем общую цену за бургер
   const calculatePrice = () => {
-    const calcPriceBun = selectedIngredients.bun.reduce((s, i ) => s += i.price, 0);
-    const calcPriceOther = selectedIngredients.others.reduce((s, i ) => s += i.price, 0);
+    const calcPriceBun = selectedIngredients.bun.reduce((s, i ) => s += i.data.price, 0);
+    const calcPriceOther = selectedIngredients.others.reduce((s, i ) => s += i.data.price, 0);
     const calcPrice = (calcPriceBun*2) + calcPriceOther;
     return calcPrice;
   }
 
   // Собираем все _id ингредиентов для отправки запроса на сервер
   const createOrder = () => {
-    const setSelectedIdBun = (selectedIngredients.bun.map((key) => {return key.id}));
-    const setSelectedIdOthers = (selectedIngredients.others.map((key) => {return key.id}));
+    const setSelectedIdBun = (selectedIngredients.bun.map((key) => {return key.data.id}));
+    const setSelectedIdOthers = (selectedIngredients.others.map((key) => {return key.data.id}));
     const setSelectedId = [...setSelectedIdBun, ...setSelectedIdOthers, ...setSelectedIdBun];
     return setSelectedId;
   };
@@ -53,8 +53,7 @@ function BurgerConstructor() {
     dispatch(setSelectedId(createOrder()));
   }, [selectedIngredients]);
 
-
-  const handleClick = useCallback(
+  const openModalOrder = useCallback(
     () => {
       if (selectedIngredients.bun.length) {
         history.push({
@@ -67,6 +66,17 @@ function BurgerConstructor() {
           state: { isOpenModalError: location }
         })
       }
+    }
+  )
+
+  const handleClick = useCallback(
+    () => {
+      if(!isAuth) {
+        history.replace({ pathname: '/login' });
+      } else {
+        openModalOrder();
+      }
+
     }
   )
 
@@ -111,7 +121,7 @@ function BurgerConstructor() {
           <div className={burgerConstructor.cellPrice}>
             <CurrencyIcon type="primary" className="p-4" />
           </div>
-          <Button disabled={!isAuth} onClick={handleClick} type="primary" size="large">
+          <Button onClick={handleClick} type="primary" size="large">
             Оформить заказ
           </Button>
         </div>

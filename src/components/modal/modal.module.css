@@ -12,6 +12,9 @@
 }
 
 .modalForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background-color: #1C1C21;
   border-radius: 40px;
   padding: 40px 0 60px 0;
@@ -19,10 +22,11 @@
 
 .headerDetails {
   display: flex;
+  min-width: 640px;
   flex-direction: row;
   justify-content: space-between;
   align-items: baseline;
-  margin: 0 40px;
+  padding: 0 40px;
 }
 
 .closeButton {

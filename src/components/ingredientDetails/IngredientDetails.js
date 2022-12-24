@@ -26,7 +26,7 @@ export default function IngredientDetails() {
   return (
     <>
       <img className={ingredientDetails.image} src={ingredient.image_large} alt={ingredient.name}></img>
-      <p className={` ${ingredientDetails.name } text text_type_main-medium `}>{ingredient.name}</p>
+      <p className={` ${ingredientDetails.name } text text_type_main-medium`}>{ingredient.name}</p>
         <ul className={ingredientDetails.items}>
           <li className={ingredientDetails.item}>
             <p className="text text_type_main-default text_color_inactive">Калории,ккал</p>

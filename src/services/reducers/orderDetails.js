@@ -25,7 +25,7 @@ export const getInfoOrderDetails = (state = defaultState, action) => {
     }
     case GET_ORDER_DETAILS_SUCCESS: {
       const dataOrder = action.payload;
-      return {...state, feedRequest: false, selectedIdIgredients: [], infoOderDetails: dataOrder}
+      return {...state, feedRequest: false, infoOderDetails: dataOrder}
     }
     case GET_ORDER_DETAILS_SUCCESS_FAILED: {
       return {...state, feedRequest: false, feedFailed: true}

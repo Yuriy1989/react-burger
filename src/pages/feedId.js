@@ -51,11 +51,9 @@ export function FeedId() {
       }
       setCount(result);
 
-      const nSet = new Set(igredientsDetails); //создаем конструкторds
-      const uniqueMas = Array.from(nSet); //создаем массим уникальный значений из конструктора
-      const bun = uniqueMas.filter(item => item.type == 'bun'); //находим булочку
-      const createBurger = [...uniqueMas, ...bun]; //добавляем булку в конец массива
-
+      const nSet = new Set(igredientsDetails); //создаем конструктор
+      const createBurger = Array.from(nSet); //создаем массим уникальный значений из конструктора
+    
       setBurger(createBurger); //передаем ингредиенты с подробной информацией в state
 
       //расчет времени создания бургера
@@ -89,7 +87,7 @@ export function FeedId() {
                 <p className='text text_type_main-default mr-4 ml-4'>{item.name}</p>
               </div>
               <div className={` ${feedId.item} `}>
-                <p className={`text text_type_digits-default`}>{(count[item.id] > 1 && item.type != 'bun') ? (count[item.id]) : '1'}</p>
+                <p className={`text text_type_digits-default`}>{(count[item.id] > 1) ? (count[item.id]) : '1'}</p>
                 <p className='text text_type_digits-default mr-2'>&nbsp;x</p>
                 <p className='text text_type_digits-default mr-2'>{`${item.price}`}</p>
                 <CurrencyIcon type="primary" />

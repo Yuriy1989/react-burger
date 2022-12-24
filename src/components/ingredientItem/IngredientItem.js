@@ -7,7 +7,6 @@ import ingredientItem from './ingredientItem.module.css';
 import { ingredientTypes } from '../../utils/types';
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from 'react-router-dom';
-import uuid from 'react-uuid';
 
 export default function IngredientItem ( {item} ) {
 
@@ -57,8 +56,8 @@ export default function IngredientItem ( {item} ) {
       <li ref={dragRef} className={ingredientItem.item}>
         <img className={ingredientItem.image} src={item.image}></img>
         <div className={ingredientItem.counter}>
-          {arrayData.map(check => (check.id === item.id &&
-            <Counter key={uuid()} count={count[item.id]} size="default" />))
+          {arrayData.map((check, index) => (check.id === item.id &&
+            <Counter key={index} count={count[item.id]} size="default" />))
           }
         </div>
         <div className={ingredientItem.price}>
