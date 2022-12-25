@@ -1,15 +1,14 @@
 
-import { useState, useRef, useCallback } from 'react';
+import { useRef, useCallback } from 'react';
 import style, { PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useHistory } from 'react-router-dom';
-import { Redirect } from 'react-router-dom';
 import register from './register.module.css';
-import { getCookie } from '../utils/cookie';
 import { api } from '../utils/Api';
+import { useForm } from '../hooks/useForm';
 
 export function Register () {
 
-  const [data, setData] = useState({email: '', password: '', name: ''});
+  const {values, handleChange} = useForm({email: '', password: '', name: ''});
   const inputRef = useRef(null)
   const history = useHistory();
 
@@ -20,14 +19,10 @@ export function Register () {
     [history]
   );
 
-  const onChange = (e) => {
-    setData( {...data, [e.target.name]: e.target.value} );
-  }
-
   //Запрос к серверу для регистрации пользователя
   const handleClick = (e) => {
     e.preventDefault();
-    api.register(data)
+    api.register(values)
       .then(res => {
         if(res.success === true) {
           loginRequest();
@@ -38,13 +33,13 @@ export function Register () {
   return (
     <div className={register.register}>
       <h2 className='text text_type_main-medium'>Регистрация</h2>
-      <form className={register.form}>
+      <form className={register.form} onSubmit={handleClick}>
         <div className={`${register.input_margin}`}>
           <Input
             type={'text'}
             placeholder={'имя'}
-            onChange={onChange}
-            value={data.name}
+            onChange={handleChange}
+            value={values?.name}
             name={'name'}
             error={false}
             ref={inputRef}
@@ -56,17 +51,17 @@ export function Register () {
           <Input
             type={'email'}
             placeholder={'E-mail'}
-            onChange={onChange}
-            value={data.email}
+            onChange={handleChange}
+            value={values?.email}
             name={'email'}
             error={false}
             errorText={'Ошибка'}
             size={'default'}
           />
         </div>
-          <PasswordInput onChange={onChange} value={data.password} name={'password'} />
+          <PasswordInput onChange={handleChange} value={values?.password} name={'password'} />
         <div className={register.button}>
-          <Button type="primary" size="medium" onClick={handleClick}>
+          <Button type="primary" size="medium" >
             Зарегистрироваться
           </Button>
         </div>

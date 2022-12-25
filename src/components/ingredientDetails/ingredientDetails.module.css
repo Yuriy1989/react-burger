@@ -5,8 +5,9 @@
 }
 
 .name {
+  max-width: 520px;
   color:#F2F2F3;
-  margin: 16px 0 32px 0;
+  margin: 16px 100px 32px 100px;
   text-align: center;
 }
 

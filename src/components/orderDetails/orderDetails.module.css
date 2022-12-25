@@ -25,11 +25,17 @@
   text-align: center;
 }
 
+.loadForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 .loadImage {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 120px;
   height: 120px;
   background-image: url("../../images/Vector_1.svg"), url("../../images/Vector_2.svg"), url("../../images/Vector_3.svg");
   background-repeat: no-repeat;
@@ -40,7 +46,7 @@
 .checkImage {
   position: absolute;
   bottom: 220px;
-  left: 240px;
+  left: 350px;
   cursor: pointer;
 }
 

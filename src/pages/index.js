@@ -7,5 +7,17 @@ import { Ingredients } from './ingredients';
 import { Feed } from './feed';
 import { Orders } from './orders';
 import { NotFoundPage } from './notFoundPage';
+import { FeedId } from './feedId';
 
-export { Login, Register, ForgotPassword, ResetPassword, Profile, Ingredients, Feed, Orders, NotFoundPage };
+export {
+  Login,
+  Register,
+  ForgotPassword,
+  ResetPassword,
+  Profile,
+  Ingredients,
+  Feed,
+  FeedId,
+  Orders,
+  NotFoundPage
+};

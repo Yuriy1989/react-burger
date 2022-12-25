@@ -1,26 +1,16 @@
-import { useEffect } from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { getCookie } from '../../utils/cookie';
-import { actionRequestGetUser } from '../../services/actions/actionsAuthorization';
+import { Route, Redirect, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import Loader from '../loader/Loader';
 
 export function ProtectedRoute ({ children, ...rest }) {
 
-  const accessToken = getCookie('accessToken');
-  const refreshToken = getCookie('refreshToken');
-
+  const { isAuth } = rest;
   const feedRequest = useSelector((state) => state.authorization.feedRequest);
-  const isAuth = useSelector((state) => state.authorization.isAuth);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(actionRequestGetUser(accessToken, refreshToken))
-  }, [dispatch])
+  const locations = useLocation();
 
   return (
     <>
-      {feedRequest && <h2 className={`text text_type_main-large`}>Загрузка...</h2>}
+      {feedRequest && <Loader />}
       {
         !feedRequest &&
         <Route
@@ -32,7 +22,12 @@ export function ProtectedRoute ({ children, ...rest }) {
               <Redirect
                 to={{
                   pathname: '/login',
-                  state: { from: location }
+                  state: {
+                    from: location,
+                  },
+                  stateModal: {
+                    from: locations
+                  }
                 }}
               />
             )

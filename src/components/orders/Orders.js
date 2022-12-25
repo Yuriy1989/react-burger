@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
-import style, { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import cardOrder from './cardOrder.module.css';
-import { timeCreateBurger } from '../../utils/time';
-import OrderElement from '../orderElement/OrderElement';
 
-export default function CardOrder({ card }) {
+import { useSelector } from 'react-redux';
+import style, { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import orders from './orders.module.css';
+import { useEffect, useState } from 'react';
+import OrderElement from '../orderElement/OrderElement';
+import { Link, useLocation } from 'react-router-dom';
+import { timeCreateBurger } from '../../utils/time';
+
+export default function Orders ( {card} ) {
 
   const [cellOrder, setCellOrder] = useState(0); //цена за бургер
   const [countData, setCountData] = useState([]);
@@ -22,7 +23,7 @@ export default function CardOrder({ card }) {
     let igredientsDetails = []; //ингредиенты с подробной информацией
     let n = 0;
     //собираем из бургера всю подбробную информацию по каждому ингредиенту
-    while (n <= card?.ingredients?.length) {
+    while (n <= card.ingredients.length) {
       ingredientsData.map(item => {
         if (item.id === card.ingredients[n]) {
           summa += item.price;
@@ -49,38 +50,32 @@ export default function CardOrder({ card }) {
   }, [ingredientsData])
 
   return (
-    <>
-      {!card && <h2 className={`text text_type_main-large`}>У вас нет заказов</h2>}
-      {card &&
-        <Link className={cardOrder.link}
-          to={{
-            pathname: `/profile/orders/${card.number}`,
-            state: { isOpenModalOrder: location }
-          }}
-        >
-          <li className={` ${cardOrder.cardOrder} mb-6`}>
-            <div className={cardOrder.numberOrder}>
-              <h2 className={` ${cardOrder.idOrder} text text_type_digits-default `}># {card.number}</h2>
-              <p className={` text text_type_main-default text_color_inactive `}>{createTimeBurger}</p>
+    <Link className={orders.link}
+      to={{
+        pathname: `/feed/${card.number}`,
+        state: { isOpenModalFeed: location }
+      }}
+    >
+      <li className={orders.orders}>
+          <div className={orders.numberOrder}>
+            <h2 className={` ${orders.idOrder} text text_type_digits-default `}># {card.number}</h2>
+            <p className={` text text_type_main-default text_color_inactive `}>{createTimeBurger}</p>
+          </div>
+          <p className={` ${orders.burgerName} text text_type_main-medium `}>{card.name}</p>
+          <div className={orders.ingredients}>
+            <ul className={orders.fillings}>
+              {
+                burger.map((item, index) => (
+                  <OrderElement indexStyle={burger.length - index} burger={burger} item={item} countData={countData} key={index} />
+                ))
+              }
+            </ul>
+            <div className={orders.cellPrice}>
+              <p className={`${orders.cell} text text_type_digits-medium mr-2`}>{cellOrder}</p>
+              <CurrencyIcon type="primary" />
             </div>
-            <p className={` ${cardOrder.burgerName} text text_type_main-large `}>{card.name}</p>
-            <p className={` ${cardOrder.statusOrder} text text_type_main-medium mt-2 ml-6 mb-6`}>{card.status === 'done' && 'Готов'}</p>
-            <div className={` ${cardOrder.ingredients} pb-6`}>
-              <ul className={cardOrder.fillings}>
-                {
-                  burger.map((item, index) => (
-                    <OrderElement indexStyle={burger.length - index} burger={burger} item={item} countData={countData} key={index} />
-                  ))
-                }
-              </ul>
-              <div className={cardOrder.cellPrice}>
-                <p className={`${cardOrder.cell} text text_type_digits-medium mr-2`}>{cellOrder}</p>
-                <CurrencyIcon type="primary" />
-              </div>
-            </div>
-          </li>
-        </Link>
-      }
-    </>
-  );
+          </div>
+        </li>
+      </Link>
+  )
 }

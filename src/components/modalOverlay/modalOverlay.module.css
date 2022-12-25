@@ -8,4 +8,5 @@
   background-color: rgba(0, 0, 0, 0.6);
   overflow: hidden;
   cursor: pointer;
+  z-index: 20;
 }

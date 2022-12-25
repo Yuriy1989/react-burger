@@ -1,6 +1,5 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import style, { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import uuid from 'react-uuid';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { calcPrice, setSelectedId } from '../../services/actions/getOrderDetails';
@@ -15,6 +14,7 @@ function BurgerConstructor() {
   const history = useHistory();
   const dispatch = useDispatch();
   const onDropHandler = (itemId) => dispatch(selectedIngredientsForBurgerAction(itemId));
+  const isAuth = useSelector(state => state.authorization.isAuth);
 
   const [ {isHover}, dropTarget] = useDrop({
     accept: 'ingredients',
@@ -31,30 +31,29 @@ function BurgerConstructor() {
 
   //вычисляем общую цену за бургер
   const calculatePrice = () => {
-    const calcPriceBun = selectedIngredients.bun.reduce((s, i ) => s += i.price, 0);
-    const calcPriceOther = selectedIngredients.others.reduce((s, i ) => s += i.price, 0);
+    const calcPriceBun = selectedIngredients.bun.reduce((s, i ) => s += i.data.price, 0);
+    const calcPriceOther = selectedIngredients.others.reduce((s, i ) => s += i.data.price, 0);
     const calcPrice = (calcPriceBun*2) + calcPriceOther;
     return calcPrice;
   }
 
   // Собираем все _id ингредиентов для отправки запроса на сервер
   const createOrder = () => {
-    const setSelectedIdBun = (selectedIngredients.bun.map((key) => {return key.id}));
-    const setSelectedIdOthers = (selectedIngredients.others.map((key) => {return key.id}));
+    const setSelectedIdBun = (selectedIngredients.bun.map((key) => {return key.data.id}));
+    const setSelectedIdOthers = (selectedIngredients.others.map((key) => {return key.data.id}));
     const setSelectedId = [...setSelectedIdBun, ...setSelectedIdOthers, ...setSelectedIdBun];
     return setSelectedId;
   };
 
-  const selectedIngredients = useSelector(state => state.getIngredientsApi.ingredientForConstructor)
+  const selectedIngredients = useSelector(state => state.getIngredientsApi.ingredientForConstructor);
   const dataPrice = useSelector(state => state.getOrderDetails.price);
-;
+
   useEffect(() => {
     dispatch(calcPrice(calculatePrice()));
     dispatch(setSelectedId(createOrder()));
   }, [selectedIngredients]);
 
-
-  const handleClick = useCallback(
+  const openModalOrder = useCallback(
     () => {
       if (selectedIngredients.bun.length) {
         history.push({
@@ -70,39 +69,48 @@ function BurgerConstructor() {
     }
   )
 
+  const handleClick = useCallback(
+    () => {
+      if(!isAuth) {
+        history.replace({ pathname: '/login' });
+      } else {
+        openModalOrder();
+      }
+
+    }
+  )
+
   return (
     <section ref={dropTarget} className={burgerConstructor.burgerConstructor} style={{border}}>
-      {selectedIngredients.bun[0]?.id &&
+      {selectedIngredients?.bun[0]?.data.id &&
         <div className={burgerConstructor.bun}>
           {
             <ConstructorElement
-              key={uuid()}
               type="top"
               isLocked={true}
-              text={` ${selectedIngredients.bun[0]?.name} (верх)`}
-              price={selectedIngredients.bun[0]?.price}
-              thumbnail={selectedIngredients.bun[0]?.image_mobile}
+              text={` ${selectedIngredients.bun[0]?.data.name} (верх)`}
+              price={selectedIngredients.bun[0]?.data.price}
+              thumbnail={selectedIngredients.bun[0]?.data.image_mobile}
             />
           }
         </div>
       }
       <ul className={` ${burgerConstructor.list} ${burgerConstructor.ingredients} ` } >
         {
-          selectedIngredients.others.map((item, index) => (
-            <ElementBurger data={item} index={index} key={uuid()}/>
+          selectedIngredients?.others?.map((item, index) => (
+            <ElementBurger data={item.data} index={index} key={item.indexIngredient}/>
           ))
         }
       </ul>
-      {selectedIngredients.bun[0]?.id &&
+      {selectedIngredients?.bun[0]?.data.id &&
         <div className={burgerConstructor.bun}>
           {
             <ConstructorElement
-              key={uuid()}
               type="bottom"
               isLocked={true}
-              text={` ${selectedIngredients.bun[0]?.name} (низ)`}
-              price={selectedIngredients.bun[0]?.price}
-              thumbnail={selectedIngredients.bun[0]?.image_mobile}
+              text={` ${selectedIngredients.bun[0]?.data.name} (низ)`}
+              price={selectedIngredients.bun[0]?.data.price}
+              thumbnail={selectedIngredients.bun[0]?.data.image_mobile}
             />
           }
         </div>

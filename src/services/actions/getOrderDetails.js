@@ -3,21 +3,27 @@ export const GET_ORDER_DETAILS_SUCCESS = 'GET_ORDER_DETAILS_SUCCESS';
 export const GET_ORDER_DETAILS_SUCCESS_FAILED = 'GET_ORDER_DETAILS_SUCCESS_FAILED';
 export const CALC_PRICE_ORDER_DETAILS = 'CALC_PRICE_ORDER_DETAILS';
 export const SET_SELECTED_ID_INGREDIENTS = 'SET_SELECTED_ID_INGREDIENTS';
+export const GET_USER_ORDER_DETAILS = 'GET_USER_ORDER_DETAILS';
+export const GET_USER_ORDER_DETAILS_SUCCESS = 'GET_USER_ORDER_DETAILS_SUCCESS';
+export const GET_USER_ORDER_DETAILS_SUCCESS_FAILED = 'GET_USER_ORDER_DETAILS_SUCCESS_FAILED';
+import { deleteAllIngredientsForBurgerAction } from '../../services/actions/ingredients';
 
 import { api } from '../../utils/Api';
 
-export const getOrderDetails = (data) => {
+//отправка заказа на космическую базу для приготовления
+export const getOrderDetails = (data, accessToken) => {
   return(dispatch) => {
     dispatch({
       type: GET_ORDER_DETAILS,
     })
-    api.setOrderDetails(data)
+    api.setOrderDetails(data, accessToken)
       .then(res => {
         if(res && res.success) {
           dispatch({
             type: GET_ORDER_DETAILS_SUCCESS,
             payload: res.order
           })
+          dispatch(deleteAllIngredientsForBurgerAction());
         } else {
           dispatch({
             type: GET_ORDER_DETAILS_SUCCESS_FAILED
@@ -26,6 +32,32 @@ export const getOrderDetails = (data) => {
       }).catch(err => {
         dispatch({
           type: GET_ORDER_DETAILS_SUCCESS_FAILED
+        })
+      })
+  }
+}
+
+//получение информации о заказе с сервера
+export const getOrderUserDetails = (id) => {
+  return (dispatch) => {
+    dispatch({
+      type: GET_USER_ORDER_DETAILS
+    })
+    api.getOrderUserDetails(id)
+      .then(res => {
+        if(res && res.success) {
+          dispatch({
+            type: GET_USER_ORDER_DETAILS_SUCCESS,
+            payload: res
+          })
+        } else {
+          dispatch({
+            type: GET_USER_ORDER_DETAILS_SUCCESS_FAILED
+          })
+        }
+      }).catch(err => {
+        dispatch({
+          type: GET_USER_ORDER_DETAILS_SUCCESS_FAILED
         })
       })
   }

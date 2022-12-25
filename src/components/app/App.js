@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import app from './app.module.css';
 import style from '@ya.praktikum/react-developer-burger-ui-components';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { ProtectedRoute } from '../protectedRoute/ProtectedRoute';
 import { OnlyUnAuthRoute } from '../onlyUnAuthRoute/OnlyUnAuthRoute';
 import { getIngredients } from '../../services/actions/ingredients';
@@ -16,19 +16,58 @@ import Modal from '../modal/Modal';
 import OrderDetails from '../orderDetails/OrderDetails';
 import OrderMessage from '../orderMessage/OrderMessage';
 import IngredientDetails from '../ingredientDetails/IngredientDetails';
-import { Login, Register, ForgotPassword, ResetPassword, Profile, Ingredients, Feed, Orders, NotFoundPage } from '../../pages';
+import FeedIdDetails from '../feedIdDetails/FeedIdDetails';
+import Loader from '../loader/Loader';
+import { getCookie } from '../../utils/cookie';
+import { actionRequestGetUser } from '../../services/actions/actionsAuthorization';
+import {
+  Login,
+  Register,
+  ForgotPassword,
+  ResetPassword,
+  Profile,
+  Ingredients,
+  Feed,
+  FeedId,
+  Orders,
+  NotFoundPage
+} from '../../pages';
 
 export default function App() {
   const dispatch = useDispatch();
   const location = useLocation();
+  const history = useHistory();
   const isOpenModalIngredient = location.state?.isOpenModalIngredient;
   const isOpenModalError = location.state?.isOpenModalError;
   const isOpenModalDetails = location.state?.isOpenModalDetails;
+  const isOpenModalFeed = location.state?.isOpenModalFeed;
+  const isOpenModalOrder = location.state?.isOpenModalOrder;
+  const accessToken = getCookie('accessToken');
+  const refreshToken = getCookie('refreshToken');
+  const isAuth = useSelector((state) => state.authorization.isAuth);
 
   //делаем запрос к серверу для получения всех ингредиентов
   useEffect(() => {
     dispatch(getIngredients());
+    dispatch(actionRequestGetUser(accessToken, refreshToken))
   }, [])
+
+  // Если авторизация прошла успешно редирект на ранее открытую страницу
+  useEffect(() => {
+    if (isAuth && location.stateModal?.from) {
+      history.replace(location?.stateModal?.from);
+    } else if (isAuth && location.state?.from) {
+      history.replace(location?.state?.from);
+    }
+
+  }, [isAuth])
+
+   // Закрытие модалки - возврат на предыдущую страницу
+  const closeModals = useCallback(
+    () => {
+      history.goBack();
+    }, []
+  )
 
   const feedFailed = useSelector((state) => state.getIngredientsApi.feedFailed);
   const feedRequest = useSelector((state) => state.getIngredientsApi.feedRequest);
@@ -36,14 +75,14 @@ export default function App() {
   return (
     <>
       {feedFailed && <h2 className={`text text_type_main-large`}>Произошла ошибка при получении данных</h2>}
-      {feedRequest && <h2 className={`text text_type_main-large`}>Загрузка...</h2>}
+      {feedRequest &&  <Loader />}
       {!feedFailed && !feedRequest &&
         <>
-        <main className={app.app}>
+        <div className={app.app}>
           <div className={app.header}>
             <AppHeader />
           </div>
-          <Switch location={isOpenModalDetails || isOpenModalError || isOpenModalIngredient || location}>
+          <Switch location={isOpenModalDetails || isOpenModalError || isOpenModalIngredient || isOpenModalFeed || isOpenModalOrder|| location}>
             <OnlyUnAuthRoute path="/login" exact={true}>
               <Login />
             </OnlyUnAuthRoute>
@@ -62,10 +101,16 @@ export default function App() {
             <Route path="/feed" exact={true}>
               <Feed />
             </Route>
-            <ProtectedRoute path="/profile/orders" exact={true}>
+            <Route path={`/feed/:id`} exact={true}>
+              <FeedId />
+            </Route>
+            <ProtectedRoute path="/profile/orders" exact={true} isAuth={isAuth}>
               <Orders />
             </ProtectedRoute>
-            <ProtectedRoute path="/profile" exact={true}>
+            <ProtectedRoute path={'/profile/orders/:id'} isAuth={isAuth}>
+              <FeedId />
+            </ProtectedRoute>
+            <ProtectedRoute path="/profile" isAuth={isAuth} exact={true}>
               <Profile />
             </ProtectedRoute>
             <Route path="/" exact={true}>
@@ -81,24 +126,36 @@ export default function App() {
             </Route>
           </Switch>
           {isOpenModalIngredient && (<Route path={`/ingredients/:id`} exact={true}>
-            <Modal title="Детали ингредиента" >
+            <Modal title="Детали ингредиента" closeModals={closeModals} >
               <IngredientDetails />
             </Modal>
           </Route>)
           }
+          {isOpenModalFeed && (<Route path={`/feed/:id`} exact={true}>
+            <Modal title="" closeModals={closeModals} >
+              <FeedIdDetails />
+            </Modal>
+          </Route>)
+          }
+          {isOpenModalOrder && (<Route path={`/profile/orders/:id`} exact={true}>
+            <Modal title="" closeModals={closeModals}>
+              <FeedIdDetails />
+            </Modal>
+          </Route>)
+          }
           {isOpenModalDetails && (<Route path={`/orderDetails`} exact={true}>
-            <Modal title="" >
+            <Modal title="" closeModals={closeModals}>
               <OrderDetails />
             </Modal>
           </Route>)
           }
           {isOpenModalError && (<Route path={`/error`} exact={true} >
-            <Modal title="" >
+            <Modal title="" closeModals={closeModals}>
               <OrderMessage />
             </Modal>
           </Route>)
           }
-        </main>
+        </div>
         </>
       }
     </>

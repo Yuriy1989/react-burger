@@ -3,6 +3,7 @@ import {
   OPEN_SELECTED_INRGEDIENT,
   CLOSE_MODALS,
   OPEN_ORDER_DETAILS,
+  OPEN_BURGER_DETAILS,
   OPEN_ORDER_ERROR
 }
   from '../actions/getIngredientforOpenModal';
@@ -24,6 +25,9 @@ export const openInfoSelectedIngredient = (state = defaultState, action) => {
       return {...state, openModal: false, openModalOrder: false, openModalError: false}
     }
     case OPEN_ORDER_DETAILS: {
+      return {...state, openModalOrder: true}
+    }
+    case OPEN_BURGER_DETAILS: {
       return {...state, openModalOrder: true}
     }
     case OPEN_ORDER_ERROR: {
