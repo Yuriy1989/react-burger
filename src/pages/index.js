@@ -3,7 +3,7 @@ import { Register } from './register';
 import { ForgotPassword } from './forgot-password';
 import { ResetPassword } from './reset-password';
 import { Profile } from './profile';
-import { Ingredients } from './ingredients';
+import { Ingredients } from './ingredients.tsx';
 import { Feed } from './feed';
 import { Orders } from './orders';
 import { NotFoundPage } from './notFoundPage';

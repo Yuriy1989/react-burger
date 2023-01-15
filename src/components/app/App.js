@@ -62,7 +62,7 @@ export default function App() {
 
   }, [isAuth])
 
-   // Закрытие модалки - возврат на предыдущую страницу
+  // Закрытие модалки - возврат на предыдущую страницу
   const closeModals = useCallback(
     () => {
       history.goBack();
@@ -75,87 +75,87 @@ export default function App() {
   return (
     <>
       {feedFailed && <h2 className={`text text_type_main-large`}>Произошла ошибка при получении данных</h2>}
-      {feedRequest &&  <Loader />}
+      {feedRequest && <Loader />}
       {!feedFailed && !feedRequest &&
         <>
-        <div className={app.app}>
-          <div className={app.header}>
-            <AppHeader />
+          <div className={app.app}>
+            <div className={app.header}>
+              <AppHeader />
+            </div>
+            <Switch location={isOpenModalDetails || isOpenModalError || isOpenModalIngredient || isOpenModalFeed || isOpenModalOrder || location}>
+              <OnlyUnAuthRoute path="/login" exact={true}>
+                <Login />
+              </OnlyUnAuthRoute>
+              <OnlyUnAuthRoute path="/register" exact={true}>
+                <Register />
+              </OnlyUnAuthRoute>
+              <OnlyUnAuthRoute path="/forgot-password" exact={true}>
+                <ForgotPassword />
+              </OnlyUnAuthRoute>
+              <OnlyUnAuthRoute path="/reset-password" exact={true}>
+                <ResetPassword />
+              </OnlyUnAuthRoute>
+              <Route path={`/ingredients/:id`} >
+                <Ingredients />
+              </Route>
+              <Route path="/feed" exact={true}>
+                <Feed />
+              </Route>
+              <Route path={`/feed/:id`} exact={true}>
+                <FeedId />
+              </Route>
+              <ProtectedRoute path="/profile/orders" exact={true} isAuth={isAuth}>
+                <Orders />
+              </ProtectedRoute>
+              <ProtectedRoute path={'/profile/orders/:id'} isAuth={isAuth}>
+                <FeedId />
+              </ProtectedRoute>
+              <ProtectedRoute path="/profile" isAuth={isAuth} exact={true}>
+                <Profile />
+              </ProtectedRoute>
+              <Route path="/" exact={true}>
+                <DndProvider backend={HTML5Backend}>
+                  <div className={app.section}>
+                    <BurgerIngredients />
+                    <BurgerConstructor />
+                  </div>
+                </DndProvider>
+              </Route>
+              <Route path='*'>
+                <NotFoundPage />
+              </Route>
+            </Switch>
+            {isOpenModalIngredient && (<Route path={`/ingredients/:id`} exact={true}>
+              <Modal title="Детали ингредиента" closeModals={closeModals} >
+                <IngredientDetails />
+              </Modal>
+            </Route>)
+            }
+            {isOpenModalFeed && (<Route path={`/feed/:id`} exact={true}>
+              <Modal title="" closeModals={closeModals} >
+                <FeedIdDetails />
+              </Modal>
+            </Route>)
+            }
+            {isOpenModalOrder && (<Route path={`/profile/orders/:id`} exact={true}>
+              <Modal title="" closeModals={closeModals}>
+                <FeedIdDetails />
+              </Modal>
+            </Route>)
+            }
+            {isOpenModalDetails && (<Route path={`/orderDetails`} exact={true}>
+              <Modal title="" closeModals={closeModals}>
+                <OrderDetails />
+              </Modal>
+            </Route>)
+            }
+            {isOpenModalError && (<Route path={`/error`} exact={true} >
+              <Modal title="" closeModals={closeModals}>
+                <OrderMessage />
+              </Modal>
+            </Route>)
+            }
           </div>
-          <Switch location={isOpenModalDetails || isOpenModalError || isOpenModalIngredient || isOpenModalFeed || isOpenModalOrder|| location}>
-            <OnlyUnAuthRoute path="/login" exact={true}>
-              <Login />
-            </OnlyUnAuthRoute>
-            <OnlyUnAuthRoute path="/register" exact={true}>
-              <Register />
-            </OnlyUnAuthRoute>
-            <OnlyUnAuthRoute path="/forgot-password" exact={true}>
-              <ForgotPassword />
-            </OnlyUnAuthRoute>
-            <OnlyUnAuthRoute path="/reset-password" exact={true}>
-              <ResetPassword />
-            </OnlyUnAuthRoute>
-            <Route path={`/ingredients/:id`} >
-              <Ingredients />
-            </Route>
-            <Route path="/feed" exact={true}>
-              <Feed />
-            </Route>
-            <Route path={`/feed/:id`} exact={true}>
-              <FeedId />
-            </Route>
-            <ProtectedRoute path="/profile/orders" exact={true} isAuth={isAuth}>
-              <Orders />
-            </ProtectedRoute>
-            <ProtectedRoute path={'/profile/orders/:id'} isAuth={isAuth}>
-              <FeedId />
-            </ProtectedRoute>
-            <ProtectedRoute path="/profile" isAuth={isAuth} exact={true}>
-              <Profile />
-            </ProtectedRoute>
-            <Route path="/" exact={true}>
-              <DndProvider backend={HTML5Backend}>
-                <div className={app.section}>
-                  <BurgerIngredients />
-                  <BurgerConstructor />
-                </div>
-              </DndProvider>
-            </Route>
-            <Route path='*'>
-              <NotFoundPage />
-            </Route>
-          </Switch>
-          {isOpenModalIngredient && (<Route path={`/ingredients/:id`} exact={true}>
-            <Modal title="Детали ингредиента" closeModals={closeModals} >
-              <IngredientDetails />
-            </Modal>
-          </Route>)
-          }
-          {isOpenModalFeed && (<Route path={`/feed/:id`} exact={true}>
-            <Modal title="" closeModals={closeModals} >
-              <FeedIdDetails />
-            </Modal>
-          </Route>)
-          }
-          {isOpenModalOrder && (<Route path={`/profile/orders/:id`} exact={true}>
-            <Modal title="" closeModals={closeModals}>
-              <FeedIdDetails />
-            </Modal>
-          </Route>)
-          }
-          {isOpenModalDetails && (<Route path={`/orderDetails`} exact={true}>
-            <Modal title="" closeModals={closeModals}>
-              <OrderDetails />
-            </Modal>
-          </Route>)
-          }
-          {isOpenModalError && (<Route path={`/error`} exact={true} >
-            <Modal title="" closeModals={closeModals}>
-              <OrderMessage />
-            </Modal>
-          </Route>)
-          }
-        </div>
         </>
       }
     </>
