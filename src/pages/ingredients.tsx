@@ -5,20 +5,39 @@ import { useSelector } from 'react-redux';
 import ingredients from './ingredients.module.css';
 
 interface IData {
+  calories: number | undefined,
+  carbohydrates: number | undefined,
+  fat: number | undefined,
+  id: string,
+  image: string,
+  image_large: string,
+  image_mobile: string,
   name: string,
-  age: number | null
+  price: number | undefined,
+  proteins: number | undefined,
+  type: string,
 }
 
 export function Ingredients () {
 
-  const { id }  = useParams();
+  const { id }  = useParams<{id?: string}>();
   const ingredientsData = useSelector(state => state.getIngredientsApi.ingredientsGetApi);
-  const [data, setData] = useState({});
-  const [x, setX] = useState<IData>({name: '', age: null});
+  console.log(ingredientsData);
+  const [data, setData] = useState<IData>({
+    calories: undefined,
+    carbohydrates: undefined,
+    fat: undefined,
+    id: '',
+    image: '',
+    image_large: '',
+    image_mobile: '',
+    name: '',
+    price: undefined,
+    proteins: undefined,
+    type: '',
+  });
 
-  
-
-   //Ищем ингредиент из общего массива ингредиентов по определенному id из ссылки
+     //Ищем ингредиент из общего массива ингредиентов по определенному id из ссылки
   const selectedIngredients = useCallback(
     () => {
       const t = ingredientsData.find(item => item.id === id);
