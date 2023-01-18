@@ -2,10 +2,28 @@ import {
   WS_CONNECTION_SUCCESS,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_CLOSE,
-  WS_GET_ORDERS
-} from '../actions/actionUserOrders';
+  WS_GET_ORDERS,
+} from '../constants';
 
-const defaultState = {
+import { TWsSoccetActions } from '../actions/actionUserOrders';
+
+// import {
+//   WS_CONNECTION_SUCCESS,
+//   WS_CONNECTION_ERROR,
+//   WS_CONNECTION_CLOSE,
+//   WS_GET_ORDERS
+// } from '../actions/actionUserOrders';
+
+type TDefaultState = {
+  wsConnected: boolean,
+  orders: any[],
+  error: string | undefined,
+  request: boolean,
+  feedRequest: boolean,
+  feedFailed: boolean,
+};
+
+const defaultState: TDefaultState = {
   wsConnected: false,
   orders: [],
   error: undefined,
@@ -14,7 +32,7 @@ const defaultState = {
   feedFailed: false
 };
 
-export const orders = (state = defaultState, action) => {
+export const orders = (state = defaultState, action: TWsSoccetActions): TDefaultState => {
   switch(action.type) {
     case WS_CONNECTION_SUCCESS: {
       return {
@@ -26,10 +44,11 @@ export const orders = (state = defaultState, action) => {
       };
     }
     case WS_CONNECTION_ERROR: {
-      const data = action.payload;
+      // const data = action.payload;
       return {
         ...state,
-        error: data,
+        // error: data,
+        error: "data",
         wsConnected: false,
         feedRequest: false,
         feedFailed: true
@@ -48,7 +67,8 @@ export const orders = (state = defaultState, action) => {
       return {
         ...state,
         error: undefined,
-        orders: [action.payload],
+        // orders: [action.payload],
+        orders: [],
         feedRequest: false,
       };
     }
