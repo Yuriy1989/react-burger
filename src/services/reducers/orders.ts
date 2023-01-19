@@ -48,7 +48,7 @@ export const orders = (state = defaultState, action: TWsSoccetActions): TDefault
       return {
         ...state,
         // error: data,
-        error: "data",
+        error: action.payload,
         wsConnected: false,
         feedRequest: false,
         feedFailed: true
@@ -67,8 +67,8 @@ export const orders = (state = defaultState, action: TWsSoccetActions): TDefault
       return {
         ...state,
         error: undefined,
-        // orders: [action.payload],
-        orders: [],
+        orders: [action.payload],
+        // orders: [],
         feedRequest: false,
       };
     }

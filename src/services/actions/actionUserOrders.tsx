@@ -8,22 +8,27 @@ import {
 
 export interface IWsConnectionStart {
   readonly type: typeof WS_CONNECTION_START;
+  readonly payload?: any;
 }
 
 export interface IWsConnectionSuccess {
   readonly type: typeof WS_CONNECTION_SUCCESS;
+  readonly payload?: any;
 }
 
 export interface IWsConnectionError {
   readonly type: typeof WS_CONNECTION_ERROR;
+  readonly payload?: any;
 }
 
 export interface IWsConnectionClose {
   readonly type: typeof WS_CONNECTION_CLOSE;
+  readonly payload?: any;
 }
 
 export interface IWsGetOrders {
   readonly type: typeof WS_GET_ORDERS;
+  readonly payload?: any;
 }
 
 export type TWsSoccetActions =

@@ -1,13 +1,13 @@
-import react, { useEffect } from 'react';
+import react, {FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import style from '@ya.praktikum/react-developer-burger-ui-components';
 import Orders from '../components/orders/Orders';
 import Stats from '../components/stats/Stats';
 import feed from './feed.module.css';
-import { WS_CONNECTION_START, WS_CONNECTION_CLOSE } from '../services/actions/actionUserOrders';
+import { connectionStart, connectionClose } from '../services/actions/actionUserOrders';
 import Loader from '../components/loader/Loader';
 
-export function Feed() {
+export function Feed () {
 
   const feedRequest = useSelector(state => state.orders.feedRequest);
   const feedFailed = useSelector(state => state.orders.feedFailed);
@@ -17,12 +17,12 @@ export function Feed() {
 
   useEffect(() => {
     dispatch({
-      type: WS_CONNECTION_START,
+      type: connectionStart,
       payload: wsUrl
 
     });
     return () => {
-      dispatch({ type: WS_CONNECTION_CLOSE });
+      dispatch({ type: connectionClose });
     }
   }, [])
 
