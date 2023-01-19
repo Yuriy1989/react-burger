@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import orders from './orders.module.css';
 import MenuProfile from '../components/menuProfile/MenuProfile';
 import CardOrder from '../components/cardOrder/CardOrder';
-import { WS_CONNECTION_START, WS_CONNECTION_CLOSE } from '../services/actions/actionUserOrders';
+import { connectionStart, connectionClose } from '../services/actions/actionUserOrders';
 import { getCookie } from '../utils/cookie';
 import Loader from '../components/loader/Loader';
 
@@ -21,12 +21,12 @@ export function Orders () {
 
   useEffect(() => {
     dispatch({
-      type: WS_CONNECTION_START,
+      type: connectionStart,
       payload: wsUrl
     }
     );
     return () => {
-      dispatch({ type: WS_CONNECTION_CLOSE });
+      dispatch({ type: connectionClose });
     }
   }, [])
 

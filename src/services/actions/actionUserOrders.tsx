@@ -27,7 +27,7 @@ export interface IWsGetOrders {
 }
 
 export type TWsSoccetActions =
-  IWsConnectionStart |
+ | IWsConnectionStart |
   IWsConnectionSuccess |
   IWsConnectionError |
   IWsConnectionClose |
