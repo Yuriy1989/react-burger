@@ -1,4 +1,4 @@
-import react, { useEffect } from 'react';
+import react, {FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import style from '@ya.praktikum/react-developer-burger-ui-components';
 import Orders from '../components/orders/Orders';
@@ -7,7 +7,7 @@ import feed from './feed.module.css';
 import { connectionStart, connectionClose } from '../services/actions/actionUserOrders';
 import Loader from '../components/loader/Loader';
 
-export function Feed() {
+export function Feed () {
 
   const feedRequest = useSelector(state => state.orders.feedRequest);
   const feedFailed = useSelector(state => state.orders.feedFailed);
