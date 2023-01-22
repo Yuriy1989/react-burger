@@ -1,6 +1,17 @@
-export const socketMiddleware = (wsActions) => {
+import { Middleware } from "redux";
+import { RootState } from "../store/store";
+
+interface IWsActions {
+  wsInit: any;
+  onOpen: string;
+  onClose: string;
+  onError: string;
+  onOrders: string;
+}
+
+export const socketMiddleware = (wsActions: IWsActions): Middleware<{}, RootState> => {
   return store => {
-    let socket = null;
+    let socket: WebSocket | null = null;
 
     return next => action => {
       const { dispatch } = store;

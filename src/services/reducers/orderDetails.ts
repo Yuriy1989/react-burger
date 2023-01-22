@@ -1,3 +1,4 @@
+import { TOrderDetails } from '../actions/getOrderDetails';
 import {
   CALC_PRICE_ORDER_DETAILS,
   SET_SELECTED_ID_INGREDIENTS,
@@ -7,9 +8,18 @@ import {
   GET_USER_ORDER_DETAILS,
   GET_USER_ORDER_DETAILS_SUCCESS,
   GET_USER_ORDER_DETAILS_SUCCESS_FAILED
-} from '../actions/getOrderDetails';
+} from '../constants';
 
-const defaultState = {
+type TDefaultState = {
+  feedRequest: boolean,
+  feedFailed: boolean,
+  price: number,
+  selectedIdIgredients: any[],
+  orderDetails: any[],
+  infoOderDetails: {}
+}
+
+const defaultState: TDefaultState = {
   feedRequest: false,
   feedFailed: false,
   price: 0,
@@ -18,7 +28,7 @@ const defaultState = {
   infoOderDetails: {}
 }
 
-export const getInfoOrderDetails = (state = defaultState, action) => {
+export const getInfoOrderDetails = (state = defaultState, action: TOrderDetails): TDefaultState => {
   switch (action.type) {
     case GET_ORDER_DETAILS: {
       return {...state, feedRequest: true, feedFailed: false}

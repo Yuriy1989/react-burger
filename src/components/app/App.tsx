@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import app from './app.module.css';
 import style from '@ya.praktikum/react-developer-burger-ui-components';
@@ -32,9 +32,16 @@ import {
   Orders,
   NotFoundPage
 } from '../../pages';
+import { useAppDispatch, useAppSelector } from '../../services/store/hooks';
 
-export default function App() {
-  const dispatch = useDispatch();
+interface LocationState {
+  from: {
+    pathname: string;
+  };
+}
+
+const App: FC = () => {
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const history = useHistory();
   const isOpenModalIngredient = location.state?.isOpenModalIngredient;
@@ -44,7 +51,7 @@ export default function App() {
   const isOpenModalOrder = location.state?.isOpenModalOrder;
   const accessToken = getCookie('accessToken');
   const refreshToken = getCookie('refreshToken');
-  const isAuth = useSelector((state) => state.authorization.isAuth);
+  const isAuth = useAppSelector((state) => state.authorization.isAuth);
 
   //делаем запрос к серверу для получения всех ингредиентов
   useEffect(() => {
@@ -69,8 +76,8 @@ export default function App() {
     }, []
   )
 
-  const feedFailed = useSelector((state) => state.getIngredientsApi.feedFailed);
-  const feedRequest = useSelector((state) => state.getIngredientsApi.feedRequest);
+  const feedFailed = useAppSelector((state) => state.getIngredientsApi.feedFailed);
+  const feedRequest = useAppSelector((state) => state.getIngredientsApi.feedRequest);
 
   return (
     <>
@@ -161,3 +168,5 @@ export default function App() {
     </>
   );
 }
+
+export default App;

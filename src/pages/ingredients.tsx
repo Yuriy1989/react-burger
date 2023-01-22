@@ -1,8 +1,9 @@
 import {FC, useState, useCallback, useEffect } from 'react';
 import style from '@ya.praktikum/react-developer-burger-ui-components';
 import { useParams, Redirect } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import ingredients from './ingredients.module.css';
+import { useAppSelector as useSelector} from '../services/store/hooks';
 
 interface IData {
   calories: number | undefined,
@@ -18,7 +19,7 @@ interface IData {
   type: string,
 }
 
-export function Ingredients () {
+const Ingredients: FC = () => {
 
   const { id }  = useParams<{id?: string}>();
   const ingredientsData = useSelector(state => state.getIngredientsApi.ingredientsGetApi);
@@ -76,3 +77,5 @@ export function Ingredients () {
     </div>
   )
 }
+
+export default Ingredients;

@@ -1,3 +1,4 @@
+import { TIngredientsApi } from '../actions/ingredients';
 import {
   GET_INGREDIENTS_API,
   GET_INGREDIENTS_API_SUCCESS,
@@ -6,21 +7,33 @@ import {
   SORT_INGREDIENTS_IN_BURGER_CONSTRUCTOR,
   DELETE_INGREDIENTS_IN_BURGER_CONSTRUCTOR,
   DELETE_ALL_INGREDIENTS_IN_BURGER_CONSTRUCTOR,
-} from '../actions/ingredients';
+} from '../constants';
 
-const defaultState = {
+type TIngredientForConstructor = {
+  bun: any[],
+  others: any[]
+}
+
+type TDefaultState = {
+  feedRequest: boolean,
+  feedFailed: boolean,
+  ingredientsGetApi: any[],
+  ingredientForConstructor: TIngredientForConstructor
+}
+
+const defaultState: TDefaultState = {
   feedRequest: false,
   feedFailed: false,
   ingredientsGetApi: [], //список всех полученных ингредиентов
   ingredientForConstructor: { //список всех ингредиентов в текущем конструкторе бургера
     bun: [],
-    others: []
+    others: [],
   },
 }
 
 export const ingredientsName = { bun: 'bun', main: 'main', sauce: 'sauce' };
 
-export const getIngredientsApi = ( state = defaultState, action ) => {
+export const getIngredientsApi = ( state = defaultState, action: TIngredientsApi ): TDefaultState => {
   switch (action.type) {
     case GET_INGREDIENTS_API: {
       return { ...state, feedRequest: true, feedFailed: false };
@@ -56,6 +69,7 @@ export const getIngredientsApi = ( state = defaultState, action ) => {
     case SORT_INGREDIENTS_IN_BURGER_CONSTRUCTOR: {
       const dragIndex = action.dragIndex;
       const hoverIndex = action.hoverIndex;
+      // @ts-ignore
       const newMas = state.ingredientForConstructor.others.slice(state.ingredientForConstructor.others.splice(hoverIndex, 0, state.ingredientForConstructor.others.splice(dragIndex, 1)[0]));
       return {
         ...state,
