@@ -1,21 +1,35 @@
+import { TAuth } from "../actions/actionsAuthorization";
 import {
-  SUCCESS_AUTH,
-  GET_REQUEST,
-  AUTH_REQUEST_SUCCESS,
   AUTH_REQUEST_FAILED,
+  AUTH_REQUEST_SUCCESS,
+  CANCEL_EDIT_USER,
+  EXIT_REQUEST,
+  EXIT_REQUEST_FAILED,
+  EXIT_REQUEST_SUCCESS,
+  GET_REQUEST,
   GET_USER_REQUEST_FAILED,
   GET_USER_REQUEST_SUCCESS,
-  REFRESH_ACCESS_TOKEN_REQUEST,
-  REFRESH_ACCESS_TOKEN_REQUEST_SUCCESS,
-  REFRESH_ACCESS_TOKEN_REQUEST_FAILED,
-  EXIT_REQUEST,
-  EXIT_REQUEST_SUCCESS,
-  EXIT_REQUEST_FAILED,
-  CANCEL_EDIT_USER,
   PATCH_USER_REQUEST,
-  PATCH_USER_REQUEST_SUCCESS,
   PATCH_USER_REQUEST_FAILED,
-} from '../actions/actionsAuthorization';
+  PATCH_USER_REQUEST_SUCCESS,
+  REFRESH_ACCESS_TOKEN_REQUEST,
+  REFRESH_ACCESS_TOKEN_REQUEST_FAILED,
+  REFRESH_ACCESS_TOKEN_REQUEST_SUCCESS,
+  SUCCESS_AUTH
+} from "../constants";
+
+type TUser = {
+  email: string | null,
+  name: string | null
+}
+
+type TDefaultState = {
+  feedRequest: boolean,
+  feedRequestPatchUser: boolean,
+  isAuth: boolean,
+  error: string | null,
+  user: TUser,
+}
 
 const defaultState = {
   feedRequest: false,
@@ -28,7 +42,7 @@ const defaultState = {
   },
 }
 
-export const authorization = ( state = defaultState, action ) => {
+export const authorization = ( state = defaultState, action: TAuth ) => {
   switch(action.type) {
     case GET_REQUEST: {
       return { ...state, feedRequest: true }

@@ -1,28 +1,27 @@
 import react, {FC, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import style from '@ya.praktikum/react-developer-burger-ui-components';
 import Orders from '../components/orders/Orders';
 import Stats from '../components/stats/Stats';
 import feed from './feed.module.css';
 import { connectionStart, connectionClose } from '../services/actions/actionUserOrders';
 import Loader from '../components/loader/Loader';
+import { useAppDispatch, useAppDispatch as useDispatch, useAppSelector } from '../services/store/hooks';
+import { WS_CONNECTION_CLOSE, WS_CONNECTION_START } from '../services/constants';
 
-export function Feed () {
-
-  const feedRequest = useSelector(state => state.orders.feedRequest);
-  const feedFailed = useSelector(state => state.orders.feedFailed);
+const Feed: FC = () => {
+  const feedRequest = useAppSelector(state => state.orders.feedRequest);
+  const feedFailed = useAppSelector(state => state.orders.feedFailed);
   const wsUrl = 'wss://norma.nomoreparties.space/orders/all';
-  const dispatch = useDispatch();
-  const data = useSelector(state => state.orders.orders);
+  const data = useAppSelector(state => state.orders.orders);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch({
-      type: connectionStart,
+      type: WS_CONNECTION_START,
       payload: wsUrl
-
     });
     return () => {
-      dispatch({ type: connectionClose });
+      dispatch({ type: WS_CONNECTION_CLOSE });
     }
   }, [])
 
@@ -39,7 +38,7 @@ export function Feed () {
             <div className={feed.orders}>
               <ul className={feed.cards}>
                 {
-                  data[0]?.orders?.map((card)=> (
+                  data[0]?.orders?.map((card: { _id: react.Key | null | undefined; })=> (
                     <Orders card={card} key={card._id} />
                   ))
                 }
@@ -52,3 +51,5 @@ export function Feed () {
     </>
   )
 }
+
+export default Feed;

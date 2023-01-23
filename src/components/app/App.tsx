@@ -1,5 +1,5 @@
-import React, { useEffect, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useCallback, FC } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
 import app from './app.module.css';
 import style from '@ya.praktikum/react-developer-burger-ui-components';
 import { DndProvider } from 'react-dnd';
@@ -32,10 +32,64 @@ import {
   Orders,
   NotFoundPage
 } from '../../pages';
+import { useAppDispatch, useAppSelector } from '../../services/store/hooks';
 
-export default function App() {
-  const dispatch = useDispatch();
-  const location = useLocation();
+// interface IStateX {
+//   hash: string,
+//   key: string,
+//   pathname: string,
+//   search: string,
+//   state: from: hash: ""
+//   key: string,
+//   pathname: string,
+//   search: string,
+//   state: null,
+//   stateModal: from: hash: "",
+//   key: string,
+//   pathname: string,
+//   search: string,
+//   state: null,
+// }
+import { Location } from "history";
+
+
+
+interface IState {
+  isOpenModalIngredient?: string | undefined,
+  isOpenModalError?: string | undefined,
+  isOpenModalDetails?: string | undefined,
+  isOpenModalFeed?: string | undefined,
+  isOpenModalOrder?: string | undefined,
+}
+
+interface ILocationState extends IState {
+  hash: string,
+  key: string,
+  pathname: string,
+  search: string,
+}
+
+let xxx: ILocationState = {
+  hash: "srty",
+  key: '',
+  pathname: '',
+  search: '',
+  isOpenModalIngredient: undefined,
+  isOpenModalError: undefined,
+  isOpenModalDetails: undefined,
+  isOpenModalFeed: undefined,
+  isOpenModalOrder: undefined,
+}
+
+console.log('xxx', xxx);
+
+const App: FC = () => {
+  const dispatch = useAppDispatch();
+  // const location = useLocation<ILocationState>();
+  const location = useLocation<{ background: Location }>();
+  const background = location.state && location.state.background;
+
+
   const history = useHistory();
   const isOpenModalIngredient = location.state?.isOpenModalIngredient;
   const isOpenModalError = location.state?.isOpenModalError;
@@ -44,7 +98,7 @@ export default function App() {
   const isOpenModalOrder = location.state?.isOpenModalOrder;
   const accessToken = getCookie('accessToken');
   const refreshToken = getCookie('refreshToken');
-  const isAuth = useSelector((state) => state.authorization.isAuth);
+  const isAuth = useAppSelector((state) => state.authorization.isAuth);
 
   //делаем запрос к серверу для получения всех ингредиентов
   useEffect(() => {
@@ -69,8 +123,8 @@ export default function App() {
     }, []
   )
 
-  const feedFailed = useSelector((state) => state.getIngredientsApi.feedFailed);
-  const feedRequest = useSelector((state) => state.getIngredientsApi.feedRequest);
+  const feedFailed = useAppSelector((state) => state.getIngredientsApi.feedFailed);
+  const feedRequest = useAppSelector((state) => state.getIngredientsApi.feedRequest);
 
   return (
     <>
@@ -161,3 +215,5 @@ export default function App() {
     </>
   );
 }
+
+export default App;

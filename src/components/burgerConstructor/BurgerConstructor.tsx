@@ -1,19 +1,21 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { FC, useEffect, useCallback } from "react";
 import style, { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useHistory, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+// import { useDispatch, useSelector } from 'react-redux';
 import { calcPrice, setSelectedId } from '../../services/actions/getOrderDetails';
 import burgerConstructor from './burgerConstructor.module.css';
 import { useDrop } from "react-dnd";
 import { selectedIngredientsForBurgerAction } from '../../services/actions/ingredients';
 import ElementBurger from '../elementBurger/ElementBurger';
+import { useAppDispatch as useDispatch, useAppSelector as useSelector } from '../../services/store/hooks';
 
-function BurgerConstructor() {
+type TCallbackType = () => void;
 
-  const location = useLocation();
+const BurgerConstructor: FC = () => {
+
   const history = useHistory();
   const dispatch = useDispatch();
-  const onDropHandler = (itemId) => dispatch(selectedIngredientsForBurgerAction(itemId));
+  const onDropHandler = (itemId: unknown) => dispatch(selectedIngredientsForBurgerAction(itemId));
   const isAuth = useSelector(state => state.authorization.isAuth);
 
   const [ {isHover}, dropTarget] = useDrop({
@@ -53,8 +55,7 @@ function BurgerConstructor() {
     dispatch(setSelectedId(createOrder()));
   }, [selectedIngredients]);
 
-  const openModalOrder = useCallback(
-    () => {
+  const openModalOrder = useCallback<TCallbackType>(() => {
       if (selectedIngredients.bun.length) {
         history.push({
           pathname: `/orderDetails`,
@@ -66,18 +67,16 @@ function BurgerConstructor() {
           state: { isOpenModalError: location }
         })
       }
-    }
+    }, []
   )
 
-  const handleClick = useCallback(
-    () => {
+  const handleClick = useCallback<TCallbackType>(() => {
       if(!isAuth) {
         history.replace({ pathname: '/login' });
       } else {
         openModalOrder();
       }
-
-    }
+    }, []
   )
 
   return (

@@ -1,25 +1,26 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { FC, useEffect, useRef, useState, useCallback } from 'react';
 import style, { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
+import { useAppSelector as useSelector } from '../../services/store/hooks';
 import { ingredientsName } from '../../services/reducers/ingredients';
 
 import burgerIngredients from './burgerIngredients.module.css';
 import IngredientItem from '../ingredientItem/IngredientItem';
 
-function BurgerIngredients() {
+const BurgerIngredients: FC = () => {
 
   const [current, setCurrent] = useState();
-  const bunRef = useRef(null);
-  const sauceRef = useRef(null);
-  const mainRef = useRef(null);
+  const bunRef = useRef<HTMLHeadingElement>(null);
+  const sauceRef = useRef<HTMLHeadingElement>(null);
+  const mainRef = useRef<HTMLHeadingElement>(null);
   const ingredients = useSelector((state) => state.getIngredientsApi.ingredientsGetApi);
 
   //функция подсчета координат для выделения табов
   const scrollTab = useCallback(() => {
-    const scrollArea = (document.querySelector('#scrollArea').getBoundingClientRect()).top;
-    const scrollSectionBun = (document.querySelector('#sectionBun').getBoundingClientRect()).top;
-    const scrollSectionSauce = (document.querySelector('#sectionSauce').getBoundingClientRect()).top;
-    const scrollSectionMain = (document.querySelector('#sectionMain').getBoundingClientRect()).top;
+    const scrollArea = ((document.querySelector('#scrollArea') as HTMLDivElement).getBoundingClientRect()).top;
+    const scrollSectionBun = ((document.querySelector('#sectionBun') as HTMLDivElement).getBoundingClientRect()).top;
+    const scrollSectionSauce = ((document.querySelector('#sectionSauce') as HTMLDivElement).getBoundingClientRect()).top;
+    const scrollSectionMain = ((document.querySelector('#sectionMain') as HTMLDivElement).getBoundingClientRect()).top;
 
     const bun = Math.abs(scrollArea - scrollSectionBun);
     const sauce = Math.abs(scrollArea - scrollSectionSauce);
@@ -35,8 +36,8 @@ function BurgerIngredients() {
   }, [])
 
   function throttle(callee, timeout) {
-    let timer = null
-    return function perform(...args) {
+    let timer: string | number | NodeJS.Timeout | null | undefined = null
+    return function perform(...args: any[]) {
       if (timer) return
       timer = setTimeout(() => {
         callee(...args)

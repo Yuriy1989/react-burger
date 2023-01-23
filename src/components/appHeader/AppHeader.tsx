@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 import style, { BurgerIcon, ListIcon, ProfileIcon, Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import appHeaderStyles from './appHeader.module.css';
 import { NavLink, useHistory, Link } from 'react-router-dom';
 
-export default function AppHeader() {
+const AppHeader: FC = () => {
 
   const history = useHistory();
 
@@ -43,3 +43,6 @@ export default function AppHeader() {
     </header>
   );
 }
+
+export default AppHeader;
+

@@ -5,14 +5,7 @@ import {
   WS_GET_ORDERS,
 } from '../constants';
 
-import { TWsSoccetActions } from '../actions/actionUserOrders';
-
-// import {
-//   WS_CONNECTION_SUCCESS,
-//   WS_CONNECTION_ERROR,
-//   WS_CONNECTION_CLOSE,
-//   WS_GET_ORDERS
-// } from '../actions/actionUserOrders';
+import { TWsSocketActions } from '../actions/actionUserOrders';
 
 type TDefaultState = {
   wsConnected: boolean,
@@ -32,7 +25,7 @@ const defaultState: TDefaultState = {
   feedFailed: false
 };
 
-export const orders = (state = defaultState, action: TWsSoccetActions): TDefaultState => {
+export const orders = (state = defaultState, action: TWsSocketActions): TDefaultState => {
   switch(action.type) {
     case WS_CONNECTION_SUCCESS: {
       return {
@@ -64,6 +57,7 @@ export const orders = (state = defaultState, action: TWsSoccetActions): TDefault
       };
     }
     case WS_GET_ORDERS : {
+      console.log('action.payload', action.payload);
       return {
         ...state,
         error: undefined,
