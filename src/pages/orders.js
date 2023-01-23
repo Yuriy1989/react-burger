@@ -22,7 +22,7 @@ export function Orders () {
   useEffect(() => {
     dispatch({
       type: connectionStart,
-      payload: wsUrl
+      wsUrl
     }
     );
     return () => {

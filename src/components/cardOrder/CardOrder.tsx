@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { FC, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import style, { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import cardOrder from './cardOrder.module.css';
 import { timeCreateBurger } from '../../utils/time';
 import OrderElement from '../orderElement/OrderElement';
+import { useAppSelector as useSelector} from '../../services/store/hooks';
+import { ICard, IData } from '../../services/types';
 
-export default function CardOrder({ card }) {
-
-  const [cellOrder, setCellOrder] = useState(0); //цена за бургер
-  const [countData, setCountData] = useState([]);
+const CardOrder: FC<ICard | null> = ({ card }) => {
+  console.log('card', card);
+  const [cellOrder, setCellOrder] = useState<number>(0); //цена за бургер
+  const [countData, setCountData] = useState<Array<IData>>([]);
   const [burger, setBurger] = useState([]); //готовый бургер
   const location = useLocation();
   const ingredientsData = useSelector((state) => state.getIngredientsApi.ingredientsGetApi); //все ингредиенты
@@ -17,9 +18,9 @@ export default function CardOrder({ card }) {
 
   //сбор данных об ингредиентах бургера в заказе
   const createBurger = () => {
-    let summa = 0; //цена за бургер
-    let arrImage = [];
-    let igredientsDetails = []; //ингредиенты с подробной информацией
+    let summa: number = 0; //цена за бургер
+    let arrImage: Array<string> = [];
+    let ingredientsDetails: Array<IData> = []; //ингредиенты с подробной информацией
     let n = 0;
     //собираем из бургера всю подбробную информацию по каждому ингредиенту
     while (n <= card?.ingredients?.length) {
@@ -27,15 +28,15 @@ export default function CardOrder({ card }) {
         if (item.id === card.ingredients[n]) {
           summa += item.price;
           arrImage.push(item.image_mobile);
-          igredientsDetails.push(item);
+          ingredientsDetails.push(item);
         }
       })
       n++;
       setCellOrder(summa); //передаем цену за бургер в state
-      setCountData(igredientsDetails);
+      setCountData(ingredientsDetails);
     }
 
-    const nSet = new Set(igredientsDetails); //создаем конструктор
+    const nSet = new Set(ingredientsDetails); //создаем конструктор
     const uniqueMas = Array.from(nSet); //создаем массим уникальный значений из конструктора
     const bun = uniqueMas.filter(item => item.type == 'bun'); //находим булочку
     const createBurger = [...uniqueMas, ...bun]; //добавляем булку в конец массива
@@ -84,3 +85,5 @@ export default function CardOrder({ card }) {
     </>
   );
 }
+
+export default CardOrder;

@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useState } from 'react';
-
 import PropTypes from 'prop-types';
 import style, { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 // import { useSelector } from 'react-redux';
@@ -8,9 +7,9 @@ import ingredientItem from './ingredientItem.module.css';
 import { ingredientTypes } from '../../utils/types';
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from 'react-router-dom';
-import { IData } from '../services/types';
+import { IData } from '../../services/types';
 
-const IngredientItem: FC<IData> = ( {item} ) => {
+const IngredientItem: FC<IData> = ({ item }) => {
 
   const [count, setCount] = useState({}); //объект типа {ID:количество} в массиве arrayData
   const [arrayData, setArrayData] = useState([]); //общий массив всех ингредиентов

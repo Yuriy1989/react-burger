@@ -1,7 +1,7 @@
 // import { applyMiddleware, configureStore } from "@reduxjs/toolkit";
 
 // const store = configureStore({
-//   reducer: {},
+//   reducer: { rootReducers },
 // })
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
@@ -16,20 +16,26 @@ import { TModals } from '../actions/getIngredientforOpenModal';
 import { TOrderDetails } from '../actions/getOrderDetails';
 
 import {
-  connectionStart,
-  connectionSuccess,
-  connectionError,
-  connectionClose,
-  getOrders
-} from '../actions/actionUserOrders';
+  WS_CONNECTION_START,
+  WS_CONNECTION_SUCCESS,
+  WS_CONNECTION_ERROR,
+  WS_CONNECTION_CLOSE,
+  WS_GET_ORDERS,
+} from '../constants';
 
 const wsActions = {
-  wsInit: connectionStart,
-  onOpen: connectionSuccess,
-  onClose: connectionError,
-  onError: connectionClose,
-  onOrders: getOrders
+  wsInit: WS_CONNECTION_START,
+  onOpen: WS_CONNECTION_SUCCESS,
+  onClose: WS_CONNECTION_ERROR,
+  onError: WS_CONNECTION_CLOSE,
+  onOrders: WS_GET_ORDERS
 };
+
+// declare global {
+//   interface Window {
+//     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+//   }
+// }
 
 // @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -41,6 +47,6 @@ export type AppDispatch = typeof store.dispatch;
 
 type TApplicationActions = TWsSocketActions | TIngredientsApi | TAuth | TModals | TOrderDetails;
 export type AppThunk<ReturnType = void> = ActionCreator<
-  ThunkAction<ReturnType, RootState, unknown, TApplicationActions>
+  ThunkAction<ReturnType, Action, RootState, TApplicationActions>
 >;
 

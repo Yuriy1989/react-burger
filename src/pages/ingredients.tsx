@@ -1,7 +1,6 @@
 import {FC, useState, useCallback, useEffect } from 'react';
 import style from '@ya.praktikum/react-developer-burger-ui-components';
-import { useParams, Redirect } from 'react-router-dom';
-// import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import ingredients from './ingredients.module.css';
 import { useAppSelector as useSelector} from '../services/store/hooks';
 import { IData } from '../services/types';
@@ -10,7 +9,6 @@ const Ingredients: FC = () => {
 
   const { id }  = useParams<{id?: string}>();
   const ingredientsData = useSelector(state => state.getIngredientsApi.ingredientsGetApi);
-  console.log(ingredientsData);
   const [data, setData] = useState<IData>({
     calories: undefined,
     carbohydrates: undefined,

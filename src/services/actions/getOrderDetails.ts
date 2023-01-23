@@ -10,7 +10,7 @@ import {
   GET_USER_ORDER_DETAILS_SUCCESS_FAILED,
   SET_SELECTED_ID_INGREDIENTS
 } from '../constants';
-import { AppDispatch } from '../store/store';
+import { AppDispatch, AppThunk } from '../store/store';
 
 export interface ICALC_PRICE_ORDER_DETAILS {
   payload: any;
@@ -72,7 +72,7 @@ interface IId {
 }
 
 //отправка заказа на космическую базу для приготовления
-export const getOrderDetails = (data: IData, accessToken: IAccessToken) => {
+export const getOrderDetails: AppThunk = (data: IData, accessToken: IAccessToken) => {
   return(dispatch: AppDispatch) => {
     dispatch({
       type: GET_ORDER_DETAILS,
@@ -99,7 +99,8 @@ export const getOrderDetails = (data: IData, accessToken: IAccessToken) => {
 }
 
 //получение информации о заказе с сервера
-export const getOrderUserDetails = (id: any) => {
+export const getOrderUserDetails: AppThunk = (id: any) => {
+  console.log('id', id);
   return (dispatch: AppDispatch) => {
     dispatch({
       type: GET_USER_ORDER_DETAILS
@@ -124,7 +125,7 @@ export const getOrderUserDetails = (id: any) => {
   }
 }
 
-export const calcPrice = (data: IData) => {
+export const calcPrice: AppThunk = (data: IData) => {
   return(dispatch: AppDispatch) => {
     dispatch({
       type: CALC_PRICE_ORDER_DETAILS,
@@ -133,7 +134,7 @@ export const calcPrice = (data: IData) => {
   }
 }
 
-export const setSelectedId = (data: IData) => {
+export const setSelectedId: AppThunk = (data: IData) => {
   return(dispatch: AppDispatch) => {
     dispatch({
       type: SET_SELECTED_ID_INGREDIENTS,

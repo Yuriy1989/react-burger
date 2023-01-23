@@ -13,7 +13,7 @@ class Api {
   }
 
   //получение всех ингредиентов
-  getIngridients() {
+  getIngredients() {
     return this._request(`${this._url}/ingredients`, {
       method: 'GET',
       headers: this._headers

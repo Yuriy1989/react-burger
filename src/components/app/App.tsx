@@ -33,60 +33,41 @@ import {
   NotFoundPage
 } from '../../pages';
 import { useAppDispatch, useAppSelector } from '../../services/store/hooks';
+import { Location } from "history";
 
-// interface IStateX {
+// interface IState {
+//   isOpenModalIngredient?: string | undefined,
+//   isOpenModalError?: string | undefined,
+//   isOpenModalDetails?: string | undefined,
+//   isOpenModalFeed?: string | undefined,
+//   isOpenModalOrder?: string | undefined,
+// }
+
+// interface ILocationState extends IState {
 //   hash: string,
 //   key: string,
 //   pathname: string,
 //   search: string,
-//   state: from: hash: ""
-//   key: string,
-//   pathname: string,
-//   search: string,
-//   state: null,
-//   stateModal: from: hash: "",
-//   key: string,
-//   pathname: string,
-//   search: string,
-//   state: null,
 // }
-import { Location } from "history";
 
+// let xxx: ILocationState = {
+//   hash: "srty",
+//   key: '',
+//   pathname: '',
+//   search: '',
+//   isOpenModalIngredient: undefined,
+//   isOpenModalError: undefined,
+//   isOpenModalDetails: undefined,
+//   isOpenModalFeed: undefined,
+//   isOpenModalOrder: undefined,
+// }
 
-
-interface IState {
-  isOpenModalIngredient?: string | undefined,
-  isOpenModalError?: string | undefined,
-  isOpenModalDetails?: string | undefined,
-  isOpenModalFeed?: string | undefined,
-  isOpenModalOrder?: string | undefined,
-}
-
-interface ILocationState extends IState {
-  hash: string,
-  key: string,
-  pathname: string,
-  search: string,
-}
-
-let xxx: ILocationState = {
-  hash: "srty",
-  key: '',
-  pathname: '',
-  search: '',
-  isOpenModalIngredient: undefined,
-  isOpenModalError: undefined,
-  isOpenModalDetails: undefined,
-  isOpenModalFeed: undefined,
-  isOpenModalOrder: undefined,
-}
-
-console.log('xxx', xxx);
+// console.log('xxx', xxx);
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
   // const location = useLocation<ILocationState>();
-  const location = useLocation<{ background: Location }>();
+  const location = useLocation<{background: Location}>();
   const background = location.state && location.state.background;
 
 

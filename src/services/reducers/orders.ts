@@ -37,10 +37,8 @@ export const orders = (state = defaultState, action: TWsSocketActions): TDefault
       };
     }
     case WS_CONNECTION_ERROR: {
-      // const data = action.payload;
       return {
         ...state,
-        // error: data,
         error: action.payload,
         wsConnected: false,
         feedRequest: false,
@@ -57,12 +55,10 @@ export const orders = (state = defaultState, action: TWsSocketActions): TDefault
       };
     }
     case WS_GET_ORDERS : {
-      console.log('action.payload', action.payload);
       return {
         ...state,
         error: undefined,
         orders: [action.payload],
-        // orders: [],
         feedRequest: false,
       };
     }

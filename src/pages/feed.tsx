@@ -6,7 +6,7 @@ import feed from './feed.module.css';
 import { connectionStart, connectionClose } from '../services/actions/actionUserOrders';
 import Loader from '../components/loader/Loader';
 import { useAppDispatch, useAppDispatch as useDispatch, useAppSelector } from '../services/store/hooks';
-import { WS_CONNECTION_CLOSE, WS_CONNECTION_START } from '../services/constants';
+import { WS_CONNECTION_START, WS_CONNECTION_CLOSE } from '../services/constants';
 
 const Feed: FC = () => {
   const feedRequest = useAppSelector(state => state.orders.feedRequest);

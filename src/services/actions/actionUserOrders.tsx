@@ -8,7 +8,9 @@ import {
 
 export interface IWsConnectionStart {
   readonly type: typeof WS_CONNECTION_START;
-  readonly payload?: any;
+  readonly payload: {
+    wsUrl?: string;
+  }
 }
 
 export interface IWsConnectionSuccess {
@@ -32,14 +34,17 @@ export interface IWsGetOrders {
 }
 
 export type TWsSoccetActions =
- | IWsConnectionStart |
-  IWsConnectionSuccess |
-  IWsConnectionError |
-  IWsConnectionClose |
-  IWsGetOrders;
+  | IWsConnectionStart
+  | IWsConnectionSuccess
+  | IWsConnectionError
+  | IWsConnectionClose
+  | IWsGetOrders;
 
 export const connectionStart = (): IWsConnectionStart => ({
-  type: WS_CONNECTION_START
+  type: WS_CONNECTION_START,
+  payload: {
+    wsUrl: ''
+  }
 });
 
 export const connectionSuccess = (): IWsConnectionSuccess => ({
@@ -57,12 +62,3 @@ export const connectionClose = (): IWsConnectionClose => ({
 export const getOrders = (): IWsGetOrders => ({
   type: WS_GET_ORDERS
 });
-
-
-// export const WS_CONNECTION_START: 'WS_CONNECTION_START' = 'WS_CONNECTION_START';
-// export const WS_CONNECTION_SUCCESS: 'WS_CONNECTION_SUCCESS' = 'WS_CONNECTION_SUCCESS';
-// export const WS_CONNECTION_ERROR: 'WS_CONNECTION_ERROR' = 'WS_CONNECTION_ERROR';
-// export const WS_CONNECTION_CLOSE: 'WS_CONNECTION_CLOSE' = 'WS_CONNECTION_CLOSE';
-// export const WS_GET_ORDERS: 'WS_GET_ORDERS' = 'WS_GET_ORDERS';
-// export const WS_SEND_DATA: 'WS_SEND_DATA' = 'WS_SEND_DATA';
-

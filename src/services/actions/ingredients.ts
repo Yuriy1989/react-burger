@@ -9,7 +9,8 @@ import {
 } from '../constants';
 import { api } from '../../utils/Api';
 import uuid from 'react-uuid';
-import { AppDispatch } from '../store/store';
+import { AppDispatch, AppThunk } from '../store/store';
+import { IData } from '../types';
 
 export interface IGET_INGREDIENTS_API {
   type: typeof GET_INGREDIENTS_API;
@@ -48,7 +49,7 @@ export interface IDELETE_ALL_INGREDIENTS_IN_BURGER_CONSTRUCTOR {
 }
 
 export type TIngredientsApi =
-  | IGET_INGREDIENTS_API
+  IGET_INGREDIENTS_API
   | IGET_INGREDIENTS_API_SUCCESS
   | IGET_INGREDIENTS_API_FAILED
   | IINGREDIENTS_IN_BURGER_CONSTRUCTOR
@@ -56,32 +57,18 @@ export type TIngredientsApi =
   | IDELETE_INGREDIENTS_IN_BURGER_CONSTRUCTOR
   | IDELETE_ALL_INGREDIENTS_IN_BURGER_CONSTRUCTOR;
 
-interface IIngredients {
-  _id: any;
-  name: any;
-  price: any;
-  type: any;
-  image: any;
-  image_mobile: any;
-  image_large: any;
-  proteins: any;
-  fat: any;
-  carbohydrates: any;
-  calories: any;
-}
-
 //генератор экшенов - запрос по API для получения всех ингредиентов для бургера
-export const getIngredients = () => {
+export const getIngredients: AppThunk = () => {
   return (dispatch: AppDispatch) => {
     dispatch({
       type: GET_INGREDIENTS_API
     })
-    api.getIngridients()
+    api.getIngredients()
       .then(res => {
         if (res && res.success) {
           dispatch({
             type: GET_INGREDIENTS_API_SUCCESS,
-            payload: res.data.map((item: IIngredients) => {
+            payload: res.data.map((item: Omit<IData, 'id'> & { _id: string}) => {
               return {
                 id: item._id,
                 name: item.name,
@@ -111,7 +98,7 @@ export const getIngredients = () => {
 }
 
 //экшен по сбору выбранных ингредиентов для бургера
-export const selectedIngredientsForBurgerAction = (data: any) => {
+export const selectedIngredientsForBurgerAction: AppThunk = (data: IData) => {
   const indexIngredient = uuid();
   return(dispatch: AppDispatch) => {
     dispatch({
@@ -125,7 +112,7 @@ export const selectedIngredientsForBurgerAction = (data: any) => {
 }
 
 //экшен по сортировке выбранных ингредиентов для бургера
-export const sortSelectedIngredientsForBurgerAction = (dragIndex: any, hoverIndex: any) => {
+export const sortSelectedIngredientsForBurgerAction: AppThunk = (dragIndex: number, hoverIndex: number) => {
   return(dispatch: AppDispatch) => {
     dispatch({
       type: SORT_INGREDIENTS_IN_BURGER_CONSTRUCTOR,
@@ -136,7 +123,7 @@ export const sortSelectedIngredientsForBurgerAction = (dragIndex: any, hoverInde
 }
 
 //экшен по удалению выбранных ингредиентов для бургера
-export const deleteSelectedIngredientsForBurgerAction = (data: any) => {
+export const deleteSelectedIngredientsForBurgerAction: AppThunk = (data: number) => {
   return(dispatch: AppDispatch) => {
     dispatch({
       type: DELETE_INGREDIENTS_IN_BURGER_CONSTRUCTOR,
@@ -146,7 +133,7 @@ export const deleteSelectedIngredientsForBurgerAction = (data: any) => {
 }
 
 //экшен для удаления всех ингредиентов из собираемого бургера
-export const deleteAllIngredientsForBurgerAction = () => {
+export const deleteAllIngredientsForBurgerAction: AppThunk = () => {
   return(dispatch: AppDispatch) => {
     dispatch({
       type: DELETE_ALL_INGREDIENTS_IN_BURGER_CONSTRUCTOR,

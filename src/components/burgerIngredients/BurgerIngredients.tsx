@@ -6,10 +6,13 @@ import { ingredientsName } from '../../services/reducers/ingredients';
 
 import burgerIngredients from './burgerIngredients.module.css';
 import IngredientItem from '../ingredientItem/IngredientItem';
+import { number } from 'prop-types';
+
+let Tcurrent: "bun" | "sauce" | "main";
 
 const BurgerIngredients: FC = () => {
 
-  const [current, setCurrent] = useState();
+  const [current, setCurrent] = useState<typeof Tcurrent>();
   const bunRef = useRef<HTMLHeadingElement>(null);
   const sauceRef = useRef<HTMLHeadingElement>(null);
   const mainRef = useRef<HTMLHeadingElement>(null);
@@ -17,10 +20,10 @@ const BurgerIngredients: FC = () => {
 
   //функция подсчета координат для выделения табов
   const scrollTab = useCallback(() => {
-    const scrollArea = ((document.querySelector('#scrollArea') as HTMLDivElement).getBoundingClientRect()).top;
-    const scrollSectionBun = ((document.querySelector('#sectionBun') as HTMLDivElement).getBoundingClientRect()).top;
-    const scrollSectionSauce = ((document.querySelector('#sectionSauce') as HTMLDivElement).getBoundingClientRect()).top;
-    const scrollSectionMain = ((document.querySelector('#sectionMain') as HTMLDivElement).getBoundingClientRect()).top;
+    const scrollArea = (document.querySelector('#scrollArea').getBoundingClientRect()).top;
+    const scrollSectionBun = (document.querySelector('#sectionBun').getBoundingClientRect()).top;
+    const scrollSectionSauce = (document.querySelector('#sectionSauce').getBoundingClientRect()).top;
+    const scrollSectionMain = (document.querySelector('#sectionMain').getBoundingClientRect()).top;
 
     const bun = Math.abs(scrollArea - scrollSectionBun);
     const sauce = Math.abs(scrollArea - scrollSectionSauce);
@@ -35,7 +38,7 @@ const BurgerIngredients: FC = () => {
     }
   }, [])
 
-  function throttle(callee, timeout) {
+  function throttle(callee: { (): void; (arg0: any): void; }, timeout: number | undefined) {
     let timer: string | number | NodeJS.Timeout | null | undefined = null
     return function perform(...args: any[]) {
       if (timer) return
@@ -46,6 +49,7 @@ const BurgerIngredients: FC = () => {
       }, timeout)
     }
   }
+
 
   let scrollTabThrottle = throttle(scrollTab, 500);
 
