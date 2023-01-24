@@ -1,18 +1,18 @@
 import React, { FC, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import style, { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-// import { useSelector } from 'react-redux';
 import { useAppSelector as useSelector } from '../../services/store/hooks';
 import ingredientItem from './ingredientItem.module.css';
-import { ingredientTypes } from '../../utils/types';
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from 'react-router-dom';
-import { IData } from '../../services/types';
+import { IArrayData, IData } from '../../services/types';
 
-const IngredientItem: FC<IData> = ({ item }) => {
+interface ICount {
+  [key: string]: number
+}
 
-  const [count, setCount] = useState({}); //объект типа {ID:количество} в массиве arrayData
-  const [arrayData, setArrayData] = useState([]); //общий массив всех ингредиентов
+const IngredientItem: FC<{ item: IData }> = ({ item }) => {
+  const [count, setCount] = useState<ICount>({}); //объект типа {ID:количество} в массиве arrayData
+  const [arrayData, setArrayData] = useState<Array<IArrayData>>([]); //общий массив всех ингредиентов
   const location = useLocation();
 
   const [{ isDrag }, dragRef] = useDrag({
@@ -27,13 +27,13 @@ const IngredientItem: FC<IData> = ({ item }) => {
 
   //результат подсчета кол-ва элементов отобранных для бургера
   const caclCount = () => {
-    let arrayCountData = [];
-    let result = {};
+    let arrayCountData:Array<IArrayData> = [];
+    let result:ICount = {};
     setCount(result);
     arrayCountData = ([...Object.values(countData)[0], ...Object.values(countData)[1]]);
     setArrayData(arrayCountData);
     for (let i = 0; i < arrayCountData.length; ++i) {
-      let a = arrayCountData[i].id;
+      let a = arrayCountData[i].data.id;
       if (result[a] != undefined) {
         ++result[a];
       }
@@ -47,32 +47,31 @@ const IngredientItem: FC<IData> = ({ item }) => {
   }, [countData]);
 
   return (
-    !isDrag &&
-    <Link className={ingredientItem.link}
-      to={{
-        pathname: `/ingredients/${item.id}`,
-        state: { isOpenModalIngredient: location }
-      }}
-    >
-      <li ref={dragRef} className={ingredientItem.item}>
-        <img className={ingredientItem.image} src={item.image}></img>
-        <div className={ingredientItem.counter}>
-          {arrayData.map((check, index) => (check.id === item.id &&
-            <Counter key={index} count={count[item.id]} size="default" />))
-          }
-        </div>
-        <div className={ingredientItem.price}>
-          <p className={` ${ingredientItem.cost} text text_type_digits-default`}>{item.price}</p>
-          <CurrencyIcon type="primary" />
-        </div>
-        <p className={` ${ingredientItem.name} text text_type_main-default`}>{item.name}</p>
-      </li>
-    </Link>
+    <>
+      {!isDrag &&
+        <Link className={ingredientItem.link}
+          to={{
+            pathname: `/ingredients/${item.id}`,
+            state: { isOpenModalIngredient: location }
+          }}
+        >
+          <li ref={dragRef} className={ingredientItem.item}>
+            <img className={ingredientItem.image} src={item.image}></img>
+            <div className={ingredientItem.counter}>
+              {arrayData.map((check, index) => (check.data.id === item.id &&
+                <Counter key={index} count={count[item.id]} size="default" />))
+              }
+            </div>
+            <div className={ingredientItem.price}>
+              <p className={` ${ingredientItem.cost} text text_type_digits-default`}>{item.price}</p>
+              <CurrencyIcon type="primary" />
+            </div>
+            <p className={` ${ingredientItem.name} text text_type_main-default`}>{item.name}</p>
+          </li>
+        </Link>
+      }
+    </>
   );
-}
-
-IngredientItem.propTypes = {
-  item: ingredientTypes.isRequired,
 }
 
 export default IngredientItem;

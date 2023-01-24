@@ -35,35 +35,6 @@ import {
 import { useAppDispatch, useAppSelector } from '../../services/store/hooks';
 import { Location } from "history";
 
-// interface IState {
-//   isOpenModalIngredient?: string | undefined,
-//   isOpenModalError?: string | undefined,
-//   isOpenModalDetails?: string | undefined,
-//   isOpenModalFeed?: string | undefined,
-//   isOpenModalOrder?: string | undefined,
-// }
-
-// interface ILocationState extends IState {
-//   hash: string,
-//   key: string,
-//   pathname: string,
-//   search: string,
-// }
-
-// let xxx: ILocationState = {
-//   hash: "srty",
-//   key: '',
-//   pathname: '',
-//   search: '',
-//   isOpenModalIngredient: undefined,
-//   isOpenModalError: undefined,
-//   isOpenModalDetails: undefined,
-//   isOpenModalFeed: undefined,
-//   isOpenModalOrder: undefined,
-// }
-
-// console.log('xxx', xxx);
-
 const App: FC = () => {
   const dispatch = useAppDispatch();
   // const location = useLocation<ILocationState>();

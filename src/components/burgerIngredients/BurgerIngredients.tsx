@@ -8,11 +8,11 @@ import burgerIngredients from './burgerIngredients.module.css';
 import IngredientItem from '../ingredientItem/IngredientItem';
 import { number } from 'prop-types';
 
-let Tcurrent: "bun" | "sauce" | "main";
+let currentDefault: "bun" | "sauce" | "main";
 
 const BurgerIngredients: FC = () => {
 
-  const [current, setCurrent] = useState<typeof Tcurrent>();
+  const [current, setCurrent] = useState<typeof currentDefault>();
   const bunRef = useRef<HTMLHeadingElement>(null);
   const sauceRef = useRef<HTMLHeadingElement>(null);
   const mainRef = useRef<HTMLHeadingElement>(null);

@@ -9,19 +9,7 @@ const Ingredients: FC = () => {
 
   const { id }  = useParams<{id?: string}>();
   const ingredientsData = useSelector(state => state.getIngredientsApi.ingredientsGetApi);
-  const [data, setData] = useState<IData>({
-    calories: undefined,
-    carbohydrates: undefined,
-    fat: undefined,
-    id: '',
-    image: '',
-    image_large: '',
-    image_mobile: '',
-    name: '',
-    price: undefined,
-    proteins: undefined,
-    type: '',
-  });
+  const [data, setData] = useState<IData>();
 
      //Ищем ингредиент из общего массива ингредиентов по определенному id из ссылки
   const selectedIngredients = useCallback(

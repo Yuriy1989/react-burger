@@ -12,6 +12,11 @@ export interface IData {
   type: string,
 }
 
+export interface IArrayData {
+  data: IData,
+  indexIngredient: string,
+}
+
 export interface IAuth {
   email: string,
   password: string,
@@ -21,7 +26,7 @@ export interface ICard {
   createdAt: string,
   ingredients: Array<string>,
   name: string,
-  number: number
+  number: number,
   status : string,
   updatedAt: string,
   _id: string,
