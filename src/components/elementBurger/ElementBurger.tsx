@@ -1,26 +1,31 @@
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import style, { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
+import { useAppDispatch as useDispatch } from '../../services/store/hooks';
 import elementBurger from './elementBurger.module.css';
 import { deleteSelectedIngredientsForBurgerAction, sortSelectedIngredientsForBurgerAction } from '../../services/actions/ingredients';
-import { ingredientTypes, numberTypes } from '../../utils/types';
-import { useDrag, useDrop } from 'react-dnd';
-import { useRef, useCallback } from 'react';
+// import { ingredientTypes, numberTypes } from '../../utils/types';
+import { DropTargetMonitor, useDrag, useDrop } from 'react-dnd';
+import { FC, useRef, useCallback } from 'react';
+import { IData } from '../../services/types';
 
-function ElementBurger({data, index}) {
+const ElementBurger: FC<{ data: IData, index: number }> = ({data, index}) => {
+
+  console.log('data', data.price);
   const dispatch = useDispatch();
   const handleClose = useCallback(() => dispatch(deleteSelectedIngredientsForBurgerAction(index)), []);
   const onDropHandlerOthers = useCallback((dragIndex, hoverIndex) => dispatch(sortSelectedIngredientsForBurgerAction(dragIndex, hoverIndex)), []);
 
   const id = data.id;
-  const ref = useRef();
+  const ref = useRef<HTMLLIElement>(null);
 
   const [ {handlerId}, drop] = useDrop({
     accept: 'sortIngredients',
     collect: monitor => ({
       handlerId: monitor.isOver(),
     }),
-    hover(item, monitor) {
+    hover: (item: { id: string, index: number }, monitor: DropTargetMonitor) => {
+      console.log('item' , item);
       if (!ref.current) {
         return
       }
@@ -29,10 +34,11 @@ function ElementBurger({data, index}) {
       if (dragIndex === hoverIndex) {
         return
       }
+
       const hoverBoundingRect = ref.current?.getBoundingClientRect()
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
       const clientOffset = monitor.getClientOffset()
+      if (!hoverBoundingRect || !clientOffset) return;
       const hoverClientY = clientOffset.y - hoverBoundingRect.top
 
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
@@ -79,7 +85,7 @@ function ElementBurger({data, index}) {
 
 export default ElementBurger;
 
-ElementBurger.propTypes = {
-  data: ingredientTypes.isRequired,
-  index: numberTypes.isRequired
-}
+// ElementBurger.propTypes = {
+//   data: ingredientTypes.isRequired,
+//   index: numberTypes.isRequired
+// }

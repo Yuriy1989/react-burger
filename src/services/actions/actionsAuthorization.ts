@@ -40,6 +40,7 @@ export interface ICANCEL_EDIT_USER {
 
 export interface IEXIT_REQUEST {
   type: typeof EXIT_REQUEST;
+  payload?: string;
 }
 
 export interface IEXIT_REQUEST_FAILED {
@@ -251,6 +252,7 @@ export const actionRequestCancelEditUser: AppThunk = () => {
 }
 
 export const actionRequestExit: AppThunk = (refreshToken: string | undefined) => {
+  console.log('refreshToken',refreshToken);
   return (dispatch: AppDispatch) => {
     dispatch({
       type: EXIT_REQUEST

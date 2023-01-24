@@ -3,12 +3,10 @@ import style, { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 // import { useSelector } from 'react-redux';
 import { useAppSelector as useSelector } from '../../services/store/hooks';
 import { ingredientsName } from '../../services/reducers/ingredients';
-
 import burgerIngredients from './burgerIngredients.module.css';
 import IngredientItem from '../ingredientItem/IngredientItem';
-import { number } from 'prop-types';
-
-let currentDefault: "bun" | "sauce" | "main";
+import { currentDefault } from '../../services/types';
+// import { number } from 'prop-types';
 
 const BurgerIngredients: FC = () => {
 
@@ -20,7 +18,8 @@ const BurgerIngredients: FC = () => {
 
   //функция подсчета координат для выделения табов
   const scrollTab = useCallback(() => {
-    const scrollArea = (document.querySelector('#scrollArea').getBoundingClientRect()).top;
+    const tet: HTMLDivElement = document.querySelector('#scrollArea');
+    const scrollArea = (tet.getBoundingClientRect()).top;
     const scrollSectionBun = (document.querySelector('#sectionBun').getBoundingClientRect()).top;
     const scrollSectionSauce = (document.querySelector('#sectionSauce').getBoundingClientRect()).top;
     const scrollSectionMain = (document.querySelector('#sectionMain').getBoundingClientRect()).top;

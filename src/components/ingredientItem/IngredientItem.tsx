@@ -4,11 +4,7 @@ import { useAppSelector as useSelector } from '../../services/store/hooks';
 import ingredientItem from './ingredientItem.module.css';
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from 'react-router-dom';
-import { IArrayData, IData } from '../../services/types';
-
-interface ICount {
-  [key: string]: number
-}
+import { IArrayData, ICount, IData } from '../../services/types';
 
 const IngredientItem: FC<{ item: IData }> = ({ item }) => {
   const [count, setCount] = useState<ICount>({}); //объект типа {ID:количество} в массиве arrayData
@@ -27,8 +23,8 @@ const IngredientItem: FC<{ item: IData }> = ({ item }) => {
 
   //результат подсчета кол-ва элементов отобранных для бургера
   const caclCount = () => {
-    let arrayCountData:Array<IArrayData> = [];
-    let result:ICount = {};
+    let arrayCountData: Array<IArrayData> = [];
+    let result: ICount = {};
     setCount(result);
     arrayCountData = ([...Object.values(countData)[0], ...Object.values(countData)[1]]);
     setArrayData(arrayCountData);

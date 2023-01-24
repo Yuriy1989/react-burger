@@ -1,18 +1,24 @@
+import React, { FC } from 'react';
 import style from '@ya.praktikum/react-developer-burger-ui-components';
 import { NavLink } from 'react-router-dom';
 import menuProfile from './menuProfile.module.css';
 import { getCookie } from '../../utils/cookie';
 import { actionRequestExit } from '../../services/actions/actionsAuthorization';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch as useDispatch} from '../../services/store/hooks';
+import { EXIT_REQUEST } from '../../services/constants';
 
-export default function MenuProfile () {
+const MenuProfile: FC = () => {
 
   const dispatch = useDispatch();
-  const refreshToken = getCookie('refreshToken');
+  const refreshToken: string | undefined = getCookie('refreshToken');
 
   //Запрос к серверу для выхода и удаления всех токинов из кук
   const handleClickExit = () => {
     dispatch(actionRequestExit(refreshToken));
+    // dispatch({
+    //   type: EXIT_REQUEST,
+    //   refreshToken: refreshToken
+    // })
   }
 
   return (
@@ -23,3 +29,5 @@ export default function MenuProfile () {
     </nav>
   );
 }
+
+export default MenuProfile;

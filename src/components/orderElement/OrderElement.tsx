@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { ingredientTypes } from '../../utils/types';
+import React, { FC, useEffect, useState } from 'react';
 import style from '@ya.praktikum/react-developer-burger-ui-components';
 import orderElement from './orderElement.module.css';
+import { ICount, IData } from '../../services/types';
 
-export default function OrderElement({ item, burger, countData , indexStyle}) {
-
-  const [count, setCount] = useState({}); //объект типа {ID:количество} в массиве countData
+const OrderElement: FC<{ item: IData, burger: Array<IData>, countData: Array<IData>, indexStyle: number }> = ({ item, burger, countData, indexStyle }) => {
+  const [count, setCount] = useState<ICount>({}); //объект типа {ID:количество} в массиве countData
 
   //результат подсчета кол-ва элементов отобранных для бургера
   const caclCount = () => {
-    let result = {};
+    let result: ICount = {};
     for (let i = 0; i < countData.length; ++i) {
       let a = countData[i].id;
       if (result[a] != undefined) {
@@ -53,6 +51,4 @@ export default function OrderElement({ item, burger, countData , indexStyle}) {
   )
 }
 
-OrderElement.propTypes = {
-  item: ingredientTypes.isRequired,
-}
+export default OrderElement;

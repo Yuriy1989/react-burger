@@ -7,21 +7,20 @@ import OrderElement from '../orderElement/OrderElement';
 import { useAppSelector as useSelector} from '../../services/store/hooks';
 import { ICard, IData } from '../../services/types';
 
-const CardOrder: FC<ICard | null> = ({ card }) => {
-  console.log('card', card);
+const CardOrder: FC<{ card: ICard }> = ({ card }) => {
   const [cellOrder, setCellOrder] = useState<number>(0); //цена за бургер
   const [countData, setCountData] = useState<Array<IData>>([]);
-  const [burger, setBurger] = useState([]); //готовый бургер
+  const [burger, setBurger] = useState<Array<IData>>([]); //готовый бургер
   const location = useLocation();
   const ingredientsData = useSelector((state) => state.getIngredientsApi.ingredientsGetApi); //все ингредиенты
-  const [createTimeBurger, setCreateTimeBurger] = useState(); //время создания бургера
+  const [createTimeBurger, setCreateTimeBurger] = useState<string>(); //время создания бургера
 
   //сбор данных об ингредиентах бургера в заказе
   const createBurger = () => {
     let summa: number = 0; //цена за бургер
     let arrImage: Array<string> = [];
     let ingredientsDetails: Array<IData> = []; //ингредиенты с подробной информацией
-    let n = 0;
+    let n: number = 0;
     //собираем из бургера всю подбробную информацию по каждому ингредиенту
     while (n <= card?.ingredients?.length) {
       ingredientsData.map(item => {
@@ -40,9 +39,9 @@ const CardOrder: FC<ICard | null> = ({ card }) => {
     const uniqueMas = Array.from(nSet); //создаем массим уникальный значений из конструктора
     const bun = uniqueMas.filter(item => item.type == 'bun'); //находим булочку
     const createBurger = [...uniqueMas, ...bun]; //добавляем булку в конец массива
-
     setBurger(createBurger); //передаем ингредиенты с подробной информацией в state
-    setCreateTimeBurger(timeCreateBurger(card.createdAt));//расчет времени создания бургера
+    const time:string = timeCreateBurger(card.createdAt);
+    setCreateTimeBurger(time);//расчет времени создания co
   }
 
   useEffect(() => {

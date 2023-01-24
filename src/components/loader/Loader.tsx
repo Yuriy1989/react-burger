@@ -1,9 +1,6 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
 import style from '@ya.praktikum/react-developer-burger-ui-components';
 import loader from './loader.module.css';
 export default function Loader() {
-
   return (
     <>
       <div className={loader.loader}>

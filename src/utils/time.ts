@@ -1,10 +1,10 @@
 //расчет времени создания бургера
-export function timeCreateBurger(createitemBurger) {
-  const minute = 1000 * 60;
-  const hour = minute * 60;
-  const day = hour * 24;
+export function timeCreateBurger(createitemBurger: string): string {
+  const minute: number = 1000 * 60;
+  const hour: number = minute * 60;
+  const day: number = hour * 24;
 
-  let todayDate = new Date(); //текущая дата
+  let todayDate: Date = new Date(); //текущая дата
   let todayDateISO8601 = todayDate.toISOString(); //преобразуем текущуюу дату в формат ISO 8601 YYYY-MM-DDTHH:mm:ss.sssZ
 
   const todayTime = Date.parse(createitemBurger); //парсим время создания бургера
@@ -16,6 +16,6 @@ export function timeCreateBurger(createitemBurger) {
   const IndexElementGreenwichMeanTime = stringCreateBurger.indexOf("GMT"); //находим с какого индекса начинается GMT
   const GreenwichMeanTime = stringCreateBurger.slice(IndexElementGreenwichMeanTime, IndexElementGreenwichMeanTime+6);
 
-  const createTime = ('timeCreate', createBurgerDay + ', ' + createBurg.getHours() + ':' + createBurg.getMinutes() + ' i-' + GreenwichMeanTime);
+  const createTime: string = (createBurgerDay + ', ' + createBurg.getHours() + ':' + createBurg.getMinutes() + ' i-' + GreenwichMeanTime);
   return createTime;
 }

@@ -1,3 +1,9 @@
+export let currentDefault: "bun" | "sauce" | "main";
+
+export interface ICount {
+  [key: string]: number
+}
+
 export interface IData {
   calories: number | undefined,
   carbohydrates: number | undefined,
@@ -7,9 +13,9 @@ export interface IData {
   image_large: string,
   image_mobile: string,
   name: string,
-  price: number | undefined,
+  price: number,
   proteins: number | undefined,
-  type: string,
+  type: typeof currentDefault,
 }
 
 export interface IArrayData {
