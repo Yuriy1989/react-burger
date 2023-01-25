@@ -1,10 +1,7 @@
-// import PropTypes from 'prop-types';
 import style, { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-// import { useDispatch } from 'react-redux';
 import { useAppDispatch as useDispatch } from '../../services/store/hooks';
 import elementBurger from './elementBurger.module.css';
 import { deleteSelectedIngredientsForBurgerAction, sortSelectedIngredientsForBurgerAction } from '../../services/actions/ingredients';
-// import { ingredientTypes, numberTypes } from '../../utils/types';
 import { DropTargetMonitor, useDrag, useDrop } from 'react-dnd';
 import { FC, useRef, useCallback } from 'react';
 import { IData } from '../../services/types';
@@ -25,7 +22,6 @@ const ElementBurger: FC<{ data: IData, index: number }> = ({data, index}) => {
       handlerId: monitor.isOver(),
     }),
     hover: (item: { id: string, index: number }, monitor: DropTargetMonitor) => {
-      console.log('item' , item);
       if (!ref.current) {
         return
       }
@@ -64,8 +60,8 @@ const ElementBurger: FC<{ data: IData, index: number }> = ({data, index}) => {
     }),
   });
 
-  const opacity = isDragging ? 0.5 : 1;
-  const border = handlerId ? 'lightgreen dashed 1px' : 'transparent';
+  const opacity: number = isDragging ? 0.5 : 1;
+  const border: string = handlerId ? 'lightgreen dashed 1px' : 'transparent';
 
   drag(drop(ref))
   return (
@@ -84,8 +80,3 @@ const ElementBurger: FC<{ data: IData, index: number }> = ({data, index}) => {
 }
 
 export default ElementBurger;
-
-// ElementBurger.propTypes = {
-//   data: ingredientTypes.isRequired,
-//   index: numberTypes.isRequired
-// }

@@ -1,18 +1,17 @@
-import React from "react";
+import React, { FC } from "react";
 import style from '@ya.praktikum/react-developer-burger-ui-components';
 import stats from './stats.module.css';
-import { useSelector } from 'react-redux';
+import { useAppSelector as useSelector} from "../../services/store/hooks";
+import { ICard } from "../../services/types";
 
-export default function Stats() {
-
+const Stats: FC = () => {
   const data = useSelector(state => state.orders.orders);
-
-  let n = 0; //счетчик всех заказов
-  let y = 0; //счетчих текущего заказа
-  let mass = []; //общий массив заказов разбитый на массив по 10 элементом
+  let n: number = 0; //счетчик всех заказов
+  let y: number = 0; //счетчих текущего заказа
+  let mass: Array<Array<ICard>> = []; //общий массив заказов разбитый на массив по 10 элементом
   while(n < data[0]?.orders?.length) {
-    let x = 0; //внутренний счетчик
-    let inMass = []; //массив заказов из 10 элементов
+    let x: number = 0; //внутренний счетчик
+    let inMass: Array<ICard> = []; //массив заказов из 10 элементов
     while(x < 10) {
       inMass.push(data[0]?.orders[y]);
       x++;
@@ -42,7 +41,7 @@ export default function Stats() {
         <div className={stats.statusOrders}>
           <h2 className={` ${stats.statusTitle} text text_type_main-medium `}>В работе: </h2>
           <ul className={stats.item}>
-            {data[0]?.orders?.filter(card => card?.status != 'done').map(item => (
+            {data[0]?.orders?.filter((card: { status: string; }) => card?.status != 'done').map((item: { _id: React.Key; number: number; }) => (
               <li key={item._id} className={` ${stats.idOrder} ${stats.idOrder_White} text text_type_digits-default `}>
                 {item.number}
               </li>
@@ -57,3 +56,5 @@ export default function Stats() {
     </section>
   );
 }
+
+export default Stats;

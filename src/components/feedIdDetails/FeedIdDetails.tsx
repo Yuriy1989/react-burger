@@ -1,33 +1,35 @@
-import { useState, useCallback, useEffect } from 'react';
+import { FC, useState, useCallback, useEffect } from 'react';
 import style, { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+// import { useSelector, useDispatch } from 'react-redux';
+import { useAppDispatch as useDispatch, useAppSelector as useSelector} from '../../services/store/hooks';
 import feedIdDetails from './feedIdDetails.module.css';
 import { timeCreateBurger } from '../../utils/time';
 import { openBurgerDetails } from '../../services/actions/getIngredientforOpenModal';
+import { ICard, ICount, IData } from '../../services/types';
 
-export default function FeedIdDetails () {
+const FeedIdDetails: FC = () => {
 
   const dispatch = useDispatch();
-  const { id }  = useParams(); //id бургера
+  const { id }  = useParams<{id: string}>(); //id бургера
   const card = useSelector(state => state.orders.orders); //последние 50 заказов
   const ingredientsData = useSelector(state => state.getIngredientsApi.ingredientsGetApi); //все возможные ингредиенты
-  const [cellOrder, setCellOrder] = useState(0); //цена за бургер
-  const [data, setData] = useState([]); //название, номер и цена бургера
-  const [burger, setBurger] = useState([]); //готовый бургер с фильтром по уникальным ингредиентам
-  const [count, setCount] = useState({}); //объект типа {ID:количество} в массиве countData
-  const [createTimeBurger, setCreateTimeBurger] = useState(); //время создания бургера
+  const [cellOrder, setCellOrder] = useState<number>(0); //цена за бургер
+  const [data, setData] = useState<ICard>(); //название, номер и цена бургера
+  const [burger, setBurger] = useState<Array<IData>>([]); //готовый бургер с фильтром по уникальным ингредиентам
+  const [count, setCount] = useState<ICount>({}); //объект типа {ID:количество} в массиве countData
+  const [createTimeBurger, setCreateTimeBurger] = useState<string>(); //время создания бургера
 
   //сбор данных об ингредиентах бургера в заказе
   const createBurger = useCallback(
     () => {
-    const itemBurger = card[0]?.orders.find(item => item.number === Number(id)); //ищем из последних 50 заказов наш по id
+    const itemBurger = card[0]?.orders.find((item: { number: number; }) => item.number === Number(id)); //ищем из последних 50 заказов наш по id
     setData(itemBurger);
 
-    let summa = 0; //цена за бургер
-    let arrImage = [];
-    let igredientsDetails = []; //ингредиенты с подробной информацией
-    let n = 0;
+    let summa: number = 0; //цена за бургер
+    let arrImage: Array<string> = [];
+    let igredientsDetails: Array<IData> = []; //ингредиенты с подробной информацией
+    let n: number = 0;
     //собираем из бургера всю подбробную информацию по каждому ингредиенту
     while (n <= itemBurger?.ingredients.length) {
       ingredientsData.map(item => {
@@ -41,9 +43,10 @@ export default function FeedIdDetails () {
       setCellOrder(summa); //передаем цену за бургер в state
     }
 
-    let result = {};
+    let result: ICount = {};
     for (let i = 0; i < igredientsDetails.length; ++i) {
-      let a = igredientsDetails[i].id;
+      let a: string | undefined = igredientsDetails[i].id;
+      if(!a) return;
       if (result[a] != undefined) {
         ++result[a];
       }
@@ -51,10 +54,8 @@ export default function FeedIdDetails () {
         result[a] = 1;
     }
     setCount(result);
-
-    const nSet = new Set(igredientsDetails); //создаем конструктор
-    const createBurger = Array.from(nSet); //создаем массим уникальный значений из конструктора
-
+    const nSet = new Set<IData>(igredientsDetails); //создаем конструктор
+    const createBurger: Array<IData> = Array.from(nSet); //создаем массим уникальный значений из конструктора
     setBurger(createBurger); //передаем ингредиенты с подробной информацией в state
 
     //расчет времени создания бургера
@@ -106,3 +107,5 @@ export default function FeedIdDetails () {
     </>
   )
 }
+
+export default FeedIdDetails;

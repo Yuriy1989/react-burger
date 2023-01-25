@@ -5,16 +5,16 @@ export interface ICount {
 }
 
 export interface IData {
-  calories: number | undefined,
-  carbohydrates: number | undefined,
-  fat: number | undefined,
+  calories: number,
+  carbohydrates: number,
+  fat: number,
   id: string,
   image: string,
   image_large: string,
   image_mobile: string,
   name: string,
   price: number,
-  proteins: number | undefined,
+  proteins: number,
   type: typeof currentDefault,
 }
 
