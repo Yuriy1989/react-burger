@@ -1,10 +1,14 @@
+import { FC } from 'react';
 import { Route, Redirect, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import Loader from '../loader/Loader';
+import { useAppSelector as useSelector} from '../../services/store/hooks';
 
-export function ProtectedRoute ({ children, ...rest }) {
+type TAuth = {
+  isAuth: boolean
+}
 
-  const { isAuth } = rest;
+const ProtectedRoute: FC<TAuth> = ({ children, isAuth, ...rest}) => {
+
   const feedRequest = useSelector((state) => state.authorization.feedRequest);
   const locations = useLocation();
 
@@ -37,3 +41,5 @@ export function ProtectedRoute ({ children, ...rest }) {
     </>
   )
 }
+
+export default ProtectedRoute;

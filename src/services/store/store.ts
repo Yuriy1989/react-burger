@@ -22,6 +22,7 @@ import {
   WS_CONNECTION_CLOSE,
   WS_GET_ORDERS,
 } from '../constants';
+import { useDispatch } from 'react-redux';
 
 const wsActions = {
   wsInit: WS_CONNECTION_START,
@@ -44,9 +45,7 @@ const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsActi
 export const store = createStore(rootReducers, enhancer);
 export type RootState = ReturnType<typeof rootReducers>;
 export type AppDispatch = typeof store.dispatch;
+export type DispatchFunc = () => AppDispatch;
 
 type TApplicationActions = TWsSocketActions | TIngredientsApi | TAuth | TModals | TOrderDetails;
-
 export type AppThunk<ReturnType = void> = ActionCreator<ThunkAction<ReturnType, Action, RootState, TApplicationActions>>;
-
-// export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, TApplicationActions>;

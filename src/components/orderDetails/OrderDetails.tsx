@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import style, { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import orderDetails from './orderDetails.module.css';
-import { useDispatch, useSelector } from 'react-redux';
 import { getOrderDetails } from '../../services/actions/getOrderDetails';
 import { getCookie } from '../../utils/cookie';
+import { useAppDispatch as useDispatch, useAppSelector as useSelector} from '../../services/store/hooks';
 
-export default function OrderDetails() {
+const OrderDetails: FC = () => {
 
   const selectedId = useSelector(state => state.getOrderDetails.selectedIdIgredients);
   const dispatch = useDispatch();
@@ -18,6 +18,7 @@ export default function OrderDetails() {
   const feedFailed = useSelector((state) => state.getOrderDetails.feedFailed);
   const feedRequest = useSelector((state) => state.getOrderDetails.feedRequest);
   const order = useSelector(state => state.getOrderDetails.infoOderDetails);
+  console.log('order', order);
 
   return (
     <>
@@ -25,7 +26,7 @@ export default function OrderDetails() {
       {feedRequest && <p className={` ${orderDetails.numberOrder} text text_type_main-medium`}>Формирование заказа...</p>}
       {!feedFailed && !feedRequest &&
         <>
-          <p className={` ${orderDetails.numberOrder} text text_type_digits-large `}>{order.number}</p>
+          <p className={` ${orderDetails.numberOrder} text text_type_digits-large `}>{order?.number}</p>
           <p className={` ${orderDetails.textIdOrder} text text_type_main-medium `}>идентификатор заказа</p>
           <div className={orderDetails.loadImage}></div>
           <div className={orderDetails.checkImage}><CheckMarkIcon type="primary" /></div>
@@ -36,3 +37,5 @@ export default function OrderDetails() {
     </>
   )
 }
+
+export default OrderDetails;

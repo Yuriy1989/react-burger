@@ -6,23 +6,23 @@ import { useAppDispatch as useDispatch, useAppSelector as useSelector } from '..
 import { IData } from '../../services/types';
 
 interface ID {
-  calories: number | undefined,
-  carbohydrates: number | undefined,
-  fat: number | undefined,
-  id: string | undefined,
-  image: string | undefined,
-  image_large: string | undefined,
-  image_mobile: string | undefined,
-  name: string | undefined,
-  price: number | undefined,
-  proteins: number | undefined,
-  type: string | undefined,
+  calories: number,
+  carbohydrates: number,
+  fat: number,
+  id: string,
+  image: string,
+  image_large: string,
+  image_mobile: string,
+  name: string,
+  price: number,
+  proteins: number,
+  type: string,
 }
 
 const IngredientDetails: FC = () => {
-
   const { id }  = useParams<{id?: string}>();
   const ingredientData = useSelector(state => state.getIngredientsApi.ingredientsGetApi);
+
   const [ingredient, setIngredient] = useState<ID>({});
   console.log('ingredient', ingredient);
   const dispatch = useDispatch();
@@ -30,15 +30,17 @@ const IngredientDetails: FC = () => {
   //Ищем ингредиент из общего массива ингредиентов по определенному id из ссылки
   const selectedIngredients = useCallback(
     () => {
-      if(!ingredientData) return;
-      setIngredient(ingredientData.find(item => item.id === id));
+      // if(!ingredientData) return;
+      const t = ingredientData.find(item => item.id === id)
+      if(!t) return;
+      setIngredient(t);
     }, [ingredientData, id, dispatch]
   )
 
   useEffect(() => {
     selectedIngredients();
     dispatch(openInfoSelectedInrgedient(ingredient));
-  }, [])
+  }, [ingredientData, id])
 
   return (
     <>

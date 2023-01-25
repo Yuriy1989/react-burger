@@ -6,8 +6,8 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Switch, Route } from 'react-router-dom';
 import { useHistory, useLocation } from 'react-router-dom';
-import { ProtectedRoute } from '../protectedRoute/ProtectedRoute';
-import { OnlyUnAuthRoute } from '../onlyUnAuthRoute/OnlyUnAuthRoute';
+import ProtectedRoute  from '../protectedRoute/ProtectedRoute';
+import OnlyUnAuthRoute  from '../onlyUnAuthRoute/OnlyUnAuthRoute';
 import { getIngredients } from '../../services/actions/ingredients';
 import AppHeader from '../appHeader/AppHeader';
 import BurgerIngredients from '../burgerIngredients/BurgerIngredients';
@@ -33,13 +33,13 @@ import {
   NotFoundPage
 } from '../../pages';
 import { useAppDispatch, useAppSelector } from '../../services/store/hooks';
-import { Location } from "history";
+// import { Location } from "history";
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
-  // const location = useLocation<ILocationState>();
-  const location = useLocation<{background: Location}>();
-  const background = location.state && location.state.background;
+  const location = useLocation();
+  // const location = useLocation<{background: Location}>();
+  // const background = location.state && location.state.background;
 
 
   const history = useHistory();

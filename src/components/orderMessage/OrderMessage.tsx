@@ -1,5 +1,3 @@
-import { useLocation, useHistory } from 'react-router-dom';
-
 export default function OrderMessage() {
 
   return (

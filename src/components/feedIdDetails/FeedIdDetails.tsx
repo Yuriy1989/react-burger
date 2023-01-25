@@ -1,7 +1,6 @@
 import { FC, useState, useCallback, useEffect } from 'react';
 import style, { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useParams } from 'react-router-dom';
-// import { useSelector, useDispatch } from 'react-redux';
 import { useAppDispatch as useDispatch, useAppSelector as useSelector} from '../../services/store/hooks';
 import feedIdDetails from './feedIdDetails.module.css';
 import { timeCreateBurger } from '../../utils/time';

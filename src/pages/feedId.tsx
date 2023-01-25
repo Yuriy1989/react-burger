@@ -1,48 +1,49 @@
-import { useState, useEffect } from 'react';
+import { FC, useState, useEffect } from 'react';
 import style, { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
 import feedId from './feedId.module.css';
 import { timeCreateBurger } from '../utils/time';
 import { getOrderUserDetails } from '../services/actions/getOrderDetails';
+import { useAppDispatch as useDispatch, useAppSelector as useSelector}  from '../services/store/hooks';
+import { ICard, ICardData, ICount, IData } from '../services/types';
 
-export function FeedId() {
-  const { id } = useParams(); //id бургера
+const FeedId: FC = () => {
+  const { id } = useParams<{id?: string}>(); //id бургера
   const dispatch = useDispatch();
   const card = useSelector(state => state.getOrderDetails.orderDetails);
   const ingredientsData = useSelector(state => state.getIngredientsApi.ingredientsGetApi); //все возможные ингредиенты
-  const [cellOrder, setCellOrder] = useState(0); //цена за бургер
-  const [data, setData] = useState([]); //название, номер и цена бургера
-  const [burger, setBurger] = useState([]); //готовый бургер с фильтром по уникальным ингредиентам
-  const [count, setCount] = useState({}); //объект типа {ID:количество} в массиве countData
-  const [createTimeBurger, setCreateTimeBurger] = useState(); //время создания бургера
-  const [cardData, setCardData] = useState({}); //информация о заказеfd
+  const [cellOrder, setCellOrder] = useState<number>(0); //цена за бургер
+  const [data, setData] = useState<Array<ICard>>([]); //название, номер и цена бургера
+  const [burger, setBurger] = useState<Array<IData>>([]); //готовый бургер с фильтром по уникальным ингредиентам
+  const [count, setCount] = useState<ICount>({}); //объект типа {ID:количество} в массиве countData
+  const [createTimeBurger, setCreateTimeBurger] = useState<string>(); //время создания бургера
+  const [cardData, setCardData] = useState<ICardData>({}); //информация о заказе
 
   //сбор данных об ингредиентах бургера в заказе
   const createBurger = () => {
     if (cardData.success) {
-      const itemBurger = card?.orders[0];
+      const itemBurger: ICard = card?.orders[0];
       setData(itemBurger);
-      let summa = 0; //цена за бургер
-      let arrImage = [];
-      let igredientsDetails = []; //ингредиенты с подробной информацией
-      let n = 0;
+      let summa: number = 0; //цена за бургер
+      let arrImage: Array<string> = [];
+      let ingredientsDetails: Array<IData> = []; //ингредиенты с подробной информацией
+      let n: number = 0;
       //собираем из бургера всю подбробную информацию по каждому ингредиенту
       while (n <= itemBurger?.ingredients?.length) {
         ingredientsData.map(item => {
           if (item?.id === itemBurger?.ingredients[n]) {
             summa += item?.price;
             arrImage.push(item?.image_mobile);
-            igredientsDetails.push(item);
+            ingredientsDetails.push(item);
           }
         })
         n++;
         setCellOrder(summa); //передаем цену за бургер в state
       }
 
-      let result = {};
-      for (let i = 0; i < igredientsDetails?.length; ++i) {
-        let a = igredientsDetails[i]?.id;
+      let result: ICount = {};
+      for (let i = 0; i < ingredientsDetails?.length; ++i) {
+        let a = ingredientsDetails[i]?.id;
         if (result[a] != undefined) {
           ++result[a];
         }
@@ -51,9 +52,9 @@ export function FeedId() {
       }
       setCount(result);
 
-      const nSet = new Set(igredientsDetails); //создаем конструктор
+      const nSet = new Set(ingredientsDetails); //создаем конструктор
       const createBurger = Array.from(nSet); //создаем массим уникальный значений из конструктора
-    
+
       setBurger(createBurger); //передаем ингредиенты с подробной информацией в state
 
       //расчет времени создания бургера
@@ -106,3 +107,5 @@ export function FeedId() {
     </div>
   )
 }
+
+export default FeedId;

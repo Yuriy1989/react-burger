@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-interface IInputValues {
+export interface IInputValues {
   email?: string;
   password?: string;
   name?: string;

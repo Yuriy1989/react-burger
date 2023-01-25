@@ -1,12 +1,10 @@
 import React, { FC, useEffect, useRef, useState, useCallback } from 'react';
 import style, { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-// import { useSelector } from 'react-redux';
 import { useAppSelector as useSelector } from '../../services/store/hooks';
 import { ingredientsName } from '../../services/reducers/ingredients';
 import burgerIngredients from './burgerIngredients.module.css';
 import IngredientItem from '../ingredientItem/IngredientItem';
 import { currentDefault } from '../../services/types';
-// import { number } from 'prop-types';
 
 const BurgerIngredients: FC = () => {
 

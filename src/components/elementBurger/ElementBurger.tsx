@@ -1,14 +1,12 @@
 import style, { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useAppDispatch as useDispatch } from '../../services/store/hooks';
 import elementBurger from './elementBurger.module.css';
 import { deleteSelectedIngredientsForBurgerAction, sortSelectedIngredientsForBurgerAction } from '../../services/actions/ingredients';
 import { DropTargetMonitor, useDrag, useDrop } from 'react-dnd';
 import { FC, useRef, useCallback } from 'react';
 import { IData } from '../../services/types';
+import { useAppDispatch as useDispatch } from '../../services/store/hooks';
 
 const ElementBurger: FC<{ data: IData, index: number }> = ({data, index}) => {
-
-  console.log('data', data.price);
   const dispatch = useDispatch();
   const handleClose = useCallback(() => dispatch(deleteSelectedIngredientsForBurgerAction(index)), []);
   const onDropHandlerOthers = useCallback((dragIndex, hoverIndex) => dispatch(sortSelectedIngredientsForBurgerAction(dragIndex, hoverIndex)), []);

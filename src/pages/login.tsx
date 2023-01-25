@@ -1,11 +1,12 @@
 import style, { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, Redirect, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import login from './login.module.css';
 import { actionRequestAuth } from '../services/actions/actionsAuthorization';
-import { useForm } from '../hooks/useForm';
+import { IInputValues, useForm } from '../hooks/useForm';
+import { FC } from 'react';
+import { useAppDispatch as useDispatch, useAppSelector as useSelector } from '../services/store/hooks';
 
-export function Login () {
+const Login: FC = () => {
 
   const {values, handleChange} = useForm({email: '', password: ''});
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ export function Login () {
     )
   }
 
-  const handleClick = (e) => {
+  const handleClick = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     dispatch(actionRequestAuth(values));
   }
@@ -33,14 +34,14 @@ export function Login () {
             type={'email'}
             placeholder={'E-mail'}
             onChange={handleChange}
-            value={values?.email}
+            value={`${values?.email}`}
             name={'email'}
             error={false}
             errorText={'Ошибка'}
             size={'default'}
           />
         </div>
-        <PasswordInput onChange={handleChange} value={values?.password} name={'password'} />
+        <PasswordInput onChange={handleChange} value={`${values?.password}`} name={'password'} />
         <div className={login.button}>
           <Button type="primary" size="medium">
             Войти
@@ -58,3 +59,5 @@ export function Login () {
     </div>
   )
 }
+
+export default Login;

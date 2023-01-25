@@ -1,5 +1,5 @@
 
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import style, { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useHistory } from 'react-router-dom';
 import forgotPassword from './forgot-password.module.css';
@@ -45,7 +45,7 @@ export function ForgotPassword () {
             type={'email'}
             placeholder={'Укажите e-mail'}
             onChange={handleChange}
-            value={values.email}
+            value={`${values.email}`}
             name={'email'}
             error={false}
             errorText={'Ошибка'}

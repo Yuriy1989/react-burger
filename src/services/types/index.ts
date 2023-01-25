@@ -37,3 +37,8 @@ export interface ICard {
   updatedAt: string,
   _id: string,
 }
+
+export interface ICardData {
+  orders: Array<ICard>,
+  success: boolean,
+}

@@ -5,20 +5,14 @@ import menuProfile from './menuProfile.module.css';
 import { getCookie } from '../../utils/cookie';
 import { actionRequestExit } from '../../services/actions/actionsAuthorization';
 import { useAppDispatch as useDispatch} from '../../services/store/hooks';
-import { EXIT_REQUEST } from '../../services/constants';
 
 const MenuProfile: FC = () => {
-
   const dispatch = useDispatch();
   const refreshToken: string | undefined = getCookie('refreshToken');
 
   //Запрос к серверу для выхода и удаления всех токинов из кук
   const handleClickExit = () => {
     dispatch(actionRequestExit(refreshToken));
-    // dispatch({
-    //   type: EXIT_REQUEST,
-    //   refreshToken: refreshToken
-    // })
   }
 
   return (

@@ -1,8 +1,9 @@
+import { FC } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import Loader from '../loader/Loader';
+import { useAppSelector as useSelector } from '../../services/store/hooks';
 
-export function OnlyUnAuthRoute ({ children, ...rest }) {
+const OnlyUnAuthRoute: FC = ({ children, ...rest }) => {
 
   const feedRequest = useSelector((state) => state.authorization.feedRequest);
   const isAuth = useSelector((state) => state.authorization.isAuth);
@@ -31,3 +32,5 @@ export function OnlyUnAuthRoute ({ children, ...rest }) {
     </>
   )
 }
+
+export default OnlyUnAuthRoute;
