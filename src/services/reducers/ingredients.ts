@@ -8,17 +8,23 @@ import {
   DELETE_INGREDIENTS_IN_BURGER_CONSTRUCTOR,
   DELETE_ALL_INGREDIENTS_IN_BURGER_CONSTRUCTOR,
 } from '../constants';
+import { IData } from '../types';
+
+type TIngredients = {
+  data: IData,
+  indexIngredient: string,
+}
 
 type TIngredientForConstructor = {
-  bun: any[],
-  others: any[]
+  bun: Array<TIngredients>,
+  others: Array<TIngredients>,
 }
 
 type TDefaultState = {
   feedRequest: boolean,
   feedFailed: boolean,
-  ingredientsGetApi: any[],
-  ingredientForConstructor: TIngredientForConstructor
+  ingredientsGetApi: Array<IData>,
+  ingredientForConstructor: TIngredientForConstructor,
 }
 
 const defaultState: TDefaultState = {
@@ -39,21 +45,23 @@ export const getIngredientsApi = ( state = defaultState, action: TIngredientsApi
       return { ...state, feedRequest: true, feedFailed: false };
     }
     case GET_INGREDIENTS_API_SUCCESS: {
-      const ingredients = action.payload;
-      return { ...state, ingredientsGetApi: ingredients, feedRequest: false};
+      return {
+        ...state,
+        ingredientsGetApi: action.payload,
+        feedRequest: false
+      };
     }
     case GET_INGREDIENTS_API_FAILED: {
       return { ...state, feedFailed: true, feedRequest: false};
     }
     case INGREDIENTS_IN_BURGER_CONSTRUCTOR: {
-      const ingredients = action.payload;
       //Ищем булку в текущем добавляемом ингредиенте
-      if (ingredients.data.type === ingredientsName.bun) { //если добавляем ингредиент Булку
+      if (action.payload.data.type === ingredientsName.bun) { //если добавляем ингредиент Булку
         return {
           ...state,
           ingredientForConstructor: {
             ...state.ingredientForConstructor,
-            bun: [ingredients],
+            bun: [action.payload],
           }
         }
       } else {
@@ -61,7 +69,7 @@ export const getIngredientsApi = ( state = defaultState, action: TIngredientsApi
           ...state,
           ingredientForConstructor: {
             ...state.ingredientForConstructor,
-            others: [...state.ingredientForConstructor.others, ingredients]
+            others: [...state.ingredientForConstructor.others, action.payload]
           },
         }
       }

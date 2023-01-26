@@ -6,9 +6,10 @@ import {
 } from '../constants';
 
 import { TWsSocketActions } from '../actions/actionUserOrders';
-import { ICard } from '../types';
 
-type TOrders = {
+type TDimport { ICard } from '../types';
+
+export type TOrders = {
   orders: Array<ICard>,
   total: number,
   totalToday: number,

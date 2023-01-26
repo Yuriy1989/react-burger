@@ -5,31 +5,32 @@ import {
   WS_CONNECTION_CLOSE,
   WS_GET_ORDERS,
 } from '../constants';
+import { TOrders } from '../reducers/orders';
 
 export interface IWsConnectionStart {
   type: typeof WS_CONNECTION_START;
-  wsUrl?: string;
-  payload?: any;
+  payload: {
+    wsUrl?: string;
+  }
 }
 
 export interface IWsConnectionSuccess {
   type: typeof WS_CONNECTION_SUCCESS;
-  payload?: any;
 }
 
 export interface IWsConnectionError {
   type: typeof WS_CONNECTION_ERROR;
-  payload?: any;
+  payload: string,
 }
 
 export interface IWsConnectionClose {
   type: typeof WS_CONNECTION_CLOSE;
-  payload?: any;
 }
 
 export interface IWsGetOrders {
+  payload: TOrders;
   type: typeof WS_GET_ORDERS;
-  payload?: any;
+
 }
 
 export type TWsSocketActions =
@@ -41,22 +42,27 @@ export type TWsSocketActions =
 
 export const connectionStart = (wsUrl?: string): IWsConnectionStart => ({
   type: WS_CONNECTION_START,
-  wsUrl,
+  payload: {
+    wsUrl: wsUrl
+  }
 });
 
 export const connectionSuccess = (): IWsConnectionSuccess => ({
   type: WS_CONNECTION_SUCCESS
+
 });
 
-export const connectionError = (): IWsConnectionError => ({
-  type: WS_CONNECTION_ERROR
+export const connectionError = (data: string): IWsConnectionError => ({
+  type: WS_CONNECTION_ERROR,
+  payload: data
 });
 
 export const connectionClose = (): IWsConnectionClose => ({
   type: WS_CONNECTION_CLOSE
 });
 
-export const getOrders = (): IWsGetOrders => ({
-  type: WS_GET_ORDERS
+export const getOrders = (data: Array<TOrders>): IWsGetOrders => ({
+  type: WS_GET_ORDERS,
+  payload: [data]
 });
 

@@ -17,13 +17,13 @@ const FeedId: FC = () => {
   const [burger, setBurger] = useState<Array<IData>>([]); //готовый бургер с фильтром по уникальным ингредиентам
   const [count, setCount] = useState<ICount>({}); //объект типа {ID:количество} в массиве countData
   const [createTimeBurger, setCreateTimeBurger] = useState<string>(); //время создания бургера
-  const [cardData, setCardData] = useState<ICardData>({}); //информация о заказе
+  const [cardData, setCardData] = useState<Array<ICardData>>([]); //информация о заказе
 
   //сбор данных об ингредиентах бургера в заказе
   const createBurger = () => {
-    if (cardData.success) {
-      const itemBurger: ICard = card?.orders[0];
-      setData(itemBurger);
+    if (cardData[0]?.success) {
+      const itemBurger: ICard = card[0]?.orders[0];
+      setData([itemBurger]);
       let summa: number = 0; //цена за бургер
       let arrImage: Array<string> = [];
       let ingredientsDetails: Array<IData> = []; //ингредиенты с подробной информацией
@@ -72,9 +72,9 @@ const FeedId: FC = () => {
 
   return (
     <div className={feedId.feedId}>
-      <h2 className={` ${feedId.idOrder} text text_type_digits-default `}># {data?.number}</h2>
-      <p className={` ${feedId.name} text text_type_main-medium `}>{data?.name}</p>
-      <p className={` ${feedId.status} text text_type_main-default `}>{(data?.status === 'done') ? 'Выполнен' : 'В работе'}</p>
+      <h2 className={` ${feedId.idOrder} text text_type_digits-default `}># {data[0]?.number}</h2>
+      <p className={` ${feedId.name} text text_type_main-medium `}>{data[0]?.name}</p>
+      <p className={` ${feedId.status} text text_type_main-default `}>{(data[0]?.status === 'done') ? 'Выполнен' : 'В работе'}</p>
       <p className={` ${feedId.ingredients} text text_type_main-medium `}>Состав:</p>
       <ul className={` ${feedId.ingredient} `}>
         {burger?.map((item, index) => {

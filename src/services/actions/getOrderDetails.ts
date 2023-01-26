@@ -100,7 +100,6 @@ export const getOrderDetails: AppThunk = (data: IData, accessToken: IAccessToken
 
 //получение информации о заказе с сервера
 export const getOrderUserDetails: AppThunk = (id: any) => {
-  console.log('id', id);
   return (dispatch: AppDispatch) => {
     dispatch({
       type: GET_USER_ORDER_DETAILS

@@ -4,10 +4,10 @@ import style from '@ya.praktikum/react-developer-burger-ui-components';
 import orders from './orders.module.css';
 import MenuProfile from '../components/menuProfile/MenuProfile';
 import CardOrder from '../components/cardOrder/CardOrder';
-import { connectionStart, connectionClose } from '../services/actions/actionUserOrders';
 import { getCookie } from '../utils/cookie';
 import Loader from '../components/loader/Loader';
 import { useAppDispatch as useDispatch, useAppSelector as useSelector} from '../services/store/hooks';
+import { WS_CONNECTION_CLOSE, WS_CONNECTION_START } from '../services/constants';
 
 const Orders: FC = () => {
 
@@ -21,12 +21,12 @@ const Orders: FC = () => {
 
   useEffect(() => {
     dispatch({
-      type: connectionStart,
-      wsUrl
+      type: WS_CONNECTION_START,
+      payload: wsUrl,
     }
     );
     return () => {
-      dispatch({ type: connectionClose });
+      dispatch({ type: WS_CONNECTION_CLOSE });
     }
   }, [])
 

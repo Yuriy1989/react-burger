@@ -22,7 +22,6 @@ import {
   WS_CONNECTION_CLOSE,
   WS_GET_ORDERS,
 } from '../constants';
-import { useDispatch } from 'react-redux';
 
 const wsActions = {
   wsInit: WS_CONNECTION_START,
