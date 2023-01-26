@@ -5,20 +5,22 @@ import { useAppSelector as useSelector} from "../../services/store/hooks";
 import { ICard } from "../../services/types";
 
 const Stats: FC = () => {
-  const data = useSelector(state => state.orders.orders);
+  const data = useSelector(state => state.orders.data);
   let n: number = 0; //счетчик всех заказов
   let y: number = 0; //счетчих текущего заказа
   let mass: Array<Array<ICard>> = []; //общий массив заказов разбитый на массив по 10 элементом
-  while(n < data[0]?.orders?.length) {
-    let x: number = 0; //внутренний счетчик
-    let inMass: Array<ICard> = []; //массив заказов из 10 элементов
-    while(x < 10) {
-      inMass.push(data[0]?.orders[y]);
-      x++;
-      y++;
+  if(data[0]?.orders != undefined) {
+    while(n < data[0]?.orders.length) {
+      let x: number = 0; //внутренний счетчик
+      let inMass: Array<ICard> = []; //массив заказов из 10 элементов
+      while(x < 10) {
+        inMass.push(data[0]?.orders[y]);
+        x++;
+        y++;
+      }
+      mass.push(inMass);
+      n = n + x;
     }
-    mass.push(inMass);
-    n = n + x;
   }
 
   return (

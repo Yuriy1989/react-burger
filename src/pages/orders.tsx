@@ -1,21 +1,21 @@
 
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import style from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
 import orders from './orders.module.css';
 import MenuProfile from '../components/menuProfile/MenuProfile';
 import CardOrder from '../components/cardOrder/CardOrder';
 import { connectionStart, connectionClose } from '../services/actions/actionUserOrders';
 import { getCookie } from '../utils/cookie';
 import Loader from '../components/loader/Loader';
+import { useAppDispatch as useDispatch, useAppSelector as useSelector} from '../services/store/hooks';
 
-export function Orders () {
+const Orders: FC = () => {
 
   const feedRequest = useSelector(state => state.orders.feedRequest);
   const feedFailed = useSelector(state => state.orders.feedFailed);
-  const accessToken = getCookie('accessToken');
-  const wsUrl = `wss://norma.nomoreparties.space/orders?token=${accessToken}`;
-  const data = useSelector(state => state.orders.orders);
+  const accessToken: string | undefined= getCookie('accessToken');
+  const wsUrl: string = `wss://norma.nomoreparties.space/orders?token=${accessToken}`;
+  const data = useSelector(state => state.orders.data);
   let reverseData = data[0] ? Array.from(data[0]?.orders).reverse() : []; //реверс заказов пользователя
   const dispatch = useDispatch();
 
@@ -56,3 +56,5 @@ export function Orders () {
     </>
   )
 }
+
+export default Orders;

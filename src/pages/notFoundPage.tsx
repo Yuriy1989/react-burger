@@ -1,7 +1,8 @@
+import { FC } from 'react';
 import style from '@ya.praktikum/react-developer-burger-ui-components';
 import notFoundPage from './notFoundPage.module.css';
 
-export function NotFoundPage () {
+const NotFoundPage: FC = () => {
 
   return (
     <div className={notFoundPage.notFoundPage}>
@@ -9,3 +10,5 @@ export function NotFoundPage () {
     </div>
   )
 }
+
+export default NotFoundPage;

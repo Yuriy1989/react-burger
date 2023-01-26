@@ -54,7 +54,6 @@ const FeedId: FC = () => {
 
       const nSet = new Set(ingredientsDetails); //создаем конструктор
       const createBurger = Array.from(nSet); //создаем массим уникальный значений из конструктора
-
       setBurger(createBurger); //передаем ингредиенты с подробной информацией в state
 
       //расчет времени создания бургера

@@ -3,17 +3,16 @@ import style from '@ya.praktikum/react-developer-burger-ui-components';
 import Orders from '../components/orders/Orders';
 import Stats from '../components/stats/Stats';
 import feed from './feed.module.css';
-import { connectionStart, connectionClose } from '../services/actions/actionUserOrders';
 import Loader from '../components/loader/Loader';
-import { useAppDispatch, useAppDispatch as useDispatch, useAppSelector } from '../services/store/hooks';
+import { useAppDispatch as useDispatch, useAppSelector as useSelector } from '../services/store/hooks';
 import { WS_CONNECTION_START, WS_CONNECTION_CLOSE } from '../services/constants';
 
 const Feed: FC = () => {
-  const feedRequest = useAppSelector(state => state.orders.feedRequest);
-  const feedFailed = useAppSelector(state => state.orders.feedFailed);
+  const feedRequest = useSelector(state => state.orders.feedRequest);
+  const feedFailed = useSelector(state => state.orders.feedFailed);
   const wsUrl = 'wss://norma.nomoreparties.space/orders/all';
-  const data = useAppSelector(state => state.orders.orders);
-  const dispatch = useAppDispatch();
+  const data = useSelector(state => state.orders.data);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch({

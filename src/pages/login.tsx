@@ -2,7 +2,7 @@ import style, { Input, PasswordInput, Button } from '@ya.praktikum/react-develop
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import login from './login.module.css';
 import { actionRequestAuth } from '../services/actions/actionsAuthorization';
-import { IInputValues, useForm } from '../hooks/useForm';
+import { useForm } from '../hooks/useForm';
 import { FC } from 'react';
 import { useAppDispatch as useDispatch, useAppSelector as useSelector } from '../services/store/hooks';
 

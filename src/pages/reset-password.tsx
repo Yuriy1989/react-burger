@@ -1,5 +1,5 @@
 
-import { useCallback } from 'react';
+import { FC, useCallback } from 'react';
 import style, { PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useHistory, Redirect } from 'react-router-dom';
 import resetPassword from './reset-password.module.css';
@@ -7,11 +7,11 @@ import { getCookie } from '../utils/cookie';
 import { api } from '../utils/Api';
 import { useForm } from '../hooks/useForm';
 
-export function ResetPassword() {
+const ResetPassword: FC = () => {
 
   const {values, handleChange} = useForm({password: '', token: ''});
   const history = useHistory();
-  const forgotPassword = getCookie('forgotPassword');
+  const forgotPassword: string | undefined = getCookie('forgotPassword');
 
   //Если forgotPassword не существует в куках, то делаем редирект на forgot-password для ввода email
   if (!forgotPassword) {
@@ -45,7 +45,7 @@ export function ResetPassword() {
     <div className={resetPassword.resetPassword}>
       <h2 className='text text_type_main-medium'>Восстановление пароля</h2>
       <div className={`${resetPassword.input_margin}`}>
-        <PasswordInput value={values?.password} onChange={handleChange} name={'password'} />
+        <PasswordInput value={`${values?.password}`} onChange={handleChange} name={'password'} />
       </div>
       <form className={`${resetPassword.form}`} onSubmit={handleClick}>
         <div className={`${resetPassword.input_margin}`}>
@@ -53,7 +53,7 @@ export function ResetPassword() {
             type={'text'}
             placeholder={'Введите код из письма'}
             onChange={handleChange}
-            value={values?.token}
+            value={`${values?.token}`}
             name={'token'}
             error={false}
             errorText={'Ошибка'}
@@ -73,3 +73,5 @@ export function ResetPassword() {
     </div>
   )
 }
+
+export default ResetPassword;

@@ -1,15 +1,15 @@
 
-import { useState, useEffect, useCallback } from 'react';
+import { FC, useEffect, useCallback } from 'react';
 import MenuProfile from '../components/menuProfile/MenuProfile';
 import style, { EmailInput, PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
 import { actionRequestPatchUser } from '../services/actions/actionsAuthorization';
 import profile from './profile.module.css';
 import { getCookie } from '../utils/cookie';
 import Loader from '../components/loader/Loader';
 import { useForm } from '../hooks/useForm';
+import { useAppDispatch as useDispatch, useAppSelector as useSelector } from '../services/store/hooks';
 
-export function Profile () {
+const Profile: FC = () => {
 
   const {values, setValues} = useForm({name: '', email: '', password: '', buttonActive: false});
   const email = useSelector(state => state.authorization.user.email);
@@ -20,7 +20,7 @@ export function Profile () {
   const accessToken = getCookie('accessToken');
 
   //изменение данных в форме и статуса кнопок
-  const onButtonActive = (event) => {
+  const onButtonActive = (event: { target: { value: string; name: string; }; }) => {
     const {value, name} = event.target;
     setValues( { ...values, [name]: value, buttonActive: true} );
   }
@@ -72,17 +72,17 @@ export function Profile () {
                   placeholder={'имя'}
                   icon={'EditIcon'}
                   onChange={onButtonActive}
-                  value={values?.name}
+                  value={`${values?.name}`}
                   name={'name'}
                   error={false}
                   errorText={'Ошибка'}
                   size={'default'}
                 />
                 <div className={profile.email}>
-                  <EmailInput onChange={onButtonActive} value={values?.email} placeholder={'имя'} name={'email'} />
+                  <EmailInput onChange={onButtonActive} value={`${values?.email}`} name={'email'} />
                   {error && <p className={`input__error text_type_main-default`}>ошибка: {error} </p>}
                 </div>
-                <PasswordInput onChange={onButtonActive} value={values?.password} name={'password'} />
+                <PasswordInput onChange={onButtonActive} value={`${values?.password}`} name={'password'} />
               </div>
               <div className={profile.button}>
                 <Button disabled={!values?.buttonActive} type="primary" size="medium">
@@ -99,3 +99,5 @@ export function Profile () {
     </>
   )
 }
+
+export default Profile;

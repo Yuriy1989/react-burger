@@ -1,5 +1,5 @@
 
-import { useCallback } from 'react';
+import { FC, useCallback } from 'react';
 import style, { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useHistory } from 'react-router-dom';
 import forgotPassword from './forgot-password.module.css';
@@ -7,7 +7,7 @@ import { api } from '../utils/Api';
 import { setCookie } from '../utils/cookie';
 import { useForm } from '../hooks/useForm';
 
-export function ForgotPassword () {
+const ForgotPassword: FC = () => {
 
   const {values, handleChange} = useForm({email: ''});
   const history = useHistory();
@@ -65,3 +65,5 @@ export function ForgotPassword () {
     </div>
   )
 }
+
+export default ForgotPassword;

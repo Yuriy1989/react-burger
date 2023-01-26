@@ -11,7 +11,7 @@ const FeedIdDetails: FC = () => {
 
   const dispatch = useDispatch();
   const { id }  = useParams<{id: string}>(); //id бургера
-  const card = useSelector(state => state.orders.orders); //последние 50 заказов
+  const card = useSelector(state => state.orders.data); //последние 50 заказов
   const ingredientsData = useSelector(state => state.getIngredientsApi.ingredientsGetApi); //все возможные ингредиенты
   const [cellOrder, setCellOrder] = useState<number>(0); //цена за бургер
   const [data, setData] = useState<ICard>(); //название, номер и цена бургера
@@ -30,17 +30,19 @@ const FeedIdDetails: FC = () => {
     let igredientsDetails: Array<IData> = []; //ингредиенты с подробной информацией
     let n: number = 0;
     //собираем из бургера всю подбробную информацию по каждому ингредиенту
-    while (n <= itemBurger?.ingredients.length) {
-      ingredientsData.map(item => {
-        if (item.id === itemBurger.ingredients[n]) {
-          summa += item.price;
-          arrImage.push(item.image_mobile);
-          igredientsDetails.push(item);
-        }
-      })
-      n++;
-      setCellOrder(summa); //передаем цену за бургер в state
-    }
+    if(itemBurger?.ingredients != undefined) {
+      while (n <= itemBurger?.ingredients.length) {
+        ingredientsData.map(item => {
+          if (item.id === itemBurger.ingredients[n]) {
+            summa += item.price;
+            arrImage.push(item.image_mobile);
+            igredientsDetails.push(item);
+          }
+        })
+        n++;
+        setCellOrder(summa); //передаем цену за бургер в state
+      }
+  }
 
     let result: ICount = {};
     for (let i = 0; i < igredientsDetails.length; ++i) {
@@ -58,7 +60,9 @@ const FeedIdDetails: FC = () => {
     setBurger(createBurger); //передаем ингредиенты с подробной информацией в state
 
     //расчет времени создания бургера
-    setCreateTimeBurger(timeCreateBurger(itemBurger?.createdAt));
+    if(itemBurger?.createdAt != undefined) {
+      setCreateTimeBurger(timeCreateBurger(itemBurger?.createdAt));
+    }
   }, [card]
   )
 
@@ -84,12 +88,12 @@ const FeedIdDetails: FC = () => {
                 <div className={` ${feedIdDetails.borderImage} `}>
                   <img className={feedIdDetails.image} src={item?.image_mobile} alt={item?.image_mobile} ></img>
                 </div>
-                <p className='text text_type_main-default mr-4 ml-4'>{item.name}</p>
+                <p className='text text_type_main-default mr-4 ml-4'>{item?.name}</p>
               </div>
               <div className={` ${feedIdDetails.item} `}>
                 <p className={`text text_type_digits-default`}>{(count[item.id] > 1) ? (count[item.id]) : '1'}</p>
                 <p className='text text_type_digits-default mr-2'>&nbsp;x</p>
-                <p className='text text_type_digits-default mr-2'>{`${item.price}`}</p>
+                <p className='text text_type_digits-default mr-2'>{`${item?.price}`}</p>
                 <CurrencyIcon type="primary" />
               </div>
             </li>

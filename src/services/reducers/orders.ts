@@ -6,10 +6,17 @@ import {
 } from '../constants';
 
 import { TWsSocketActions } from '../actions/actionUserOrders';
+import { ICard } from '../types';
+
+type TOrders = {
+  orders: Array<ICard>,
+  total: number,
+  totalToday: number,
+}
 
 type TDefaultState = {
   wsConnected: boolean,
-  orders: any[],
+  data: Array<TOrders>,
   error: string | undefined,
   request: boolean,
   feedRequest: boolean,
@@ -18,7 +25,7 @@ type TDefaultState = {
 
 const defaultState: TDefaultState = {
   wsConnected: false,
-  orders: [],
+  data: [],
   error: undefined,
   request: false,
   feedRequest: false,
@@ -58,7 +65,7 @@ export const orders = (state = defaultState, action: TWsSocketActions): TDefault
       return {
         ...state,
         error: undefined,
-        orders: [action.payload],
+        data: [action.payload],
         feedRequest: false,
       };
     }
