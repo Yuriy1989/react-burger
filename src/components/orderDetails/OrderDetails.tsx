@@ -18,7 +18,7 @@ const OrderDetails: FC = () => {
   const feedFailed = useSelector((state) => state.getOrderDetails.feedFailed);
   const feedRequest = useSelector((state) => state.getOrderDetails.feedRequest);
   const order = useSelector(state => state.getOrderDetails.infoOderDetails);
-  console.log('order', order);
+  // console.log('order', order);
 
   return (
     <>

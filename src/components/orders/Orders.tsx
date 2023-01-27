@@ -1,27 +1,29 @@
 
-import { useSelector } from 'react-redux';
+import { FC } from 'react';
 import style, { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import orders from './orders.module.css';
 import { useEffect, useState } from 'react';
 import OrderElement from '../orderElement/OrderElement';
 import { Link, useLocation } from 'react-router-dom';
 import { timeCreateBurger } from '../../utils/time';
+import { ICard, IData } from '../../services/types';
+import { useAppSelector as useSelector} from '../../services/store/hooks';
 
-export default function Orders ( {card} ) {
+const Orders: FC<{ card: ICard }>  = ({ card }) => {
 
-  const [cellOrder, setCellOrder] = useState(0); //цена за бургер
-  const [countData, setCountData] = useState([]);
-  const [burger, setBurger] = useState([]); //готовый бургер
+  const [cellOrder, setCellOrder] = useState<number>(0); //цена за бургер
+  const [countData, setCountData] = useState<Array<IData>>([]);
+  const [burger, setBurger] = useState<Array<IData>>([]); //готовый бургер
   const location = useLocation();
   const ingredientsData = useSelector((state) => state.getIngredientsApi.ingredientsGetApi); //все ингредиенты
-  const [createTimeBurger, setCreateTimeBurger] = useState(); //время создания бургера
+  const [createTimeBurger, setCreateTimeBurger] = useState<string>(); //время создания бургера
 
   //сбор данных об ингредиентах бургера в заказе
   const createBurger = () => {
-    let summa = 0; //цена за бургер
-    let arrImage = [];
-    let igredientsDetails = []; //ингредиенты с подробной информацией
-    let n = 0;
+    let summa: number = 0; //цена за бургер
+    let arrImage: Array<string> = [];
+    let igredientsDetails: Array<IData> = []; //ингредиенты с подробной информацией
+    let n: number = 0;
     //собираем из бургера всю подбробную информацию по каждому ингредиенту
     while (n <= card.ingredients.length) {
       ingredientsData.map(item => {
@@ -79,3 +81,5 @@ export default function Orders ( {card} ) {
       </Link>
   )
 }
+
+export default Orders;

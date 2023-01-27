@@ -1,7 +1,6 @@
 import React, { FC, useEffect, useCallback } from "react";
 import style, { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useHistory } from 'react-router-dom';
-// import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
 import { calcPrice, setSelectedId } from '../../services/actions/getOrderDetails';
 import burgerConstructor from './burgerConstructor.module.css';
 import { useDrop } from "react-dnd";
@@ -17,6 +16,7 @@ const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
   const onDropHandler = (itemId: unknown) => dispatch(selectedIngredientsForBurgerAction(itemId));
   const isAuth = useSelector(state => state.authorization.isAuth);
+  const location = useLocation();
 
   const [ {isHover}, dropTarget] = useDrop({
     accept: 'ingredients',
@@ -117,7 +117,7 @@ const BurgerConstructor: FC = () => {
       { dataPrice > 0 &&
         <div className={burgerConstructor.buttonOrder}>
           <p className="text text_type_digits-medium">{dataPrice}</p>
-          <div className={burgerConstructor.cellPrice}>
+          <div className={`${burgerConstructor.cellPrice}`}>
             <CurrencyIcon type="primary" className="p-4" />
           </div>
           <Button onClick={handleClick} type="primary" size="large">

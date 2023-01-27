@@ -60,7 +60,6 @@ export const getInfoOrderDetails = (state = defaultState, action: TOrderDetails)
       return {...state, price: action.payload}
     }
     case SET_SELECTED_ID_INGREDIENTS: {
-      // console.log('action.payload', action.payload);
       return {...state, selectedIdIgredients: action.payload}
     }
     case GET_USER_ORDER_DETAILS: {

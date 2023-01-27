@@ -16,59 +16,71 @@ const BurgerIngredients: FC = () => {
 
   //функция подсчета координат для выделения табов
   const scrollTab = useCallback(() => {
-    const tet: HTMLDivElement = document.querySelector('#scrollArea');
-    const scrollArea = (tet.getBoundingClientRect()).top;
-    const scrollSectionBun = (document.querySelector('#sectionBun').getBoundingClientRect()).top;
-    const scrollSectionSauce = (document.querySelector('#sectionSauce').getBoundingClientRect()).top;
-    const scrollSectionMain = (document.querySelector('#sectionMain').getBoundingClientRect()).top;
+    const area: Element | null = document.querySelector('#scrollArea');
+    const sectionBun: Element | null = document.querySelector('#sectionBun');
+    const sectionSauce: Element | null = document.querySelector('#sectionSauce');
+    const sectionMain: Element | null = document.querySelector('#sectionMain');
 
-    const bun = Math.abs(scrollArea - scrollSectionBun);
-    const sauce = Math.abs(scrollArea - scrollSectionSauce);
-    const main = Math.abs(scrollArea - scrollSectionMain);
+    if (area && sectionBun && sectionSauce && sectionMain) {
+      const scrollArea = (area.getBoundingClientRect()).top;
+      const scrollSectionBun = (sectionBun.getBoundingClientRect()).top;
+      const scrollSectionSauce = (sectionSauce.getBoundingClientRect()).top;
+      const scrollSectionMain = (sectionMain.getBoundingClientRect()).top;
 
-    if(bun < sauce) {
-      setCurrent('bun');
-    } else if (sauce < main) {
-      setCurrent('sauce');
-    } else {
-      setCurrent('main');
+      const bun = Math.abs(scrollArea - scrollSectionBun);
+      const sauce = Math.abs(scrollArea - scrollSectionSauce);
+      const main = Math.abs(scrollArea - scrollSectionMain);
+
+      if(bun < sauce) {
+        setCurrent('bun');
+      } else if (sauce < main) {
+        setCurrent('sauce');
+      } else {
+        setCurrent('main');
+      }
     }
   }, [])
 
-  function throttle(callee: { (): void; (arg0: any): void; }, timeout: number | undefined) {
-    let timer: string | number | NodeJS.Timeout | null | undefined = null
+  function throttle(callee: { (): void; (args: any): void; }, timeout: number | undefined) {
+    let timer: number | NodeJS.Timeout | null = null;
     return function perform(...args: any[]) {
-      if (timer) return
       timer = setTimeout(() => {
         callee(...args)
-        clearTimeout(timer)
+        if (timer) {
+          clearTimeout(timer)
+        }
         timer = null
       }, timeout)
     }
   }
 
-
   let scrollTabThrottle = throttle(scrollTab, 500);
 
   const scrollToBun = () => {
-    bunRef.current.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
+    if(bunRef.current) {
+      bunRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
   }
 
   const scrollToSauce = () => {
-    sauceRef.current.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
+    if (sauceRef.current) {
+      sauceRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
   }
 
   const scrollToMain = () => {
-    mainRef.current.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
+    if (mainRef.current) {
+      mainRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
   }
 
   useEffect(() => {
@@ -81,11 +93,13 @@ const BurgerIngredients: FC = () => {
     if (mainRef.current) {
       scrollToMain();
     }
-    const scrollBlock = document.getElementById("scrollArea");
-    scrollBlock.addEventListener("scroll", scrollTabThrottle);
-    return function removeScroll() {
-      scrollBlock.removeEventListener("scroll", scrollTabThrottle);
-    };
+    const scrollBlock: Element | null = document.getElementById("scrollArea");
+    if(scrollBlock) {
+      scrollBlock.addEventListener("scroll", scrollTabThrottle);
+      return function removeScroll() {
+        scrollBlock.removeEventListener("scroll", scrollTabThrottle);
+      };
+    }
   }, []);
 
   return (
