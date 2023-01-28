@@ -2,6 +2,7 @@ import { deleteAllIngredientsForBurgerAction } from './ingredients';
 import { api } from '../../utils/Api';
 import {
   CALC_PRICE_ORDER_DETAILS,
+  DELETE_ALL_INGREDIENTS_IN_BURGER_CONSTRUCTOR,
   GET_ORDER_DETAILS,
   GET_ORDER_DETAILS_SUCCESS,
   GET_ORDER_DETAILS_SUCCESS_FAILED,
@@ -11,9 +12,10 @@ import {
   SET_SELECTED_ID_INGREDIENTS
 } from '../constants';
 import { AppDispatch, AppThunk } from '../store/store';
+import { TDetails, TOrderDetailAPI } from '../types';
 
 export interface ICALC_PRICE_ORDER_DETAILS {
-  payload: any;
+  payload: number;
   type: typeof CALC_PRICE_ORDER_DETAILS;
 }
 
@@ -22,7 +24,7 @@ export interface IGET_ORDER_DETAILS {
 }
 
 export interface IGET_ORDER_DETAILS_SUCCESS {
-  payload: any;
+  payload: Array<TOrderDetailAPI>;
   type: typeof GET_ORDER_DETAILS_SUCCESS;
 }
 
@@ -35,7 +37,7 @@ export interface IGET_USER_ORDER_DETAILS {
 }
 
 export interface IGET_USER_ORDER_DETAILS_SUCCESS {
-  payload: any;
+  payload: TDetails;
   type: typeof GET_USER_ORDER_DETAILS_SUCCESS;
 }
 
@@ -44,7 +46,7 @@ export interface IGET_USER_ORDER_DETAILS_SUCCESS_FAILED {
 }
 
 export interface ISET_SELECTED_ID_INGREDIENTS {
-  payload: any;
+  payload: Array<string>;
   type: typeof SET_SELECTED_ID_INGREDIENTS;
 }
 
@@ -59,20 +61,9 @@ export type TOrderDetails =
   | IGET_USER_ORDER_DETAILS_SUCCESS_FAILED
   | ISET_SELECTED_ID_INGREDIENTS;
 
-interface IData {
-  data: any
-}
-
-interface IAccessToken {
-  accessToken: string | undefined
-}
-
-interface IId {
-  id: any
-}
 
 //отправка заказа на космическую базу для приготовления
-export const getOrderDetails: AppThunk = (data: IData, accessToken: IAccessToken) => {
+export const getOrderDetails: AppThunk = (data: Array<string>, accessToken: string) => {
   return(dispatch: AppDispatch) => {
     dispatch({
       type: GET_ORDER_DETAILS,
@@ -82,9 +73,11 @@ export const getOrderDetails: AppThunk = (data: IData, accessToken: IAccessToken
         if(res && res.success) {
           dispatch({
             type: GET_ORDER_DETAILS_SUCCESS,
-            payload: res.order
+            payload: [res.order]
           })
-          dispatch(deleteAllIngredientsForBurgerAction());
+          dispatch({
+            type: DELETE_ALL_INGREDIENTS_IN_BURGER_CONSTRUCTOR
+          });
         } else {
           dispatch({
             type: GET_ORDER_DETAILS_SUCCESS_FAILED
@@ -99,7 +92,7 @@ export const getOrderDetails: AppThunk = (data: IData, accessToken: IAccessToken
 }
 
 //получение информации о заказе с сервера
-export const getOrderUserDetails: AppThunk = (id: any) => {
+export const getOrderUserDetails: AppThunk = (id: string) => {
   return (dispatch: AppDispatch) => {
     dispatch({
       type: GET_USER_ORDER_DETAILS
@@ -124,7 +117,7 @@ export const getOrderUserDetails: AppThunk = (id: any) => {
   }
 }
 
-export const calcPrice: AppThunk = (data: IData) => {
+export const calcPrice: AppThunk = (data: number) => {
   return(dispatch: AppDispatch) => {
     dispatch({
       type: CALC_PRICE_ORDER_DETAILS,
@@ -133,7 +126,7 @@ export const calcPrice: AppThunk = (data: IData) => {
   }
 }
 
-export const setSelectedId: AppThunk = (data: IData) => {
+export const setSelectedId: AppThunk = (data: Array<string>) => {
   return(dispatch: AppDispatch) => {
     dispatch({
       type: SET_SELECTED_ID_INGREDIENTS,

@@ -1,5 +1,4 @@
 import React, { useEffect, useCallback, FC } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
 import app from './app.module.css';
 import style from '@ya.praktikum/react-developer-burger-ui-components';
 import { DndProvider } from 'react-dnd';
@@ -33,14 +32,19 @@ import {
   NotFoundPage
 } from '../../pages';
 import { useAppDispatch, useAppSelector } from '../../services/store/hooks';
-// import { Location } from "history";
+import { Location } from "history";
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
-  const location = useLocation();
-  // const location = useLocation<{background: Location}>();
-  // const background = location.state && location.state.background;
-
+  const location = useLocation<{
+    from: Location;
+    from_2: Location;
+    isOpenModalDetails: Location;
+    isOpenModalError: Location;
+    isOpenModalOrder: Location;
+    isOpenModalIngredient: Location;
+    isOpenModalFeed: Location;
+  }>();
 
   const history = useHistory();
   const isOpenModalIngredient = location.state?.isOpenModalIngredient;
@@ -60,8 +64,8 @@ const App: FC = () => {
 
   // Если авторизация прошла успешно редирект на ранее открытую страницу
   useEffect(() => {
-    if (isAuth && location.stateModal?.from) {
-      history.replace(location?.stateModal?.from);
+    if (isAuth && location.state?.from_2) {
+      history.replace(location?.state?.from_2);
     } else if (isAuth && location.state?.from) {
       history.replace(location?.state?.from);
     }

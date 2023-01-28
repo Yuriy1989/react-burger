@@ -10,8 +10,8 @@ export interface IInputValues {
 
 interface IEvent {
   target: {
-    value: any;
-    name: any;
+    value: string;
+    name: string;
   }
 }
 

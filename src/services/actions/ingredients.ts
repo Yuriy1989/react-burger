@@ -10,7 +10,7 @@ import {
 import { api } from '../../utils/Api';
 import uuid from 'react-uuid';
 import { AppDispatch, AppThunk } from '../store/store';
-import { IData } from '../types';
+import { IArrayData, IData } from '../types';
 
 export interface IGET_INGREDIENTS_API {
   type: typeof GET_INGREDIENTS_API;
@@ -18,34 +18,31 @@ export interface IGET_INGREDIENTS_API {
 
 export interface IGET_INGREDIENTS_API_SUCCESS {
   type: typeof GET_INGREDIENTS_API_SUCCESS;
-  payload?: any;
+  payload: Array<IData>;
 }
 
 export interface IGET_INGREDIENTS_API_FAILED {
   type: typeof GET_INGREDIENTS_API_FAILED;
-  payload?: any;
 }
 
 export interface IINGREDIENTS_IN_BURGER_CONSTRUCTOR {
   type: typeof INGREDIENTS_IN_BURGER_CONSTRUCTOR;
-  payload?: any;
+  payload: IArrayData;
 }
 
 export interface ISORT_INGREDIENTS_IN_BURGER_CONSTRUCTOR {
-  hoverIndex: any;
-  dragIndex: any;
+  hoverIndex: number;
+  dragIndex: number;
   type: typeof SORT_INGREDIENTS_IN_BURGER_CONSTRUCTOR;
-  payload?: any;
 }
 
 export interface IDELETE_INGREDIENTS_IN_BURGER_CONSTRUCTOR {
   type: typeof DELETE_INGREDIENTS_IN_BURGER_CONSTRUCTOR;
-  payload?: any;
+  payload: number;
 }
 
 export interface IDELETE_ALL_INGREDIENTS_IN_BURGER_CONSTRUCTOR {
   type: typeof DELETE_ALL_INGREDIENTS_IN_BURGER_CONSTRUCTOR;
-  payload?: any;
 }
 
 export type TIngredientsApi =

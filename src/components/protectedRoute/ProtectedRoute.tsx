@@ -2,12 +2,9 @@ import { FC } from 'react';
 import { Route, Redirect, useLocation } from 'react-router-dom';
 import Loader from '../loader/Loader';
 import { useAppSelector as useSelector} from '../../services/store/hooks';
+import { TProtectedRouteProps } from '../../services/types';
 
-type TAuth = {
-  isAuth: boolean
-}
-
-const ProtectedRoute: FC<TAuth> = ({ children, isAuth, ...rest}) => {
+const ProtectedRoute: FC<TProtectedRouteProps> = ({ children, isAuth, ...rest}) => {
 
   const feedRequest = useSelector((state) => state.authorization.feedRequest);
   const locations = useLocation();
@@ -28,10 +25,8 @@ const ProtectedRoute: FC<TAuth> = ({ children, isAuth, ...rest}) => {
                   pathname: '/login',
                   state: {
                     from: location,
+                    from_2: locations
                   },
-                  stateModal: {
-                    from: locations
-                  }
                 }}
               />
             )

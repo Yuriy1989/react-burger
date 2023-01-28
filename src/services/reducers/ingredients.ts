@@ -77,8 +77,10 @@ export const getIngredientsApi = ( state = defaultState, action: TIngredientsApi
     case SORT_INGREDIENTS_IN_BURGER_CONSTRUCTOR: {
       const dragIndex = action.dragIndex;
       const hoverIndex = action.hoverIndex;
-      // @ts-ignore
-      const newMas = state.ingredientForConstructor.others.slice(state.ingredientForConstructor.others.splice(hoverIndex, 0, state.ingredientForConstructor.others.splice(dragIndex, 1)[0]));
+      const masIngregients = state.ingredientForConstructor.others;
+      const t = masIngregients.splice(dragIndex, 1)[0];
+      const e = masIngregients.splice(hoverIndex, 0, t);
+      const newMas: Array<TIngredients> = masIngregients.slice();
       return {
         ...state,
         ingredientForConstructor: {

@@ -5,27 +5,28 @@ import {
   OPEN_BURGER_DETAILS,
   OPEN_ORDER_ERROR,
 } from "../constants"
-import { AppDispatch } from "../store/store"
+import { AppDispatch, AppThunk } from "../store/store"
+import { IData } from "../types"
 
 interface IOPEN_SELECTED_INGREDIENT {
-  payload: any,
-  type: typeof OPEN_SELECTED_INGREDIENT
+  type: typeof OPEN_SELECTED_INGREDIENT,
+  payload: Array<IData>,
 }
 
 interface ICLOSE_MODALS {
-  type: typeof CLOSE_MODALS
+  type: typeof CLOSE_MODALS,
 }
 
 interface IOPEN_ORDER_DETAILS {
-  type: typeof OPEN_ORDER_DETAILS
+  type: typeof OPEN_ORDER_DETAILS,
 }
 
 interface IOPEN_BURGER_DETAILS {
-  type: typeof OPEN_BURGER_DETAILS
+  type: typeof OPEN_BURGER_DETAILS,
 }
 
 interface IOPEN_ORDER_ERROR {
-  type: typeof OPEN_ORDER_ERROR
+  type: typeof OPEN_ORDER_ERROR,
 }
 
 export type TModals =
@@ -35,16 +36,16 @@ export type TModals =
   | IOPEN_BURGER_DETAILS
   | IOPEN_ORDER_ERROR
 
-export const openInfoSelectedInrgedient = (data: {}) => {
+export const openInfoSelectedInrgedient: AppThunk = (ingredient) => {
   return (dispatch: AppDispatch) => {
     dispatch({
       type: OPEN_SELECTED_INGREDIENT,
-      payload: data
+      payload: ingredient,
     })
   }
 }
 
-export const openOrderDetails = () => {
+export const openOrderDetails: AppThunk = () => {
   return (dispatch: AppDispatch) => {
     dispatch({
       type: OPEN_ORDER_DETAILS,
@@ -52,7 +53,7 @@ export const openOrderDetails = () => {
   }
 }
 
-export const openBurgerDetails = () => {
+export const openBurgerDetails: AppThunk = () => {
   return (dispatch: AppDispatch) => {
     dispatch({
       type: OPEN_BURGER_DETAILS,
@@ -60,7 +61,7 @@ export const openBurgerDetails = () => {
   }
 }
 
-export const openOrderError = () => {
+export const openOrderError: AppThunk = () => {
   return (dispatch: AppDispatch) => {
     dispatch({
       type: OPEN_ORDER_ERROR,
@@ -68,11 +69,10 @@ export const openOrderError = () => {
   }
 }
 
-export const closeModal = (data: any) => {
+export const closeModal: AppThunk = () => {
   return (dispatch: AppDispatch) => {
     dispatch({
       type: CLOSE_MODALS,
-      payload: data
     })
   }
 }

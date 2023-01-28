@@ -7,7 +7,6 @@ import IngredientItem from '../ingredientItem/IngredientItem';
 import { currentDefault } from '../../services/types';
 
 const BurgerIngredients: FC = () => {
-
   const [current, setCurrent] = useState<typeof currentDefault>();
   const bunRef = useRef<HTMLHeadingElement>(null);
   const sauceRef = useRef<HTMLHeadingElement>(null);
@@ -41,11 +40,11 @@ const BurgerIngredients: FC = () => {
     }
   }, [])
 
-  function throttle(callee: { (): void; (args: any): void; }, timeout: number | undefined) {
+  function throttle(callee: { (): void; (): void; }, timeout: number | undefined) {
     let timer: number | NodeJS.Timeout | null = null;
-    return function perform(...args: any[]) {
+    return function perform() {
       timer = setTimeout(() => {
-        callee(...args)
+        callee()
         if (timer) {
           clearTimeout(timer)
         }

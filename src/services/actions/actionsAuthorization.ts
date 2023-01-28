@@ -19,7 +19,7 @@ import {
   REFRESH_ACCESS_TOKEN_REQUEST_SUCCESS
 } from '../constants';
 import { AppDispatch, AppThunk } from '../store/store';
-import { IAuth } from '../types';
+import { IAuth, IPatchUser } from '../types';
 
 export interface ISUCCESS_AUTH {
   type: typeof SUCCESS_AUTH;
@@ -30,7 +30,7 @@ export interface IAUTH_REQUEST_FAILED {
 }
 
 export interface IAUTH_REQUEST_SUCCESS {
-  payload: any;
+  payload: Omit<IAuth, "password"> & {name: string};
   type: typeof AUTH_REQUEST_SUCCESS;
 }
 
@@ -60,7 +60,7 @@ export interface IGET_USER_REQUEST_FAILED {
 }
 
 export interface IGET_USER_REQUEST_SUCCESS {
-  payload: any;
+  payload: Omit<IAuth, "password"> & {name: string};
   type: typeof GET_USER_REQUEST_SUCCESS;
 }
 
@@ -69,12 +69,12 @@ export interface IPATCH_USER_REQUEST {
 }
 
 export interface IPATCH_USER_REQUEST_FAILED {
-  payload?: any;
+  payload?: string;
   type: typeof PATCH_USER_REQUEST_FAILED;
 }
 
 export interface IPATCH_USER_REQUEST_SUCCESS {
-  payload: any;
+  payload: IPatchUser;
   type: typeof PATCH_USER_REQUEST_SUCCESS;
 }
 
@@ -139,7 +139,7 @@ export const actionRequestAuth: AppThunk = (data: IAuth) => (dispatch: AppDispat
     })
 }
 
-export const actionRequestGetUser: AppThunk = (accessToken: string | undefined, refreshToken: string | undefined) => {
+export const actionRequestGetUser: AppThunk = (accessToken: string, refreshToken: string) => {
   return (dispatch: AppDispatch) => {
     dispatch({
       type: GET_REQUEST
@@ -170,7 +170,7 @@ export const actionRequestGetUser: AppThunk = (accessToken: string | undefined, 
   }
 }
 
-export const actionRefreshAccessToken: AppThunk = (refreshToken: string | undefined) => {
+export const actionRefreshAccessToken: AppThunk = (refreshToken: string) => {
   let newAccessToken: string | null = null;
   return (dispatch: AppDispatch) => {
     dispatch({
@@ -180,11 +180,13 @@ export const actionRefreshAccessToken: AppThunk = (refreshToken: string | undefi
       .then(res => {
         if(res && res.success) {
           newAccessToken = res.accessToken.split('Bearer ')[1];
-          setCookie('accessToken', newAccessToken, { 'max-age': timeCookie });
-          setCookie('refreshToken', res.refreshToken);
-          dispatch({
-            type: REFRESH_ACCESS_TOKEN_REQUEST_SUCCESS,
-          })
+          if (newAccessToken != null) {
+            setCookie('accessToken', newAccessToken, { 'max-age': timeCookie });
+            setCookie('refreshToken', res.refreshToken);
+            dispatch({
+              type: REFRESH_ACCESS_TOKEN_REQUEST_SUCCESS,
+            })
+          }
         }
         else {
           dispatch({
@@ -215,7 +217,7 @@ export const actionRefreshAccessToken: AppThunk = (refreshToken: string | undefi
   }
 }
 
-export const actionRequestPatchUser: AppThunk = (data: IAuth, accessToken: string | undefined) => {
+export const actionRequestPatchUser: AppThunk = (data: IAuth & {name: string}, accessToken: string ) => {
   return (dispatch: AppDispatch) => {
     dispatch({
       type: PATCH_USER_REQUEST
@@ -251,8 +253,7 @@ export const actionRequestCancelEditUser: AppThunk = () => {
   }
 }
 
-export const actionRequestExit: AppThunk = (refreshToken: string | undefined) => {
-  console.log('refreshToken',refreshToken);
+export const actionRequestExit: AppThunk = (refreshToken: string) => {
   return (dispatch: AppDispatch) => {
     dispatch({
       type: EXIT_REQUEST

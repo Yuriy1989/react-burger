@@ -9,40 +9,24 @@ import {
   GET_USER_ORDER_DETAILS_SUCCESS,
   GET_USER_ORDER_DETAILS_SUCCESS_FAILED
 } from '../constants';
-
-type TCard = {
-  createdAt: string,
-  ingredients: Array<string>,
-  name: string,
-  number: number,
-  owner: string,
-  status : string,
-  updatedAt: string,
-  __v: number,
-  _id: string,
-}
-
-type TDetails = {
-  orders: Array<TCard>,
-  success: boolean,
-}
+import { TDetails, TOrderDetailAPI } from '../types';
 
 type TDefaultState = {
   feedRequest: boolean,
   feedFailed: boolean,
   price: number,
-  selectedIdIgredients: any[],
+  selectedIdIngredients: Array<string>,
   orderDetails: Array<TDetails>,
-  infoOderDetails: {}
+  infoOderDetails: Array<TOrderDetailAPI>,
 }
 
 const defaultState: TDefaultState = {
   feedRequest: false,
   feedFailed: false,
   price: 0,
-  selectedIdIgredients: [],
+  selectedIdIngredients: [],
   orderDetails: [],
-  infoOderDetails: {}
+  infoOderDetails: []
 }
 
 export const getInfoOrderDetails = (state = defaultState, action: TOrderDetails): TDefaultState => {
@@ -60,7 +44,7 @@ export const getInfoOrderDetails = (state = defaultState, action: TOrderDetails)
       return {...state, price: action.payload}
     }
     case SET_SELECTED_ID_INGREDIENTS: {
-      return {...state, selectedIdIgredients: action.payload}
+      return {...state, selectedIdIngredients: action.payload}
     }
     case GET_USER_ORDER_DETAILS: {
       return {...state, feedRequest: true, feedFailed: false}

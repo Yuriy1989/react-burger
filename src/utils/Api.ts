@@ -1,14 +1,26 @@
+import { IInputValues } from "../hooks/useForm";
+import { IAuth } from "../services/types";
+
+interface IOptions {
+  url: string;
+  headers: {
+    [key: string]: string,
+  },
+}
+
 class Api {
-  constructor(options) {
+  _url: string;
+  _headers: { [key: string]: string; };
+  constructor(options: IOptions) {
     this._url = options.url;
     this._headers = options.headers;
   }
 
-  _getResponse(res){
+  _getResponse(res: { ok: any; json: () => any; status: any; }){
     return res.ok ? res.json() : Promise.reject(res.status);
   }
 
-  _request(url, options) {
+  _request(url: string, options: RequestInit | undefined) {
     return fetch(url, options).then(this._getResponse)
   }
 
@@ -21,7 +33,7 @@ class Api {
   }
 
   //отправка заказа на сервер
-  setOrderDetails(data, accessToken) {
+  setOrderDetails(data: Array<string>, accessToken: string) {
     return this._request(`${this._url}/orders`, {
       method: 'POST',
       headers: {
@@ -35,7 +47,7 @@ class Api {
   }
 
   //получение информации о заказе с сервера
-    getOrderUserDetails(id) {
+    getOrderUserDetails(id: string) {
       return this._request(`${this._url}/orders/${id}`, {
         method: 'GET',
         headers: this._headers,
@@ -43,7 +55,7 @@ class Api {
     }
 
   //проверка, зарегистрирован ли пользователь в системе
-  getEmails(data) {
+  getEmails(data: string) {
     return this._request(`${this._url}/password-reset`, {
       method: 'POST',
       headers: this._headers,
@@ -54,7 +66,7 @@ class Api {
   }
 
   //восстановление пароля
-  resetPassword(data) {
+  resetPassword(data: IInputValues) {
     return this._request(`${this._url}/password-reset/reset`, {
       method: 'POST',
       headers: this._headers,
@@ -66,7 +78,7 @@ class Api {
   }
 
   //авторизацмя в системе
-  async login(data) {
+  async login(data: IAuth) {
     return await this._request(`${this._url}/auth/login`, {
       method: 'POST',
       headers: this._headers,
@@ -78,7 +90,7 @@ class Api {
   }
 
   //регистрация в системе
-  async register(data) {
+  async register(data: IInputValues) {
     return await this._request(`${this._url}/auth/register`, {
       method: 'POST',
       headers: this._headers,
@@ -91,7 +103,7 @@ class Api {
   }
 
   //выход из системы
-  async logout(data) {
+  async logout(data: string) {
     return await this._request(`${this._url}/auth/logout`, {
       method: 'POST',
       headers: this._headers,
@@ -102,7 +114,7 @@ class Api {
   }
 
   //обновление токена
-  async refreshToken(refreshToken) {
+  async refreshToken(refreshToken: string) {
     return await this._request(`${this._url}/auth/token`, {
       method: 'POST',
       headers: this._headers,
@@ -113,7 +125,7 @@ class Api {
   }
 
   //получение данных о пользователе
-  async getUser(accessToken) {
+  async getUser(accessToken: string | null) {
     return await this._request(`${this._url}/auth/user`, {
       method: 'GET',
       headers: {
@@ -124,7 +136,7 @@ class Api {
   }
 
   //обновление данных пользователя
-  async patchUser(data, accessToken) {
+  async patchUser(data: IAuth & {name: string}, accessToken: string) {
     return await fetch(`${this._url}/auth/user`, {
       method: 'PATCH',
       headers: {

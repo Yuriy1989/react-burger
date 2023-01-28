@@ -2,7 +2,7 @@ import { Middleware } from "redux";
 import { RootState } from "../store/store";
 
 interface IWsActions {
-  wsInit: any;
+  wsInit: string;
   onOpen: string;
   onClose: string;
   onError: string;

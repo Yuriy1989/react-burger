@@ -8,7 +8,7 @@ import {
 import { TOrders } from '../reducers/orders';
 
 export interface IWsConnectionStart {
-  type: typeof WS_CONNECTION_START;
+  readonly type: typeof WS_CONNECTION_START;
   payload: {
     wsUrl?: string;
   }
@@ -30,7 +30,6 @@ export interface IWsConnectionClose {
 export interface IWsGetOrders {
   payload: TOrders;
   type: typeof WS_GET_ORDERS;
-
 }
 
 export type TWsSocketActions =
@@ -61,8 +60,8 @@ export const connectionClose = (): IWsConnectionClose => ({
   type: WS_CONNECTION_CLOSE
 });
 
-export const getOrders = (data: Array<TOrders>): IWsGetOrders => ({
+export const getOrders = (payload: TOrders): IWsGetOrders => ({
   type: WS_GET_ORDERS,
-  payload: [data]
+  payload: payload
 });
 

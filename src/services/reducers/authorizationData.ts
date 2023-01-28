@@ -27,11 +27,11 @@ type TDefaultState = {
   feedRequest: boolean,
   feedRequestPatchUser: boolean,
   isAuth: boolean,
-  error: string | null,
+  error?: string | null,
   user: TUser,
 }
 
-const defaultState = {
+const defaultState: TDefaultState = {
   feedRequest: false,
   feedRequestPatchUser: false,
   isAuth: false,
@@ -42,7 +42,7 @@ const defaultState = {
   },
 }
 
-export const authorization = ( state = defaultState, action: TAuth ) => {
+export const authorization = ( state = defaultState, action: TAuth ): TDefaultState => {
   switch(action.type) {
     case GET_REQUEST: {
       return { ...state, feedRequest: true }

@@ -8,8 +8,6 @@ import { selectedIngredientsForBurgerAction } from '../../services/actions/ingre
 import ElementBurger from '../elementBurger/ElementBurger';
 import { useAppDispatch as useDispatch, useAppSelector as useSelector } from '../../services/store/hooks';
 
-type TCallbackType = () => void;
-
 const BurgerConstructor: FC = () => {
 
   const history = useHistory();
@@ -36,6 +34,7 @@ const BurgerConstructor: FC = () => {
     const calcPriceBun = selectedIngredients.bun.reduce((s, i ) => s += i.data.price, 0);
     const calcPriceOther = selectedIngredients.others.reduce((s, i ) => s += i.data.price, 0);
     const calcPrice = (calcPriceBun*2) + calcPriceOther;
+
     return calcPrice;
   }
 
@@ -51,11 +50,11 @@ const BurgerConstructor: FC = () => {
   const dataPrice = useSelector(state => state.getOrderDetails.price);
 
   useEffect(() => {
-    dispatch(calcPrice(calculatePrice()));
     dispatch(setSelectedId(createOrder()));
-  }, [selectedIngredients]);
+    dispatch(calcPrice(calculatePrice()));
+  }, [selectedIngredients, dispatch]);
 
-  const openModalOrder = useCallback<TCallbackType>(() => {
+  const openModalOrder = useCallback(() => {
       if (selectedIngredients.bun.length) {
         history.push({
           pathname: `/orderDetails`,
@@ -67,17 +66,17 @@ const BurgerConstructor: FC = () => {
           state: { isOpenModalError: location }
         })
       }
-    }, []
+    }, [selectedIngredients]
   )
 
-  const handleClick = useCallback<TCallbackType>(() => {
-      if(!isAuth) {
-        history.replace({ pathname: '/login' });
-      } else {
-        openModalOrder();
-      }
-    }, []
-  )
+  const handleClick = () => {
+    if (!isAuth) {
+      history.replace({ pathname: '/login' });
+    } else {
+      openModalOrder();
+    }
+  }
+
 
   return (
     <section ref={dropTarget} className={burgerConstructor.burgerConstructor} style={{border}}>
@@ -118,7 +117,7 @@ const BurgerConstructor: FC = () => {
         <div className={burgerConstructor.buttonOrder}>
           <p className="text text_type_digits-medium">{dataPrice}</p>
           <div className={`${burgerConstructor.cellPrice}`}>
-            <CurrencyIcon type="primary" className="p-4" />
+            <CurrencyIcon type="primary" />
           </div>
           <Button onClick={handleClick} type="primary" size="large">
             Оформить заказ

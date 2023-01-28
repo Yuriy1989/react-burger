@@ -1,9 +1,10 @@
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import Loader from '../loader/Loader';
 import { useAppSelector as useSelector } from '../../services/store/hooks';
+import { TProtectedRouteProps } from '../../services/types';
 
-const OnlyUnAuthRoute: FC = ({ children, ...rest }) => {
+const OnlyUnAuthRoute: FC<TProtectedRouteProps> = ({ children, ...rest }) => {
 
   const feedRequest = useSelector((state) => state.authorization.feedRequest);
   const isAuth = useSelector((state) => state.authorization.isAuth);
