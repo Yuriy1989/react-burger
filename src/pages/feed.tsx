@@ -37,7 +37,7 @@ const Feed: FC = () => {
             <div className={feed.orders}>
               <ul className={feed.cards}>
                 {
-                  data[0]?.orders?.map((card: { _id: react.Key | null | undefined; })=> (
+                  data[0]?.orders?.map((card)=> (
                     <Orders card={card} key={card._id} />
                   ))
                 }
