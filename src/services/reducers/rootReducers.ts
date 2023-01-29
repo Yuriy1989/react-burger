@@ -10,5 +10,5 @@ export const rootReducers = combineReducers({
   getInfoSelectedIngredient: openInfoSelectedIngredient,
   getOrderDetails: getInfoOrderDetails,
   authorization: authorization,
-  orders: orders
+  orders: orders,
 })

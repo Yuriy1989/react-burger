@@ -25,7 +25,7 @@ const ForgotPassword: FC = () => {
   const handleClick = useCallback(
     e => {
       e.preventDefault();
-      api.getEmails(values.email)
+      api.getEmails(`${values.email}`)
         .then(res => {
           if (res.success === true) {
             setCookie('forgotPassword', res.success, { expires: 200 });

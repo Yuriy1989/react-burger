@@ -10,15 +10,6 @@ const Login: FC = () => {
 
   const {values, handleChange} = useForm({email: '', password: ''});
   const dispatch = useDispatch();
-  const location = useLocation();
-  const isAuth = useSelector(state => state.authorization.isAuth);
-
-  // Если авторизация прошла успешно редирект на ранее открытую страницу
-  if (isAuth) {
-    return (
-      <Redirect to={ location?.from?.pathname || '/' } />
-    )
-  }
 
   const handleClick = (e: { preventDefault: () => void; }) => {
     e.preventDefault();

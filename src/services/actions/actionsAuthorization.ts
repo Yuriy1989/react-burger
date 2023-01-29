@@ -174,7 +174,8 @@ export const actionRefreshAccessToken: AppThunk = (refreshToken: string) => {
   let newAccessToken: string | null = null;
   return (dispatch: AppDispatch) => {
     dispatch({
-      type: REFRESH_ACCESS_TOKEN_REQUEST
+      type: REFRESH_ACCESS_TOKEN_REQUEST,
+      payload: refreshToken
     })
     api.refreshToken(refreshToken)
       .then(res => {

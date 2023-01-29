@@ -12,20 +12,17 @@ type TDefaultState = {
   openModal: boolean,
   openModalOrder: boolean,
   openModalError: boolean,
-  // openModalIngredient: {},
 }
 
 const defaultState: TDefaultState = {
   openModal: false, //состояние открыто ли модальное окно
   openModalOrder: false, //состояние открыто ли модальное окно номера заказа
   openModalError: false, //состояние открыто ли модальное окно с инфомацией об ошибке
-  // openModalIngredient: {}, //объект текущего просматриваемого ингредиента
 }
 
 export const openInfoSelectedIngredient = (state = defaultState, action: TModals): TDefaultState  => {
   switch (action.type) {
     case OPEN_SELECTED_INGREDIENT: {
-      // const selectedIngredient = action.payload;
       return {...state, openModal: true}
     }
     case CLOSE_MODALS: {

@@ -39,7 +39,7 @@ const Profile: FC = () => {
   const handleClickCancel = useCallback(
     e => {
       e.preventDefault();
-      setValues( {name: name, email: email, password: '', buttonActive: false} );
+      setValues( {name: `${name}`, email: `${email}`, password: '', buttonActive: false} );
     },
     [values]
   )

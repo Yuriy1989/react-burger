@@ -1,8 +1,3 @@
-// import { applyMiddleware, configureStore } from "@reduxjs/toolkit";
-
-// const store = configureStore({
-//   reducer: { rootReducers },
-// })
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { rootReducers } from '../reducers/rootReducers';
@@ -30,12 +25,6 @@ const wsActions = {
   onError: WS_CONNECTION_CLOSE,
   onOrders: WS_GET_ORDERS
 };
-
-// declare global {
-//   interface Window {
-//     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-//   }
-// }
 
 // @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
