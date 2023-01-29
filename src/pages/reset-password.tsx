@@ -1,5 +1,5 @@
 
-import { FC, useCallback } from 'react';
+import { FC, FormEvent, useCallback } from 'react';
 import style, { PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useHistory, Redirect } from 'react-router-dom';
 import resetPassword from './reset-password.module.css';
@@ -30,7 +30,7 @@ const ResetPassword: FC = () => {
 
   //Запрос к серверу для смены пароля
   const handleClick = useCallback(
-    e => {
+    (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       api.resetPassword(values)
         .then(res => {

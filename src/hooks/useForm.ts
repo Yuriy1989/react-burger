@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 
 export interface IInputValues {
   email?: string;
@@ -8,17 +8,10 @@ export interface IInputValues {
   buttonActive?: boolean;
 }
 
-interface IEvent {
-  target: {
-    value: string;
-    name: string;
-  }
-}
-
 export function useForm(inputValues: IInputValues) {
   const [values, setValues] = useState(inputValues);
 
-  const handleChange = (event: IEvent ) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement> ) => {
     const {value, name} = event.target;
     setValues({...values, [name]: value});
   };

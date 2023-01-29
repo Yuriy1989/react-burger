@@ -3,7 +3,7 @@ import { Link, Redirect, useLocation } from 'react-router-dom';
 import login from './login.module.css';
 import { actionRequestAuth } from '../services/actions/actionsAuthorization';
 import { useForm } from '../hooks/useForm';
-import { FC } from 'react';
+import { FC, FormEvent } from 'react';
 import { useAppDispatch as useDispatch, useAppSelector as useSelector } from '../services/store/hooks';
 
 const Login: FC = () => {
@@ -11,7 +11,7 @@ const Login: FC = () => {
   const {values, handleChange} = useForm({email: '', password: ''});
   const dispatch = useDispatch();
 
-  const handleClick = (e: { preventDefault: () => void; }) => {
+  const handleClick = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(actionRequestAuth(values));
   }

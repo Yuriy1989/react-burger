@@ -1,5 +1,5 @@
 
-import { FC, useEffect, useCallback } from 'react';
+import { FC, useEffect, useCallback, FormEvent, SyntheticEvent } from 'react';
 import MenuProfile from '../components/menuProfile/MenuProfile';
 import style, { EmailInput, PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { actionRequestPatchUser } from '../services/actions/actionsAuthorization';
@@ -27,7 +27,7 @@ const Profile: FC = () => {
 
   //Обновление данных о пользователе, с сохранением их в Store
   const handleClickSave = useCallback(
-    e => {
+    (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       setValues( { ...values, buttonActive: true} );
       dispatch(actionRequestPatchUser(values, accessToken));
@@ -37,7 +37,7 @@ const Profile: FC = () => {
 
   //Отмена всех введеных ранее данных
   const handleClickCancel = useCallback(
-    e => {
+    (e: SyntheticEvent<Element, Event>) => {
       e.preventDefault();
       setValues( {name: `${name}`, email: `${email}`, password: '', buttonActive: false} );
     },

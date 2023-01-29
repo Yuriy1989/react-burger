@@ -1,5 +1,5 @@
 
-import { FC, useRef, useCallback } from 'react';
+import { FC, useRef, useCallback, FormEvent } from 'react';
 import style, { PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useHistory } from 'react-router-dom';
 import register from './register.module.css';
@@ -20,7 +20,7 @@ const Register: FC = () => {
   );
 
   //Запрос к серверу для регистрации пользователя
-  const handleClick = (e: { preventDefault: () => void; }) => {
+  const handleClick = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     api.register(values)
       .then(res => {

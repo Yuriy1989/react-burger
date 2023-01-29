@@ -1,16 +1,20 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { FC, useEffect, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import style, { CloseIcon, } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modalOverlay/ModalOverlay';
 import modal from './modal.module.css';
-import { text, component } from '../../utils/types';
 
-const modalsContainer = document.querySelector('#modals');
+const modalsContainer: Element | null = document.querySelector('#modals');
 
-const Modal = ({ title, children, closeModals }) => {
+interface TModal {
+  title: string,
+  closeModals: any,
+}
+
+const Modal: FC<TModal> = ({ title, children, closeModals }) => {
 
   // Обработка нажатия Esc
-  const handleEscKeydown = useCallback((event) => {
+  const handleEscKeydown = useCallback((event: KeyboardEvent) => {
     event.key === "Escape" && closeModals();
   }, []);
 
@@ -22,8 +26,8 @@ const Modal = ({ title, children, closeModals }) => {
     };
   }, []);
 
-  return ReactDOM.createPortal(
-    (<>
+  return modalsContainer ? ReactDOM.createPortal(
+    <>
       <div className={modal.modal}>
         <div className={modal.modalForm}>
           <div className={modal.headerDetails}>
@@ -35,13 +39,8 @@ const Modal = ({ title, children, closeModals }) => {
       </div>
       <ModalOverlay />
     </>
-    ), modalsContainer
-  );
+    , modalsContainer
+  ) : null;
 }
 
 export default Modal;
-
-Modal.propTypes = {
-  title: text.isRequired,
-  children: component.isRequired
-}

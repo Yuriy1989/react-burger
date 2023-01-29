@@ -16,7 +16,7 @@ class Api {
     this._headers = options.headers;
   }
 
-  _getResponse(res: { ok: any; json: () => any; status: any; }){
+  _getResponse(res: Response){
     return res.ok ? res.json() : Promise.reject(res.status);
   }
 
